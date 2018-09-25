@@ -5,6 +5,7 @@
  */
 package Server;
 
+import Models.Region;
 import java.rmi.RemoteException;
 
 /**
@@ -13,9 +14,18 @@ import java.rmi.RemoteException;
  */
 public class RegionalServer implements RegionalRecordManager {
 
+    public RegionalServer(Region region) {
+        m_Region = region;
+    }
+    
+    public String getUrl(){
+        return "rmi://localhost/" + m_Region.toString();
+    }
+    
     @Override
     public int getRecordCount() throws RemoteException {
         return 2;
     }
     
+    private Region m_Region;
 }
