@@ -4,8 +4,11 @@
  * and open the template in the editor.
  */
 
-import java.rmi.registry.Registry;
+import java.rmi.Naming;
+import java.rmi.RMISecurityManager;
 import java.rmi.registry.LocateRegistry;
+
+import Server.RegionalServer;
 
 
 /**
@@ -21,7 +24,13 @@ public class Assignment_1_Server {
         // TODO code application logic here
         try
         {
+            System.setSecurityManager(new RMISecurityManager());
             LocateRegistry.createRegistry( 12345 );
+            
+            RegionalServer Canada = new RegionalServer();			   		   
+	    Naming.rebind("rmi://localhost/Canada", Canada);
+ 
+	    System.out.println("Addition Server is ready.");
         }
         catch( Exception e )
         {
