@@ -4,11 +4,10 @@
  * and open the template in the editor.
  */
 
-import Models.Region;
-import java.rmi.Naming;
-import java.rmi.RMISecurityManager;
 import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
+import Models.Region;
 import Server.RegionalServer;
 
 
@@ -28,10 +27,11 @@ public class Assignment_1_Server {
             String PolicySettingsFileLocation = "file:" + System.getProperty("user.dir") + "/security.policy";            
             System.setProperty("java.security.policy", PolicySettingsFileLocation);
             
-            LocateRegistry.createRegistry( 12345 );
+            // https://stackoverflow.com/a/52552583/8480874
+            Registry registry = LocateRegistry.createRegistry( 12345 );
             
             RegionalServer Canada = new RegionalServer(Region.CA);			   		   
-	    Naming.rebind(Canada.getUrl(), Canada);
+	    registry.rebind(Canada.getUrl(), Canada);
  
 	    System.out.println("Addition Server is ready.");
         }
@@ -41,5 +41,4 @@ public class Assignment_1_Server {
             e.printStackTrace();
         }
     }
-    
 }
