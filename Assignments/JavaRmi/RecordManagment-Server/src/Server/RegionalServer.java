@@ -30,6 +30,8 @@ import Models.Project;
 import Models.ProjectIdentifier;
 import Models.RecordsMap;
 import Models.Region;
+import Utility.Logger;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
@@ -41,11 +43,15 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
 
     private Region m_Region;
     private RecordsMap m_Records;
+    private Logger m_Logger;
 
-    public RegionalServer(Region region) throws RemoteException {
+    public RegionalServer(Region region) throws RemoteException, IOException {
         super();
         m_Region = region;
         m_Records = new RecordsMap();
+        m_Logger = new Logger( m_Region.getPrefix() );
+        
+        m_Logger.Log(m_Region.toString() + " is running!");
     }
 
     public String getUrl() {
@@ -64,11 +70,11 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
             Region region = Region.fromString(location);
             m_Records.addRecord(new ManagerRecord(1001, firstName, lastName, employeeID, mailID, projects, region));
         } catch (Exception e) {
-            System.out.println( m_Region.getPrefix() + " - Failed to Create Manager Record!");
+            m_Logger.Log("Failed to Create Manager Record!");
             e.printStackTrace();
         }
 
-        System.out.println(m_Region.getPrefix() + " - Created Manager Record: " + m_Records.toString());
+        m_Logger.Log("Created Manager Record : " + m_Records.toString());
     }
 
     @Override
@@ -79,11 +85,11 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
             projID.setId(projectId);
             m_Records.addRecord(new EmployeeRecord(54321, firstName, lastName, employeeID, mailID, projID));
         } catch (Exception e) {
-            System.out.println(m_Region.getPrefix() + " - Failed to Create Employee Record!");
+            m_Logger.Log("Failed to Create Employee Record!");
             e.printStackTrace();
         }
 
-        System.out.println(m_Region.getPrefix() + " - Created Employee Record: " + m_Records.toString());
+        m_Logger.Log("Created Employee Record: " + m_Records.toString());
     }
 
     @Override

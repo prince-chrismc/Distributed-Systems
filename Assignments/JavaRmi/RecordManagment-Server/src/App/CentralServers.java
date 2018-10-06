@@ -36,7 +36,7 @@ import Server.RegionalServer;
  */
 public class CentralServers {
 
-    public static void main() {
+    public static void main(String[] args ) {
         try {
             // https://stackoverflow.com/a/52552583/8480874
             Registry registry = LocateRegistry.createRegistry(12345);
