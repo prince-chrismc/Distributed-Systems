@@ -15,7 +15,7 @@ import Server.RegionalServer;
  *
  * @author c_mcart
  */
-public class Assignment_1_Server {
+public class CentralServers {
 
     /**
      * @param args the command line arguments

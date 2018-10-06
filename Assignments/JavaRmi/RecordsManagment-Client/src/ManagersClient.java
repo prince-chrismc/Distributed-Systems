@@ -8,7 +8,7 @@
  *
  * @author c_mcart
  */
-public class Assignment_1_Client {
+public class ManagersClient {
 
     /**
      * @param args the command line arguments
