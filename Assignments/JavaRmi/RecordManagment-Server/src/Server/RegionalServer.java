@@ -24,6 +24,7 @@
 
 package Server;
 
+import Interface.RegionalRecordManipulator;
 import Models.Region;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -32,7 +33,7 @@ import java.rmi.server.UnicastRemoteObject;
  *
  * @author c_mcart
  */
-public class RegionalServer extends UnicastRemoteObject implements RegionalRecordManager {
+public class RegionalServer extends UnicastRemoteObject implements RegionalRecordManipulator {
 
     public RegionalServer(Region region) throws RemoteException  {
         super();

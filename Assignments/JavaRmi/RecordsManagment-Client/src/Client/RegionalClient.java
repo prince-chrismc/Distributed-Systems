@@ -22,18 +22,33 @@
     SOFTWARE.
 */
 
-package Server;
+package Client;
 
-import java.rmi.Remote;
+import Models.Region;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import Interface.RegionalRecordManipulator;
 
 /**
  *
- * @author c_mcart
+ * @author cmcarthur
  */
-public interface RegionalRecordManager extends Remote {
+public class RegionalClient implements RegionalRecordManipulator {
     
-    public int getRecordCount() throws RemoteException;
+    public RegionalClient(Region region) throws RemoteException, NotBoundException {
+        m_Region = region;
+        
+        Registry registry = LocateRegistry.getRegistry(12345);
+        m_Remote = (RegionalRecordManipulator) registry.lookup("rmi://localhost/" + m_Region.toString());
+    }
+
+    @Override
+    public int getRecordCount() throws RemoteException {
+        return m_Remote.getRecordCount();
+    }
     
-    // TO DO : Complete API
+    private Region m_Region;
+    private RegionalRecordManipulator m_Remote;
 }
