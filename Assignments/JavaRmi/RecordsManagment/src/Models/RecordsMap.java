@@ -32,31 +32,37 @@ import java.util.LinkedList;
  */
 public class RecordsMap {
 
+    private HashMap<String, LinkedList<Record>> m_MapOfRecords;
+
     public RecordsMap() {
-        m_MapOfRecords = new HashMap<String, LinkedList<Record>>();
+        m_MapOfRecords = new HashMap<>();
     }
 
     public void addRecord(Record record) {
         LinkedList<Record> listOfRecords = m_MapOfRecords.get(record.getHashIndex());
 
         if (listOfRecords == null) {
-            listOfRecords = new LinkedList<Record>();
+            listOfRecords = new LinkedList<>();
             listOfRecords.add(record);
             m_MapOfRecords.put(record.getHashIndex(), listOfRecords);
-        }
-        else{
+        } else {
             listOfRecords.add(record);
             m_MapOfRecords.replace(record.getHashIndex(), listOfRecords);
         }
     }
-    
+
+    @Override
     public String toString() {
         return m_MapOfRecords.toString();
     }
 
-    private HashMap<String, LinkedList<Record>> m_MapOfRecords;
-
     public int count() {
-        return m_MapOfRecords.size();
+        int counter = 0;
+
+        for (HashMap.Entry<String, LinkedList<Record>> entry : m_MapOfRecords.entrySet()) {
+            counter += entry.getValue().size();
+        }
+
+        return counter;
     }
 }
