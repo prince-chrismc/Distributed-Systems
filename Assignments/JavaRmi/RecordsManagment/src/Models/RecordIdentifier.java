@@ -30,7 +30,7 @@ package Models;
  */
 public class RecordIdentifier {
 
-    protected RecordIdentifier(RecordType type, int UUID) {
+    public RecordIdentifier(RecordType type, int UUID) {
         m_Type = type;
         m_UUID = UUID;
     }

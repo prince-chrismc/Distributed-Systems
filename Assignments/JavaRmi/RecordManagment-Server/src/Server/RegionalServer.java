@@ -20,11 +20,15 @@
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
-*/
-
+ */
 package Server;
 
 import Interface.RegionalRecordManipulator;
+import Models.ManagerRecord;
+import Models.Project;
+import Models.RecordIdentifier;
+import Models.RecordType;
+import Models.RecordsMap;
 import Models.Region;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -35,19 +39,29 @@ import java.rmi.server.UnicastRemoteObject;
  */
 public class RegionalServer extends UnicastRemoteObject implements RegionalRecordManipulator {
 
-    public RegionalServer(Region region) throws RemoteException  {
+    private Region m_Region;
+    private RecordsMap m_Records;
+
+    public RegionalServer(Region region) throws RemoteException {
         super();
         m_Region = region;
+        m_Records = new RecordsMap();
     }
-    
-    public String getUrl(){
+
+    public String getUrl() {
         return "rmi://localhost/" + m_Region.toString();
     }
-    
+
     @Override
     public int getRecordCount() throws RemoteException {
         return 2;
     }
-    
-    private Region m_Region;
+
+    @Override
+    public void createMRecord(String firstName, String lastName, int employeeID, String mailID, Project projects) throws RemoteException {
+
+        m_Records.addRecord(new ManagerRecord(new RecordIdentifier(RecordType.MANAGER, 1001), firstName, lastName, employeeID, mailID, projects, m_Region));
+
+        System.out.print("Created Manager Record: " + m_Records.toString());
+    }
 }

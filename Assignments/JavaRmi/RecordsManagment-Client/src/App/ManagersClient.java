@@ -22,9 +22,10 @@ package App;
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
-*/
-
+ */
 import Client.RegionalClient;
+import Models.Project;
+import Models.ProjectIdentifier;
 import Models.Region;
 
 import java.rmi.NotBoundException;
@@ -42,8 +43,15 @@ public class ManagersClient {
     public static void main(String[] args) throws RemoteException, NotBoundException {
         // TODO code application logic here
 
-        RegionalClient Canada = new RegionalClient(Region.CA);
-        
-        System.out.println( "Server Has: " + Canada.getRecordCount() + " Records." );
+        try {
+            RegionalClient Canada = new RegionalClient(Region.CA);
+
+            System.out.println("Server Has: " + Canada.getRecordCount() + " Records.");
+
+            Canada.createMRecord("hi", "hi", 1001, "hi", new Project( new ProjectIdentifier(0),"tst", "testing" ));
+        } catch (Exception e) {
+            System.out.println("   --> ERROR : Internal Client <--");
+            e.printStackTrace();
+        }
     }
 }

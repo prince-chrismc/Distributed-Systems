@@ -23,11 +23,13 @@
  */
 package Models;
 
+import java.io.Serializable;
+
 /**
  *
  * @author cmcarthur
  */
-public class ProjectIdentifier {
+public class ProjectIdentifier implements Serializable{
 
     public ProjectIdentifier(int uuid) {
         m_UUID = uuid;

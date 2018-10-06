@@ -22,15 +22,12 @@ package App;
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
-*/
-
-
+ */
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 import Models.Region;
 import Server.RegionalServer;
-
 
 /**
  *
@@ -43,22 +40,19 @@ public class CentralServers {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        try
-        {
-            String PolicySettingsFileLocation = "file:" + System.getProperty("user.dir") + "/security.policy";            
+        try {
+            String PolicySettingsFileLocation = "file:" + System.getProperty("user.dir") + "/security.policy";
             System.setProperty("java.security.policy", PolicySettingsFileLocation);
-            
+
             // https://stackoverflow.com/a/52552583/8480874
-            Registry registry = LocateRegistry.createRegistry( 12345 );
-            
-            RegionalServer Canada = new RegionalServer(Region.CA);			   		   
-	    registry.rebind(Canada.getUrl(), Canada);
- 
-	    System.out.println("Addition Server is ready.");
-        }
-        catch( Exception e )
-        {
-            System.out.println( "   --> ERROR : Internal Server <--"  ); 
+            Registry registry = LocateRegistry.createRegistry(12345);
+
+            RegionalServer Canada = new RegionalServer(Region.CA);
+            registry.rebind(Canada.getUrl(), Canada);
+
+            System.out.println("Addition Server is ready.");
+        } catch (Exception e) {
+            System.out.println("   --> ERROR : Internal Server <--");
             e.printStackTrace();
         }
     }

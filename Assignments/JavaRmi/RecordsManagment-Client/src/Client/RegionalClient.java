@@ -20,8 +20,7 @@
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
-*/
-
+ */
 package Client;
 
 import Models.Region;
@@ -30,16 +29,21 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import Interface.RegionalRecordManipulator;
+import Models.Project;
+import Models.ProjectIdentifier;
 
 /**
  *
  * @author cmcarthur
  */
 public class RegionalClient implements RegionalRecordManipulator {
-    
+
+    private Region m_Region;
+    private RegionalRecordManipulator m_Remote;
+
     public RegionalClient(Region region) throws RemoteException, NotBoundException {
         m_Region = region;
-        
+
         Registry registry = LocateRegistry.getRegistry(12345);
         m_Remote = (RegionalRecordManipulator) registry.lookup("rmi://localhost/" + m_Region.toString());
     }
@@ -48,7 +52,9 @@ public class RegionalClient implements RegionalRecordManipulator {
     public int getRecordCount() throws RemoteException {
         return m_Remote.getRecordCount();
     }
-    
-    private Region m_Region;
-    private RegionalRecordManipulator m_Remote;
+
+    @Override
+    public void createMRecord(String firstName, String lastName, int employeeID, String mailID, Project projects) throws RemoteException {
+        m_Remote.createMRecord(firstName, lastName, employeeID, mailID, projects);
+    }
 }

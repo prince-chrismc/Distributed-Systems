@@ -24,7 +24,6 @@
 package Interface;
 
 import Models.Project;
-import java.io.Serializable;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -36,7 +35,7 @@ import java.rmi.RemoteException;
 public interface RegionalRecordManipulator extends Remote {
 
     // TO DO : Complete API
-    //public void createMRecord (String firstName, String lastName, int employeeID, String mailID, Project projects) throws RemoteException;
+    public void createMRecord (String firstName, String lastName, int employeeID, String mailID, Project projects) throws RemoteException;
     //public void createERecord (String firstName, String lastName, int employeeID, String mailID, String projectId, String location) throws RemoteException;
     
     public int getRecordCount() throws RemoteException;

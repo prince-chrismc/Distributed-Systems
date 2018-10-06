@@ -24,11 +24,13 @@
 
 package Models;
 
+import java.io.Serializable;
+
 /**
  *
  * @author cmcarthur
  */
-public class Record {
+public class Record implements Serializable{
 
     protected Record(RecordIdentifier recordId, String firstName, String lastName, int employeeNumber, String mailId) {
         m_RecordId = recordId;
