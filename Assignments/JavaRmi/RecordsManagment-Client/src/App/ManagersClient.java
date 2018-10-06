@@ -28,9 +28,6 @@ import Models.Project;
 import Models.ProjectIdentifier;
 import Models.Region;
 
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-
 /**
  *
  * @author c_mcart
@@ -40,8 +37,16 @@ public class ManagersClient {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws RemoteException, NotBoundException {
-        // TODO code application logic here
+    public static void main(String[] args) {
+        
+        // Welcome to Christopher McArthur's Distributed Employee Management System
+        // DEMS Login...
+        // Human Resource Manager ID:
+        ///// CA1111
+        // ID.size == 6 ~~> Try agains!
+        // switch ( ID.prefix ) --> new RegionalClient for that region
+        //                      ~~> try again!
+        // Perform Operation { Create... Edit... Get... Exit} While ! Exit
 
         try {
             RegionalClient Canada = new RegionalClient(Region.CA);
