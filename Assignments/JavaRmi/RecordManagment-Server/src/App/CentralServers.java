@@ -1,5 +1,3 @@
-package App;
-
 /* 
     MIT License
 
@@ -23,6 +21,9 @@ package App;
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
  */
+
+package App;
+
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
@@ -35,22 +36,23 @@ import Server.RegionalServer;
  */
 public class CentralServers {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    public static void main() {
         try {
-            String PolicySettingsFileLocation = "file:" + System.getProperty("user.dir") + "/security.policy";
-            System.setProperty("java.security.policy", PolicySettingsFileLocation);
-
             // https://stackoverflow.com/a/52552583/8480874
             Registry registry = LocateRegistry.createRegistry(12345);
 
             RegionalServer Canada = new RegionalServer(Region.CA);
             registry.rebind(Canada.getUrl(), Canada);
-
             System.out.println("Canada Server is ready.");
+
+            RegionalServer UnitedStates = new RegionalServer(Region.US);
+            registry.rebind(UnitedStates.getUrl(), UnitedStates);
+            System.out.println("United-States Server is ready.");
+
+            RegionalServer UnitedKingdom = new RegionalServer(Region.UK);
+            registry.rebind(UnitedKingdom.getUrl(), UnitedKingdom);
+            System.out.println("United-Kingdom Server is ready.");
+
         } catch (Exception e) {
             System.out.println("   --> ERROR : Internal Server <--");
             e.printStackTrace();
