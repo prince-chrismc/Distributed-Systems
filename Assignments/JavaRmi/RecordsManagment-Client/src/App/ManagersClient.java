@@ -38,7 +38,7 @@ public class ManagersClient {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
+
         // Welcome to Christopher McArthur's Distributed Employee Management System
         // DEMS Login...
         // Human Resource Manager ID:
@@ -47,13 +47,17 @@ public class ManagersClient {
         // switch ( ID.prefix ) --> new RegionalClient for that region
         //                      ~~> try again!
         // Perform Operation { Create... Edit... Get... Exit} While ! Exit
-
         try {
             RegionalClient Canada = new RegionalClient(Region.CA);
 
             System.out.println("Server Has: " + Canada.getRecordCount() + " Records.");
 
-            Canada.createMRecord("john", "smith", 1001, "johm.smith@example.com", new Project( new ProjectIdentifier(0), "Huge Project", "Rich Client" ),Region.CA.toString());
+            Canada.createMRecord("john", "smith", 1001, "johm.smith@example.com", new Project(new ProjectIdentifier(0), "Huge Project", "Rich Client"), Region.CA.toString());
+            
+            Canada.createMRecord("jane", "doe", 36978, "jane.dow@example.com", new Project(new ProjectIdentifier(23), "Huge Project", "Rich Client"), Region.US.toString());
+
+            Canada.createERecord("james", "bond", 1001, "johm.smith@example.com", "P23001" );
+
         } catch (Exception e) {
             System.out.println("   --> ERROR : Internal Client <--");
             e.printStackTrace();

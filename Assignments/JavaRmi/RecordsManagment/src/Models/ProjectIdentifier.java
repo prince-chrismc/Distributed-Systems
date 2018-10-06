@@ -39,7 +39,7 @@ public class ProjectIdentifier implements Serializable{
 
     @Override
     public String toString() {
-        return m_Prefix + m_UUID;
+        return m_Prefix + String.format("%05d", m_UUID);
     }
 
     public void setId(String projectId) throws NumberFormatException, Exception {

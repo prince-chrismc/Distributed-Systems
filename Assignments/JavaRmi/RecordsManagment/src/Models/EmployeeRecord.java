@@ -43,4 +43,11 @@ public class EmployeeRecord extends Record {
     }
     
     private ProjectIdentifier m_ProjectId;
+
+    @Override
+    public String toString() {
+        return "EmployeeRecord{" + super.toString() + ", m_ProjectId=" + m_ProjectId + '}';
+    }
+    
+    
 }

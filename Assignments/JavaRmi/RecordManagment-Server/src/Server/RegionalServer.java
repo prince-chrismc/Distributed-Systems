@@ -28,14 +28,10 @@ import Models.EmployeeRecord;
 import Models.ManagerRecord;
 import Models.Project;
 import Models.ProjectIdentifier;
-import Models.RecordIdentifier;
-import Models.RecordType;
 import Models.RecordsMap;
 import Models.Region;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -68,11 +64,11 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
             Region region = Region.fromString(location);
             m_Records.addRecord(new ManagerRecord(1001, firstName, lastName, employeeID, mailID, projects, region));
         } catch (Exception e) {
-            System.out.println("Failed to Create Manager Record!");
+            System.out.println( m_Region.getPrefix() + " - Failed to Create Manager Record!");
             e.printStackTrace();
         }
 
-        System.out.println("Created Manager Record: " + m_Records.toString());
+        System.out.println(m_Region.getPrefix() + " - Created Manager Record: " + m_Records.toString());
     }
 
     @Override
@@ -83,11 +79,11 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
             projID.setId(projectId);
             m_Records.addRecord(new EmployeeRecord(54321, firstName, lastName, employeeID, mailID, projID));
         } catch (Exception e) {
-            System.out.println("Failed to Create Employee Record!");
+            System.out.println(m_Region.getPrefix() + " - Failed to Create Employee Record!");
             e.printStackTrace();
         }
 
-        System.out.println("Created Employee Record: " + m_Records.toString());
+        System.out.println(m_Region.getPrefix() + " - Created Employee Record: " + m_Records.toString());
     }
 
     @Override

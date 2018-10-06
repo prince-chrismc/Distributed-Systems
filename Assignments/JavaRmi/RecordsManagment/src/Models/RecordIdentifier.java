@@ -38,7 +38,7 @@ public class RecordIdentifier {
     }
     
     @Override
-    public String toString() { return m_Type.toString() + m_UUID; }
+    public String toString() { return m_Type.toString() + String.format("%05d", m_UUID); }
 
     private final RecordType m_Type;
     private final int m_UUID;
