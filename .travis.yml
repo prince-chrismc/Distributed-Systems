@@ -4,3 +4,7 @@ jdk:
   - openjdk10
   - openjdk8
   - openjdk7
+  
+  script:
+  - cd Assignments/JavaRmi/RecordManagment-Server
+  - ant test
