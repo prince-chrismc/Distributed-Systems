@@ -21,52 +21,34 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
  */
-
 package Models;
+
+import java.util.HashMap;
+import java.util.LinkedList;
 
 /**
  *
  * @author cmcarthur
  */
-public class Record {
+public class RecordsMap {
 
-    protected Record(RecordIdentifier recordId, String firstName, String lastName, int employeeNumber, String mailId) {
-        m_RecordId = recordId;
-        m_FirstName = firstName;
-        m_LastName = lastName;
-        m_EmployeeNumber = employeeNumber;
-        m_MailId = mailId;
+    public RecordsMap() {
+        m_MapOfRecords = new HashMap<String, LinkedList<Record>>();
     }
 
-    public RecordIdentifier getRecordId() {
-        return m_RecordId;
+    public void addRecord(Record record) {
+        LinkedList<Record> listOfRecords = m_MapOfRecords.get(record.getHashIndex());
+
+        if (listOfRecords == null) {
+            listOfRecords = new LinkedList<Record>();
+            listOfRecords.add(record);
+            m_MapOfRecords.put(record.getHashIndex(), listOfRecords);
+        }
+        else{
+            listOfRecords.add(record);
+            m_MapOfRecords.replace(record.getHashIndex(), listOfRecords);
+        }
     }
 
-    public String getFirstName() {
-        return m_FirstName;
-    }
-
-    public String getLastName() {
-        return m_LastName;
-    }
-
-    public int getEmployeeNumber() {
-        return m_EmployeeNumber;
-    }
-
-    public String getMailId() {
-        return m_MailId;
-    }
-    
-    public String getHashIndex(){
-        return Character.toString( m_LastName.charAt(0) );
-    }
-
-    private final RecordIdentifier m_RecordId;
-
-    private String m_FirstName;
-    private String m_LastName;
-    private int m_EmployeeNumber;
-    private String m_MailId;
-
+    private HashMap<String, LinkedList<Record>> m_MapOfRecords;
 }
