@@ -60,7 +60,7 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
 
     @Override
     public int getRecordCount() throws RemoteException {
-        return 2;
+        return m_Records.count();
     }
 
     @Override

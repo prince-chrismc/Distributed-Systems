@@ -55,4 +55,8 @@ public class RecordsMap {
     }
 
     private HashMap<String, LinkedList<Record>> m_MapOfRecords;
+
+    public int count() {
+        return m_MapOfRecords.size();
+    }
 }

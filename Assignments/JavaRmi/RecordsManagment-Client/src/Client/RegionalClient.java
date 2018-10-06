@@ -30,7 +30,8 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import Interface.RegionalRecordManipulator;
 import Models.Project;
-import Models.ProjectIdentifier;
+import Utility.Logger;
+import java.io.IOException;
 
 /**
  *
@@ -38,14 +39,20 @@ import Models.ProjectIdentifier;
  */
 public class RegionalClient implements RegionalRecordManipulator {
 
+    private String m_HRID;
     private Region m_Region;
     private RegionalRecordManipulator m_Remote;
+    private Logger m_Logger;
 
-    public RegionalClient(Region region) throws RemoteException, NotBoundException {
-        m_Region = region;
+    public RegionalClient(String id) throws RemoteException, NotBoundException, IOException, Exception {
+        m_HRID = id;
+        m_Region = Region.fromString(id.substring(0, 2));
 
         Registry registry = LocateRegistry.getRegistry(12345);
         m_Remote = (RegionalRecordManipulator) registry.lookup("rmi://localhost/" + m_Region.toString());
+        
+        m_Logger = new Logger( m_HRID );
+        m_Logger.Log(m_HRID + " has connected!");
     }
 
     @Override

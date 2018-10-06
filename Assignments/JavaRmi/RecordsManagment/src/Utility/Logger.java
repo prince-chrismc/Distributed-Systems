@@ -53,7 +53,7 @@ public class Logger {
     }
 
     private String getCurrentTimeString() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         return dateFormat.format(new Date());
     }
 

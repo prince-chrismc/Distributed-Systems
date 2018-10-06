@@ -48,15 +48,17 @@ public class ManagersClient {
         //                      ~~> try again!
         // Perform Operation { Create... Edit... Get... Exit} While ! Exit
         try {
-            RegionalClient Canada = new RegionalClient(Region.CA);
+            RegionalClient Canada = new RegionalClient("CA1234");
 
             System.out.println("Server Has: " + Canada.getRecordCount() + " Records.");
 
             Canada.createMRecord("john", "smith", 1001, "johm.smith@example.com", new Project(new ProjectIdentifier(0), "Huge Project", "Rich Client"), Region.CA.toString());
-            
+
             Canada.createMRecord("jane", "doe", 36978, "jane.dow@example.com", new Project(new ProjectIdentifier(23), "Huge Project", "Rich Client"), Region.US.toString());
 
-            Canada.createERecord("james", "bond", 1001, "johm.smith@example.com", "P23001" );
+            Canada.createERecord("james", "bond", 1001, "johm.smith@example.com", "P23001");
+
+            System.out.println("Server Has: " + Canada.getRecordCount() + " Records.");
 
         } catch (Exception e) {
             System.out.println("   --> ERROR : Internal Client <--");
