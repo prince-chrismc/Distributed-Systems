@@ -30,9 +30,11 @@ package Models;
  */
 public class RecordIdentifier {
 
-    public RecordIdentifier(RecordType type, int UUID) {
+    public RecordIdentifier(RecordType type, int UUID) throws Exception {
         m_Type = type;
         m_UUID = UUID;
+        
+        if(m_UUID > 99999) throw new Exception("Invalid ID!");
     }
     
     @Override

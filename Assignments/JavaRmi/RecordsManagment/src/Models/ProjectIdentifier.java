@@ -31,8 +31,10 @@ import java.io.Serializable;
  */
 public class ProjectIdentifier implements Serializable{
 
-    public ProjectIdentifier(int uuid) {
+    public ProjectIdentifier(int uuid) throws Exception {
         m_UUID = uuid;
+        
+        if(m_UUID > 99999) throw new Exception("Invalid ID!");
     }
 
     @Override
@@ -40,10 +42,11 @@ public class ProjectIdentifier implements Serializable{
         return m_Prefix + m_UUID;
     }
 
-    public void setId(String projectId) throws NumberFormatException {
-        if (projectId.startsWith(m_Prefix)) {
+    public void setId(String projectId) throws NumberFormatException, Exception {
+        if (projectId.startsWith(m_Prefix))
             m_UUID = Integer.parseInt(projectId.substring(m_Prefix.length()));
-        }
+        else
+            throw new Exception("Invalid ID!");            
     }
 
     static final String m_Prefix = "P";
