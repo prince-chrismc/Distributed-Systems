@@ -24,7 +24,12 @@
 
 import Models.Region;
 import Server.RegionalRecordManager;
-import java.rmi.Naming;
+
+import java.net.MalformedURLException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 /**
  *
@@ -38,10 +43,9 @@ public class ManagersClient {
     public static void main(String[] args) throws MalformedURLException, RemoteException, NotBoundException {
         // TODO code application logic here
 
-        RegionalRecordManager look_up = (RegionalRecordManager) Naming.lookup("rmi://localhost/" + Region.CA.toString());
-        String txt = JOptionPane.showInputDialog("What is your name?");
-
-        String response = look_up.helloTo(txt);
-        JOptionPane.showMessageDialog(null, response);
+        Registry registry = LocateRegistry.getRegistry(12345);
+        RegionalRecordManager look_up = (RegionalRecordManager) registry.lookup("rmi://localhost/" + Region.CA.toString());
+        
+        System.out.println( "Server Has: " + look_up.getRecordCount() + " Records." );
     }
 }
