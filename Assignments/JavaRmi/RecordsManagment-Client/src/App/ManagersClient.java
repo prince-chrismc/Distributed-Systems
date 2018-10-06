@@ -1,3 +1,5 @@
+package App;
+
 /* 
     MIT License
 
@@ -22,42 +24,26 @@
     SOFTWARE.
 */
 
-
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-
+import Client.RegionalClient;
 import Models.Region;
-import Server.RegionalServer;
 
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 
 /**
  *
  * @author c_mcart
  */
-public class CentralServers {
+public class ManagersClient {
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws RemoteException, NotBoundException {
         // TODO code application logic here
-        try
-        {
-            String PolicySettingsFileLocation = "file:" + System.getProperty("user.dir") + "/security.policy";            
-            System.setProperty("java.security.policy", PolicySettingsFileLocation);
-            
-            // https://stackoverflow.com/a/52552583/8480874
-            Registry registry = LocateRegistry.createRegistry( 12345 );
-            
-            RegionalServer Canada = new RegionalServer(Region.CA);			   		   
-	    registry.rebind(Canada.getUrl(), Canada);
- 
-	    System.out.println("Addition Server is ready.");
-        }
-        catch( Exception e )
-        {
-            System.out.println( "   --> ERROR : Internal Server <--"  ); 
-            e.printStackTrace();
-        }
+
+        RegionalClient Canada = new RegionalClient(Region.CA);
+        
+        System.out.println( "Server Has: " + Canada.getRecordCount() + " Records." );
     }
 }
