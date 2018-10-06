@@ -35,7 +35,8 @@ public class RecordIdentifier {
         m_UUID = UUID;
     }
     
-    protected String getID() { return m_Type.toString() + m_UUID; }
+    @Override
+    public String toString() { return m_Type.toString() + m_UUID; }
 
     private final RecordType m_Type;
     private final int m_UUID;

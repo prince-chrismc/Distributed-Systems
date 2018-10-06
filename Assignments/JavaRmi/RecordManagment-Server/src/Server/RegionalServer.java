@@ -62,6 +62,7 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
 
         m_Records.addRecord(new ManagerRecord(new RecordIdentifier(RecordType.MANAGER, 1001), firstName, lastName, employeeID, mailID, projects, m_Region));
 
-        System.out.print("Created Manager Record: " + m_Records.toString());
+        System.out.println("Created Manager Record: " + m_Records.toString());
+        
     }
 }

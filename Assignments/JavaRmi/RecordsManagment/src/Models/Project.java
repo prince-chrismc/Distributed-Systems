@@ -65,4 +65,11 @@ public class Project implements Serializable {
     private ProjectIdentifier m_Id;
     private String m_Name;
     private String m_Client;
+
+    @Override
+    public String toString() {
+        return "Project{" + "m_Id=" + m_Id + ", m_Name=" + m_Name + ", m_Client=" + m_Client + '}';
+    }
+    
+    
 }

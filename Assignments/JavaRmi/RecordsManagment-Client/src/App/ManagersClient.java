@@ -48,7 +48,7 @@ public class ManagersClient {
 
             System.out.println("Server Has: " + Canada.getRecordCount() + " Records.");
 
-            Canada.createMRecord("hi", "hi", 1001, "hi", new Project( new ProjectIdentifier(0),"tst", "testing" ));
+            Canada.createMRecord("john", "smith", 1001, "johm.smith@example.com", new Project( new ProjectIdentifier(0), "Huge Project", "Rich Client" ));
         } catch (Exception e) {
             System.out.println("   --> ERROR : Internal Client <--");
             e.printStackTrace();

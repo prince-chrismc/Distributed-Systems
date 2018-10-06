@@ -40,4 +40,9 @@ public class ManagerRecord extends Record implements Serializable{
         m_Project = projects;
 
     }
+
+    @Override
+    public String toString() {
+        return "ManagerRecord{" + super.toString() + ", m_Region=" + m_Region + ", m_Project=" + m_Project + '}';
+    }
 }

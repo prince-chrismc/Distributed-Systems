@@ -50,7 +50,7 @@ public class CentralServers {
             RegionalServer Canada = new RegionalServer(Region.CA);
             registry.rebind(Canada.getUrl(), Canada);
 
-            System.out.println("Addition Server is ready.");
+            System.out.println("Canada Server is ready.");
         } catch (Exception e) {
             System.out.println("   --> ERROR : Internal Server <--");
             e.printStackTrace();

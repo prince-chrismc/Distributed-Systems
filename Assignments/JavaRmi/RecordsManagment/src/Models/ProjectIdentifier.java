@@ -35,7 +35,8 @@ public class ProjectIdentifier implements Serializable{
         m_UUID = uuid;
     }
 
-    public String getId() {
+    @Override
+    public String toString() {
         return m_Prefix + m_UUID;
     }
 

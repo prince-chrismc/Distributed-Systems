@@ -71,4 +71,9 @@ public class Record implements Serializable{
     private int m_EmployeeNumber;
     private String m_MailId;
 
+    @Override
+    public String toString() {
+        return "Record{" + "m_RecordId=" + m_RecordId + ", m_FirstName=" + m_FirstName + ", m_LastName=" + m_LastName + ", m_EmployeeNumber=" + m_EmployeeNumber + ", m_MailId=" + m_MailId + '}';
+    }
+
 }

@@ -49,6 +49,10 @@ public class RecordsMap {
             m_MapOfRecords.replace(record.getHashIndex(), listOfRecords);
         }
     }
+    
+    public String toString() {
+        return m_MapOfRecords.toString();
+    }
 
     private HashMap<String, LinkedList<Record>> m_MapOfRecords;
 }
