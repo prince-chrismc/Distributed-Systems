@@ -34,8 +34,8 @@ public class ManagerRecord extends Record implements Serializable{
     private Region m_Region;
     private Project m_Project;
 
-    public ManagerRecord(RecordIdentifier recordId, String firstName, String lastName, int employeeNumber, String mailId, Project projects, Region region) {
-        super(recordId, firstName, lastName, employeeNumber, mailId);
+    public ManagerRecord(int recordId, String firstName, String lastName, int employeeNumber, String mailId, Project projects, Region region) throws Exception {
+        super(new RecordIdentifier(RecordType.MANAGER, recordId), firstName, lastName, employeeNumber, mailId);
         m_Region = region;
         m_Project = projects;
 

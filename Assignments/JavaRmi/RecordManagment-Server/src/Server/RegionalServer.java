@@ -24,14 +24,18 @@
 package Server;
 
 import Interface.RegionalRecordManipulator;
+import Models.EmployeeRecord;
 import Models.ManagerRecord;
 import Models.Project;
+import Models.ProjectIdentifier;
 import Models.RecordIdentifier;
 import Models.RecordType;
 import Models.RecordsMap;
 import Models.Region;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -58,11 +62,36 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
     }
 
     @Override
-    public void createMRecord(String firstName, String lastName, int employeeID, String mailID, Project projects) throws RemoteException {
+    public void createMRecord(String firstName, String lastName, int employeeID, String mailID, Project projects, String location) throws RemoteException {
 
-        m_Records.addRecord(new ManagerRecord(new RecordIdentifier(RecordType.MANAGER, 1001), firstName, lastName, employeeID, mailID, projects, m_Region));
+        try {
+            Region region = Region.fromString(location);
+            m_Records.addRecord(new ManagerRecord(1001, firstName, lastName, employeeID, mailID, projects, region));
+        } catch (Exception e) {
+            System.out.println("Failed to Create Manager Record!");
+            e.printStackTrace();
+        }
 
         System.out.println("Created Manager Record: " + m_Records.toString());
-        
+    }
+
+    @Override
+    public void createERecord(String firstName, String lastName, int employeeID, String mailID, String projectId) throws RemoteException {
+
+        try {
+            ProjectIdentifier projID = new ProjectIdentifier(-1);
+            projID.setId(projectId);
+            m_Records.addRecord(new EmployeeRecord(54321, firstName, lastName, employeeID, mailID, projID));
+        } catch (Exception e) {
+            System.out.println("Failed to Create Employee Record!");
+            e.printStackTrace();
+        }
+
+        System.out.println("Created Employee Record: " + m_Records.toString());
+    }
+
+    @Override
+    public void editRecord(String recordID, String feildName, Object newValue) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

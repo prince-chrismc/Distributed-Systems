@@ -33,6 +33,18 @@ public enum Region {
     US(6001, "United-States", "US"),
     UK(6002, "United-Kingdom", "UK");
 
+    public static Region fromString(String location) throws Exception {
+        
+        for (Region region : Region.values())
+        {
+            if( (region.getPrefix() == null ? location == null : region.getPrefix().equals(location)) ||
+                (region.toString() == null ? location == null : region.toString().equals(location)) )
+                return region;
+        }
+        
+        throw new Exception("Invalid Location!");
+    }
+
     private Region(int ID, String name, String prefix)
     {
         m_UUID = ID;

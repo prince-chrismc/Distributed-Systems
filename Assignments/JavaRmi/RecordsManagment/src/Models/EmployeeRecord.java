@@ -29,8 +29,8 @@ package Models;
  */
 public class EmployeeRecord extends Record {
     
-    public EmployeeRecord(RecordIdentifier recordId, String firstName, String lastName, int employeeNumber, String mailId, ProjectIdentifier projectId) {
-        super(recordId, firstName, lastName, employeeNumber, mailId);
+    public EmployeeRecord(int recordId, String firstName, String lastName, int employeeNumber, String mailId, ProjectIdentifier projectId) throws Exception {
+        super(new RecordIdentifier(RecordType.EMPLOYEE, recordId), firstName, lastName, employeeNumber, mailId);
         m_ProjectId = projectId;
     }
 
