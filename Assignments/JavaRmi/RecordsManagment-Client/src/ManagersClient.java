@@ -22,14 +22,11 @@
     SOFTWARE.
 */
 
+import Client.RegionalClient;
 import Models.Region;
-import Server.RegionalRecordManager;
 
-import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 
 /**
  *
@@ -40,12 +37,11 @@ public class ManagersClient {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws MalformedURLException, RemoteException, NotBoundException {
+    public static void main(String[] args) throws RemoteException, NotBoundException {
         // TODO code application logic here
 
-        Registry registry = LocateRegistry.getRegistry(12345);
-        RegionalRecordManager look_up = (RegionalRecordManager) registry.lookup("rmi://localhost/" + Region.CA.toString());
+        RegionalClient Canada = new RegionalClient(Region.CA);
         
-        System.out.println( "Server Has: " + look_up.getRecordCount() + " Records." );
+        System.out.println( "Server Has: " + Canada.getRecordCount() + " Records." );
     }
 }

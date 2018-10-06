@@ -24,10 +24,31 @@
 
 package Client;
 
+import Models.Region;
+import Server.RegionalRecordManager;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+
 /**
  *
  * @author cmcarthur
  */
-public class RegionalClient {
+public class RegionalClient implements RegionalRecordManager {
     
+    public RegionalClient(Region region) throws RemoteException, NotBoundException {
+        m_Region = region;
+        
+        Registry registry = LocateRegistry.getRegistry(12345);
+        m_Remote = (RegionalRecordManager) registry.lookup("rmi://localhost/" + m_Region.toString());
+    }
+
+    @Override
+    public int getRecordCount() throws RemoteException {
+        return m_Remote.getRecordCount();
+    }
+    
+    private Region m_Region;
+    private RegionalRecordManager m_Remote;
 }
