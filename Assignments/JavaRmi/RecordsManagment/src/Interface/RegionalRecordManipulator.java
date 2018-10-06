@@ -20,9 +20,11 @@
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
-*/
-
+ */
 package Interface;
+
+import Models.Project;
+import java.io.Serializable;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -32,8 +34,12 @@ import java.rmi.RemoteException;
  * @author c_mcart
  */
 public interface RegionalRecordManipulator extends Remote {
+
+    // TO DO : Complete API
+    //public void createMRecord (String firstName, String lastName, int employeeID, String mailID, Project projects) throws RemoteException;
+    //public void createERecord (String firstName, String lastName, int employeeID, String mailID, String projectId, String location) throws RemoteException;
     
     public int getRecordCount() throws RemoteException;
-    
-    // TO DO : Complete API
+
+    //public void editRecord( String recordID, String feildName, Serializable newValue );
 }

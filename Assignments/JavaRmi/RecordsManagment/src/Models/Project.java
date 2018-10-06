@@ -24,11 +24,13 @@
 
 package Models;
 
+import java.io.Serializable;
+
 /**
  *
  * @author cmcarthur
  */
-class Project {
+public class Project implements Serializable {
 
     public Project(ProjectIdentifier id, String name, String client) {
         this.m_Id = id;

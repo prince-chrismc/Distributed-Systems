@@ -21,23 +21,28 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
  */
-
 package Models;
 
 /**
  *
  * @author cmcarthur
  */
-class ProjectIdentifier {
+public class ProjectIdentifier {
 
     public ProjectIdentifier(int uuid) {
         m_UUID = uuid;
     }
-    
+
     public String getId() {
         return m_Prefix + m_UUID;
     }
-    
-    static final String m_Prefix  = "s";
+
+    public void setId(String projectId) throws NumberFormatException {
+        if (projectId.startsWith(m_Prefix)) {
+            m_UUID = Integer.parseInt(projectId.substring(m_Prefix.length()));
+        }
+    }
+
+    static final String m_Prefix = "P";
     private int m_UUID;
 }
