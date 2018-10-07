@@ -34,11 +34,11 @@ import java.rmi.RemoteException;
  */
 public interface RegionalRecordManipulator extends Remote {
 
-    public void createMRecord(String firstName, String lastName, int employeeID, String mailID, Project projects, String location) throws RemoteException;
+    public String createMRecord(String firstName, String lastName, int employeeID, String mailID, Project projects, String location) throws RemoteException;
 
-    public void createERecord(String firstName, String lastName, int employeeID, String mailID, String projectId) throws RemoteException;
+    public String createERecord(String firstName, String lastName, int employeeID, String mailID, String projectId) throws RemoteException;
 
+    public String editRecord(String recordID, String feildName, Object newValue) throws RemoteException;
+    
     public String getRecordCount() throws RemoteException;
-
-    public void editRecord(String recordID, String feildName, Object newValue) throws RemoteException;
 }
