@@ -21,7 +21,6 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
  */
-
 package Models;
 
 /**
@@ -31,29 +30,43 @@ package Models;
 public class RecordIdentifier {
 
     public static RecordIdentifier fromString(String data) throws Exception {
-        if( data.length() != 7)
+        if (data.length() != 7) {
             throw new Exception("Invalid Record ID!");
-        
-        RecordType type = RecordType.valueOf(data.substring(0, 2));
+        }
+
+        RecordType type = RecordType.fromString(data.substring(0, 2));
+
+        if (type != RecordType.EMPLOYEE
+                && type != RecordType.MANAGER) {
+            throw new Exception("Invalid Record type!");
+        }
+
         int uuid = Integer.parseInt(data.substring(2));
-        
-        return new RecordIdentifier( type, uuid );
+        if (uuid > 99999) {
+            throw new Exception("Invalid Record UUID!");
+        }
+
+        return new RecordIdentifier(type, uuid);
     }
 
-    public RecordIdentifier(RecordType type, int UUID) throws Exception {
+    public RecordIdentifier(RecordType type, int uuid) {
         m_Type = type;
-        m_UUID = UUID;
-        
-        if(m_UUID > 99999) throw new Exception("Invalid ID!");
+        m_UUID = (uuid <= 99999) ? uuid : -1;
     }
-    
+
     @Override
-    public String toString() { return m_Type.toString() + String.format("%05d", m_UUID); }
+    public String toString() {
+        return m_Type.toString() + String.format("%05d", m_UUID);
+    }
 
     public RecordType getType() {
         return m_Type;
     }
-    
+
+    public int getUUID() {
+        return m_UUID;
+    }
+
     private final RecordType m_Type;
     private final int m_UUID;
 }

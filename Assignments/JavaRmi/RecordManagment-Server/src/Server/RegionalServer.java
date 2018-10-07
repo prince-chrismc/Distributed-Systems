@@ -38,11 +38,8 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.logging.Level;
 
 /**
  *
@@ -54,15 +51,15 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
     private RecordsMap m_Records;
     private RequestListener m_Listener;
     private Logger m_Logger;
+    private RecordUuidTracker m_IdTracker;
     
-    
-
     public RegionalServer(Region region) throws RemoteException, IOException {
         super();
         m_Region = region;
         m_Records = new RecordsMap();
         m_Logger = new Logger(m_Region.getPrefix());
         m_Listener = new RequestListener(this, m_Region.toInt());
+        m_IdTracker = new RecordUuidTracker(m_Region);
     }
     
     public void Start(){
@@ -85,10 +82,10 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
 
         try {
             Region region = Region.fromString(location);
-            m_Records.addRecord(new ManagerRecord(1001, firstName, lastName, employeeID, mailID, projects, region));
+            m_Records.addRecord(new ManagerRecord(m_IdTracker.getNextManagerId(), firstName, lastName, employeeID, mailID, projects, region));
         } catch (Exception e) {
             m_Logger.Log("Failed to Create Manager Record!");
-            e.printStackTrace();
+            System.err.println(e);
         }
 
         m_Logger.Log("Created Manager Record: " + m_Records.toString());
@@ -100,10 +97,10 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
         try {
             ProjectIdentifier projID = new ProjectIdentifier(-1);
             projID.setId(projectId);
-            m_Records.addRecord(new EmployeeRecord(54321, firstName, lastName, employeeID, mailID, projID));
+            m_Records.addRecord(new EmployeeRecord(m_IdTracker.getNextEmployeeId(), firstName, lastName, employeeID, mailID, projID));
         } catch (Exception e) {
             m_Logger.Log("Failed to Create Employee Record!");
-            e.printStackTrace();
+            System.err.println(e);
         }
 
         m_Logger.Log("Created Employee Record: " + m_Records.toString());
@@ -136,7 +133,7 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
 
         } catch (Exception e) {
             m_Logger.Log("Failed to Edit " + feildName + "!");
-            e.printStackTrace();
+            System.err.println(e);
         }
     }
 
@@ -299,5 +296,10 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
             
             return getRegionalCount(region);
         }
+    }
+
+    @Override
+    public RecordIdentifier updateRecordUuid(RecordIdentifier newRecordId) {
+        return m_IdTracker.updateRecordUuid(newRecordId);
     }
 }

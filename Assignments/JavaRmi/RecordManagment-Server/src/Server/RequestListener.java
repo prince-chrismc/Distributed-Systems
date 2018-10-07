@@ -39,7 +39,7 @@ public class RequestListener extends Thread {
 
     public interface Processor {
 
-        //public RecordIdentifier updateRecordUuid(RecordIdentifier newRecordId);
+        public RecordIdentifier updateRecordUuid(RecordIdentifier newRecordId);
 
         public int getCurrentRecordCount();
     }
@@ -74,18 +74,24 @@ public class RequestListener extends Thread {
             m_Logger.Log("Processing new request...");
             Message request = new Message(packet);
 
-            String responsePayload = "";
+            String responsePayload = "ERROR";
+            OperationCode responseCode = OperationCode.INVALID;
+            
             switch (request.getOpCode()) {
-                //case UPDATE_RECORD_INDEX: {
-                //    try {
-                //        responsePayload = m_Handler.updateRecordUuid(RecordIdentifier.fromString(request.getData())).toString();
-                //    } catch (Exception ex) {
-                //        m_Logger.Log("Failed to handle update record uuid request");
-                //        System.out.println(ex);
-                //    }
-                //}
+                case UPDATE_RECORD_INDEX: {
+                    try {
+                        responsePayload = m_Handler.updateRecordUuid(RecordIdentifier.fromString(request.getData())).toString();
+                        responseCode = OperationCode.ACK_UPDATE_RECORD_INDEX;
+                        m_Logger.Log("Answering Request for record index");
+                    } catch (Exception ex) {
+                        m_Logger.Log("Failed to handle update record index request");
+                        System.out.println(ex);
+                    }
+                }
+                break;
                 case GET_RECORD_COUNT: {
                     responsePayload = String.valueOf(m_Handler.getCurrentRecordCount());
+                    responseCode = OperationCode.ACK_GET_RECORD_COUNT;
                     m_Logger.Log("Answering Request for record count '" + responsePayload + "'.");
                 }
                 break;
@@ -96,7 +102,7 @@ public class RequestListener extends Thread {
 
             InetAddress address = packet.getAddress();
             int port = packet.getPort();
-            Message response = new Message(OperationCode.ACK_GET_RECORD_COUNT, responsePayload, address, port);
+            Message response = new Message(responseCode, responsePayload, address, port);
 
             try {
                 socket.send(response.getPacket());

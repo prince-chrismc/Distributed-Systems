@@ -21,7 +21,6 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
  */
-
 package Models;
 
 /**
@@ -30,13 +29,25 @@ package Models;
  */
 public enum RecordType {
     EMPLOYEE("ER"),
-    MANAGER("MR");
-    
-    private RecordType( String prefix ){
+    MANAGER("MR"),
+    UNKNOWN("XX");
+
+    static public RecordType fromString(String data) {
+        for (RecordType type : RecordType.values()) {
+            if (type.m_Prefix.equals(data)) {
+                return type;
+            }
+        }
+        return UNKNOWN;
+    }
+
+    private RecordType(String prefix) {
         m_Prefix = prefix;
     }
-    
-    public String toString() { return m_Prefix; }
-    
+
+    public String toString() {
+        return m_Prefix;
+    }
+
     private String m_Prefix;
 }
