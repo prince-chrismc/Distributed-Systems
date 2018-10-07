@@ -7,5 +7,5 @@ jdk:
 script:
   - cd Assignments/JavaRmi/RecordManagment-Server
   - ant test
-  - cd ../RecordManagment-Client
+  - cd ../RecordsManagment-Client
   - ant test
