@@ -61,18 +61,18 @@ public class RegionalClient implements RegionalRecordManipulator {
     }
 
     @Override
-    public void createMRecord(String firstName, String lastName, int employeeID, String mailID, Project projects, String location) throws RemoteException {
-        m_Remote.createMRecord(firstName, lastName, employeeID, mailID, projects, location);
+    public String createMRecord(String firstName, String lastName, int employeeID, String mailID, Project projects, String location) throws RemoteException {
+        return m_Remote.createMRecord(firstName, lastName, employeeID, mailID, projects, location);
     }
 
     @Override
-    public void createERecord(String firstName, String lastName, int employeeID, String mailID, String projectId) throws RemoteException {
-        m_Remote.createERecord(firstName, lastName, employeeID, mailID, projectId);
+    public String createERecord(String firstName, String lastName, int employeeID, String mailID, String projectId) throws RemoteException {
+        return m_Remote.createERecord(firstName, lastName, employeeID, mailID, projectId);
     }
 
     @Override
-    public void editRecord(String recordID, String feildName, Object newValue) throws RemoteException {
-        m_Remote.editRecord(recordID, feildName, newValue);
+    public String editRecord(String recordID, String feildName, Object newValue) throws RemoteException {
+        return m_Remote.editRecord(recordID, feildName, newValue);
     }
     
     public int getRegionalRecordCount() throws RemoteException {

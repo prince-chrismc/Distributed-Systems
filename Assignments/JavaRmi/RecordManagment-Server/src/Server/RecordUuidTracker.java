@@ -75,7 +75,7 @@ public class RecordUuidTracker {
         return null;
     }
 
-    public int getNextManagerId() {
+    public RecordIdentifier getNextManagerId() {
         m_Logger.Log("Attempting to determine next manager UUID...");
         RecordIdentifier nextId = new RecordIdentifier(RecordType.MANAGER, m_CurrentManagerId.getUUID() + 1);
         for (Region region : Region.values()) {
@@ -88,10 +88,10 @@ public class RecordUuidTracker {
 
         m_Logger.Log("Determine next manager UUID to be '" + nextId.toString() + "'.");
         m_CurrentManagerId = nextId;
-        return m_CurrentManagerId.getUUID();
+        return m_CurrentManagerId;
     }
 
-    public int getNextEmployeeId() {
+    public RecordIdentifier getNextEmployeeId() {
         m_Logger.Log("Attempting to determine next employee UUID...");
         RecordIdentifier nextId = new RecordIdentifier(RecordType.EMPLOYEE, m_CurrentEmployeeId.getUUID() + 1);
         for (Region region : Region.values()) {
@@ -104,7 +104,7 @@ public class RecordUuidTracker {
 
         m_Logger.Log("Determine next employee UUID to be '" + nextId.toString() + "'.");
         m_CurrentEmployeeId = nextId;
-        return m_CurrentEmployeeId.getUUID();
+        return m_CurrentEmployeeId;
     }
 
     private RecordIdentifier notifyRegionWithUpdate(Region region, RecordIdentifier nextId) {

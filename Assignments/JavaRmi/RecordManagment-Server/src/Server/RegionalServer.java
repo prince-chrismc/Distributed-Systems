@@ -52,7 +52,7 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
     private RequestListener m_Listener;
     private Logger m_Logger;
     private RecordUuidTracker m_IdTracker;
-    
+
     public RegionalServer(Region region) throws RemoteException, IOException {
         super();
         m_Region = region;
@@ -61,8 +61,8 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
         m_Listener = new RequestListener(this, m_Region.toInt());
         m_IdTracker = new RecordUuidTracker(m_Region);
     }
-    
-    public void Start(){
+
+    public void Start() {
         m_Listener.start();
         m_Logger.Log(m_Region.toString() + " is running!");
     }
@@ -78,36 +78,38 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
     }
 
     @Override
-    public void createMRecord(String firstName, String lastName, int employeeID, String mailID, Project projects, String location) throws RemoteException {
-
+    public String createMRecord(String firstName, String lastName, int employeeID, String mailID, Project projects, String location) throws RemoteException {
         try {
             Region region = Region.fromString(location);
-            m_Records.addRecord(new ManagerRecord(m_IdTracker.getNextManagerId(), firstName, lastName, employeeID, mailID, projects, region));
+            RecordIdentifier newID = m_IdTracker.getNextManagerId();
+            m_Records.addRecord(new ManagerRecord(newID.getUUID(), firstName, lastName, employeeID, mailID, projects, region));
+            m_Logger.Log("Created Manager Record: " + m_Records.toString());
+            return newID.toString();
         } catch (Exception e) {
             m_Logger.Log("Failed to Create Manager Record!");
             System.err.println(e);
+            return "ERROR";
         }
-
-        m_Logger.Log("Created Manager Record: " + m_Records.toString());
     }
 
     @Override
-    public void createERecord(String firstName, String lastName, int employeeID, String mailID, String projectId) throws RemoteException {
-
+    public String createERecord(String firstName, String lastName, int employeeID, String mailID, String projectId) throws RemoteException {
         try {
             ProjectIdentifier projID = new ProjectIdentifier(-1);
             projID.setId(projectId);
-            m_Records.addRecord(new EmployeeRecord(m_IdTracker.getNextEmployeeId(), firstName, lastName, employeeID, mailID, projID));
+            RecordIdentifier newID = m_IdTracker.getNextEmployeeId();
+            m_Records.addRecord(new EmployeeRecord(newID.getUUID(), firstName, lastName, employeeID, mailID, projID));
+            m_Logger.Log("Created Employee Record: " + m_Records.toString());
+            return newID.toString();
         } catch (Exception e) {
             m_Logger.Log("Failed to Create Employee Record!");
             System.err.println(e);
+            return "ERROR";
         }
-
-        m_Logger.Log("Created Employee Record: " + m_Records.toString());
     }
 
     @Override
-    public void editRecord(String recordID, String feildName, Object newValue) throws RemoteException {
+    public String editRecord(String recordID, String feildName, Object newValue) throws RemoteException {
         try {
             Feild feild = Feild.fromString(feildName);
 
@@ -130,10 +132,12 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
 
             m_Records.addRecord(record);
             m_Logger.Log("Successfully modified '" + feildName + "' for record [ " + recordID + " ]    " + m_Records.toString());
+            return recordID;
 
         } catch (Exception e) {
             m_Logger.Log("Failed to Edit " + feildName + "!");
             System.err.println(e);
+            return "ERROR";
         }
     }
 
@@ -262,10 +266,10 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
             if (m_Region == region) {
                 continue;
             }
-            
+
             retval += " " + getRegionalCount(region);
         }
-        
+
         m_Logger.Log("Reporting { " + retval + " } for total records.");
         return retval;
     }
@@ -275,25 +279,25 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
             DatagramSocket socket = new DatagramSocket();
             InetAddress address = InetAddress.getByName("localhost");
             Message request = new Message(OperationCode.GET_RECORD_COUNT, "", address, region.toInt());
-            
+
             socket.send(request.getPacket());
-            
+
             byte[] buf = new byte[256];
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
             socket.receive(packet);
-            
+
             Message response = new Message(packet);
-            
-            if( response.getOpCode() != OperationCode.ACK_GET_RECORD_COUNT ){
+
+            if (response.getOpCode() != OperationCode.ACK_GET_RECORD_COUNT) {
                 throw new Exception("Response mismatch to op code");
             }
-            
+
             return region.getPrefix() + " " + response.getData();
-            
+
         } catch (Exception ex) {
             m_Logger.Log("Failed to get record count from [" + region + "]. trying...");
             System.out.println(ex);
-            
+
             return getRegionalCount(region);
         }
     }
