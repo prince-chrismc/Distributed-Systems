@@ -259,6 +259,7 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
 
     @Override
     public String getRecordCount() throws RemoteException {
+        m_Logger.Log("Reporting the number of records for all regions...");
         String retval = m_Region.getPrefix() + " " + m_Records.count();
         for (Region region : Region.values()) {
             if (m_Region == region) {
@@ -268,6 +269,7 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
             retval += " " + getRegionalCount(region);
         }
         
+        m_Logger.Log("Reporting { " + retval + " } for total records.");
         return retval;
     }
 

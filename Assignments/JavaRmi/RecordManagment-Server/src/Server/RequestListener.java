@@ -86,7 +86,7 @@ public class RequestListener extends Thread {
                 //}
                 case GET_RECORD_COUNT: {
                     responsePayload = String.valueOf(m_Handler.getCurrentRecordCount());
-                    m_Logger.Log("Answer Request for record count.");
+                    m_Logger.Log("Answering Request for record count '" + responsePayload + "'.");
                 }
                 break;
                 default: {

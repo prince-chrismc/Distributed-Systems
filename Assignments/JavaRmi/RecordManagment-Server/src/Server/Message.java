@@ -74,4 +74,8 @@ public class Message {
         return m_Code;
     }
 
+    @Override
+    public String toString() {
+        return "Message{" + "code=" + m_Code + ", data=" + m_Data + ", addr=" + m_Addr + ", port=" + m_Port + '}';
+    }
 }
