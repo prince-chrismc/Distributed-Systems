@@ -30,7 +30,9 @@ package Server;
 public enum OperationCode {
     INVALID(-1),
     UPDATE_RECORD_INDEX(1001),
-    ACK_UPDATE_RECORD_INDEX(3001);
+    ACK_UPDATE_RECORD_INDEX(3001),
+    GET_RECORD_COUNT(1002),
+    ACK_GET_RECORD_COUNT(3002);
 
     private OperationCode(int val) {
         m_Value = val;

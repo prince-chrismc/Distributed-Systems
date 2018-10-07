@@ -38,7 +38,7 @@ public interface RegionalRecordManipulator extends Remote {
 
     public void createERecord(String firstName, String lastName, int employeeID, String mailID, String projectId) throws RemoteException;
 
-    public int getRecordCount() throws RemoteException;
+    public String getRecordCount() throws RemoteException;
 
     public void editRecord(String recordID, String feildName, Object newValue) throws RemoteException;
 }

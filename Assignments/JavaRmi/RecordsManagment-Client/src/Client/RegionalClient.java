@@ -56,7 +56,7 @@ public class RegionalClient implements RegionalRecordManipulator {
     }
 
     @Override
-    public int getRecordCount() throws RemoteException {
+    public String getRecordCount() throws RemoteException {
         return m_Remote.getRecordCount();
     }
 
@@ -73,5 +73,14 @@ public class RegionalClient implements RegionalRecordManipulator {
     @Override
     public void editRecord(String recordID, String feildName, Object newValue) throws RemoteException {
         m_Remote.editRecord(recordID, feildName, newValue);
+    }
+    
+    public int getRegionalRecordCount() throws RemoteException {
+        String allDesc = m_Remote.getRecordCount();
+        
+        allDesc = allDesc.substring(allDesc.indexOf(m_Region.getPrefix())+3);
+        allDesc = allDesc.substring(0, allDesc.indexOf(" "));
+        
+        return Integer.parseInt(allDesc);
     }
 }

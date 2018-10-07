@@ -35,8 +35,14 @@ import Models.RecordsMap;
 import Models.Region;
 import Utility.Logger;
 import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.logging.Level;
 
 /**
  *
@@ -69,7 +75,7 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
     }
 
     @Override
-    public int getRecordCount() throws RemoteException {
+    public int getCurrentRecordCount() {
         m_Logger.Log("Reporting the number of records...");
         return m_Records.count();
     }
@@ -252,7 +258,44 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
     }
 
     @Override
-    public RecordIdentifier updateRecordUuid(RecordIdentifier newRecordId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String getRecordCount() throws RemoteException {
+        String retval = m_Region.getPrefix() + " " + m_Records.count();
+        for (Region region : Region.values()) {
+            if (m_Region == region) {
+                continue;
+            }
+            
+            retval += " " + getRegionalCount(region);
+        }
+        
+        return retval;
+    }
+
+    private String getRegionalCount(Region region) {
+        try {
+            DatagramSocket socket = new DatagramSocket();
+            InetAddress address = InetAddress.getByName("localhost");
+            Message request = new Message(OperationCode.GET_RECORD_COUNT, "", address, region.toInt());
+            
+            socket.send(request.getPacket());
+            
+            byte[] buf = new byte[256];
+            DatagramPacket packet = new DatagramPacket(buf, buf.length);
+            socket.receive(packet);
+            
+            Message response = new Message(packet);
+            
+            if( response.getOpCode() != OperationCode.ACK_GET_RECORD_COUNT ){
+                throw new Exception("Response mismatch to op code");
+            }
+            
+            return region.getPrefix() + " " + response.getData();
+            
+        } catch (Exception ex) {
+            m_Logger.Log("Failed to get record count from [" + region + "]. trying...");
+            System.out.println(ex);
+            
+            return getRegionalCount(region);
+        }
     }
 }

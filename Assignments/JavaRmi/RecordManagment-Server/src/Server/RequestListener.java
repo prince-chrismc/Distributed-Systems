@@ -39,7 +39,9 @@ public class RequestListener extends Thread {
 
     public interface Processor {
 
-        public RecordIdentifier updateRecordUuid(RecordIdentifier newRecordId);
+        //public RecordIdentifier updateRecordUuid(RecordIdentifier newRecordId);
+
+        public int getCurrentRecordCount();
     }
 
     private Processor m_Handler;
@@ -54,6 +56,7 @@ public class RequestListener extends Thread {
         m_Logger = new Logger("UDP Server " + port);
     }
 
+    @SuppressWarnings("UnusedAssignment")
     public void run() {
         running = true;
         m_Logger.Log("Ready...");
@@ -73,14 +76,19 @@ public class RequestListener extends Thread {
 
             String responsePayload = "";
             switch (request.getOpCode()) {
-                case UPDATE_RECORD_INDEX: {
-                    try {
-                        responsePayload = m_Handler.updateRecordUuid(RecordIdentifier.fromString(request.getData())).toString();
-                    } catch (Exception ex) {
-                        m_Logger.Log("Failed to handle update record uuid request");
-                        System.out.println(ex);
-                    }
+                //case UPDATE_RECORD_INDEX: {
+                //    try {
+                //        responsePayload = m_Handler.updateRecordUuid(RecordIdentifier.fromString(request.getData())).toString();
+                //    } catch (Exception ex) {
+                //        m_Logger.Log("Failed to handle update record uuid request");
+                //        System.out.println(ex);
+                //    }
+                //}
+                case GET_RECORD_COUNT: {
+                    responsePayload = String.valueOf(m_Handler.getCurrentRecordCount());
+                    m_Logger.Log("Answer Request for record count.");
                 }
+                break;
                 default: {
                     m_Logger.Log("Unhandle request: " + request.toString());
                 }
@@ -88,7 +96,7 @@ public class RequestListener extends Thread {
 
             InetAddress address = packet.getAddress();
             int port = packet.getPort();
-            Message response = new Message(OperationCode.ACK_UPDATE_RECORD_INDEX, responsePayload, address, port);
+            Message response = new Message(OperationCode.ACK_GET_RECORD_COUNT, responsePayload, address, port);
 
             try {
                 socket.send(response.getPacket());
@@ -100,9 +108,4 @@ public class RequestListener extends Thread {
 
         socket.close();
     }
-
-    public void shutdown() {
-        running = false;
-    }
-
 }
