@@ -23,6 +23,7 @@
  */
 package Utility;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -46,6 +47,7 @@ public class Logger {
 
     public Logger(String name) throws IOException {
         m_Name = name;
+        new File("Logs/").mkdirs(); // https://stackoverflow.com/a/3634906/8480874
         m_File = Paths.get("Logs/" + name + ".txt");
         
         List<String> lines = Arrays.asList("", "------------------------", "Welcome: " + m_Name + " / " + getCurrentTimeString());
