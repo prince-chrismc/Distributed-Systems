@@ -72,7 +72,7 @@ public class RegionalClientTest {
 
     @Test
     public void canEditEmployeeRecords() throws Exception {
-        
+
         int startNumberOfRecords = Canada.getRegionalRecordCount();
         Canada.createERecord("james", "bond", 1001, "johm.smith@example.com", "P23001");
         assertEquals("Should only be one new record", ++startNumberOfRecords, Canada.getRegionalRecordCount());
@@ -84,4 +84,38 @@ public class RegionalClientTest {
         assertEquals("Should only be same number of records", startNumberOfRecords, Canada.getRegionalRecordCount());
     }
 
+    @Test
+    public void carConnectToMayOffices() throws Exception {
+        RegionalClient US = new RegionalClient("US1234");
+        RegionalClient UK = new RegionalClient("UK1234");
+        
+        US.getRegionalRecordCount();
+        UK.getRegionalRecordCount();
+    }
+    
+    @Test
+    public void canCreateRecordsInAllRegions() throws Exception {
+
+        RegionalClient US = new RegionalClient("US1234");
+        RegionalClient UK = new RegionalClient("UK1234");
+
+        int CanadianRecordCounter = Canada.getRegionalRecordCount();
+        int AmerianRecordCounter = US.getRegionalRecordCount();
+        int BritishRecordCounter = UK.getRegionalRecordCount();
+
+        Canada.createERecord("james", "bond", 1001, "johm.smith@example.com", "P23001");
+        assertEquals("Should only be one new record", ++CanadianRecordCounter, Canada.getRegionalRecordCount());
+        assertEquals("Should not be a new record", AmerianRecordCounter, US.getRegionalRecordCount());
+        assertEquals("Should not be a new record", BritishRecordCounter, UK.getRegionalRecordCount());
+        
+        UK.createMRecord("john", "smith", 1001, "johm.smith@example.com", new Project(new ProjectIdentifier(0), "Huge Project", "Rich Client"), Region.UK.toString());
+        assertEquals("Should only be one new record", ++BritishRecordCounter, UK.getRegionalRecordCount());
+        assertEquals("Should not be a new record", CanadianRecordCounter, Canada.getRegionalRecordCount());
+        assertEquals("Should not be a new record", AmerianRecordCounter, US.getRegionalRecordCount());
+        
+        Canada.createMRecord("jane", "doe", 36978, "jane.dow@example.com", new Project(new ProjectIdentifier(23), "Huge Project", "Rich Client"), Region.US.toString());
+        assertEquals("Should only be two new records", ++CanadianRecordCounter, Canada.getRegionalRecordCount());
+        assertEquals("Should not be a new record", AmerianRecordCounter, US.getRegionalRecordCount());
+        assertEquals("Should not be a new record", BritishRecordCounter, UK.getRegionalRecordCount());
+    }
 }
