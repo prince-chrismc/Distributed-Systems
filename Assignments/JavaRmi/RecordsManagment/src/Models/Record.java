@@ -21,7 +21,6 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
  */
-
 package Models;
 
 import java.io.Serializable;
@@ -31,7 +30,7 @@ import java.util.Objects;
  *
  * @author cmcarthur
  */
-public class Record implements Serializable{
+public class Record implements Serializable {
 
     protected Record(RecordIdentifier recordId, String firstName, String lastName, int employeeNumber, String mailId) {
         m_RecordId = recordId;
@@ -60,9 +59,9 @@ public class Record implements Serializable{
     public String getMailId() {
         return m_MailId;
     }
-    
-    public String getHashIndex(){
-        return Character.toString( m_LastName.charAt(0) );
+
+    public String getHashIndex() {
+        return Character.toString(Character.toLowerCase(m_LastName.charAt(0)));
     }
 
     public void setFirstName(String firstName) {
@@ -81,8 +80,6 @@ public class Record implements Serializable{
         m_MailId = mailId;
     }
 
-    
-    
     private final RecordIdentifier m_RecordId;
 
     private String m_FirstName;

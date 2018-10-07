@@ -155,7 +155,7 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
                 }
                 break;
             case EMPLOYEE_ID:
-                if (newValue.getClass() == int.class) {
+                if (newValue.getClass() == Integer.class) {
                     record.setEmployeeNumber((int) newValue);
                 } else {
                     throw new Exception("Invalid paramater");
@@ -226,7 +226,7 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
                 }
                 break;
             case EMPLOYEE_ID:
-                if (newValue.getClass() == int.class) {
+                if (newValue.getClass() == Integer.class) {
                     record.setEmployeeNumber((int) newValue);
                 } else {
                     throw new Exception("Invalid paramater");

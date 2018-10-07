@@ -59,13 +59,27 @@ public class RegionalClientTest {
     }
 
     @Test
-    public void canEditRecords() throws Exception {
+    public void canEditMangerRecords() throws Exception {
         int startNumberOfRecords = Canada.getRecordCount();
+        Canada.createMRecord("john", "smith", 1001, "johm.smith@example.com", new Project(new ProjectIdentifier(0), "Huge Project", "Rich Client"), Region.CA.toString());
+        assertEquals("Should only be one new record", ++startNumberOfRecords, Canada.getRecordCount());
+
+        Canada.editRecord("MR01001", Feild.LOCATION.toString(), Region.UK.toString());
+        Canada.editRecord("MR01001", Feild.EMPLOYEE_ID.toString(), 98765);
+
+        assertEquals("Should only be same number of records", startNumberOfRecords, Canada.getRecordCount());
+    }
+
+    @Test
+    public void canEditEmployeeRecords() throws Exception {
+        
+        int startNumberOfRecords = Canada.getRecordCount();
+        Canada.createERecord("james", "bond", 1001, "johm.smith@example.com", "P23001");
+        assertEquals("Should only be one new record", ++startNumberOfRecords, Canada.getRecordCount());
 
         Canada.editRecord("ER54321", Feild.FIRST_NAME.toString(), "James");
         Canada.editRecord("ER54321", Feild.LAST_NAME.toString(), "BOND");
-
-        Canada.editRecord("MR01001", Feild.LOCATION.toString(), Region.UK.toString());
+        Canada.editRecord("ER54321", Feild.EMPLOYEE_ID.toString(), 9007);
 
         assertEquals("Should only be same number of records", startNumberOfRecords, Canada.getRecordCount());
     }
