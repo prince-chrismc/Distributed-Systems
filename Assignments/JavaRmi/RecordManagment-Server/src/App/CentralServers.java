@@ -43,15 +43,12 @@ public class CentralServers {
 
             RegionalServer Canada = new RegionalServer(Region.CA);
             registry.rebind(Canada.getUrl(), Canada);
-            System.out.println("Canada Server is ready.");
 
             RegionalServer UnitedStates = new RegionalServer(Region.US);
             registry.rebind(UnitedStates.getUrl(), UnitedStates);
-            System.out.println("United-States Server is ready.");
 
             RegionalServer UnitedKingdom = new RegionalServer(Region.UK);
             registry.rebind(UnitedKingdom.getUrl(), UnitedKingdom);
-            System.out.println("United-Kingdom Server is ready.");
 
         } catch (Exception e) {
             System.out.println("   --> ERROR : Internal Server <--");

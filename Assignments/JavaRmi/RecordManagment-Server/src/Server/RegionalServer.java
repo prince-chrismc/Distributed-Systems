@@ -25,15 +25,18 @@ package Server;
 
 import Interface.RegionalRecordManipulator;
 import Models.EmployeeRecord;
+import Models.Feild;
 import Models.ManagerRecord;
 import Models.Project;
 import Models.ProjectIdentifier;
+import Models.Record;
 import Models.RecordsMap;
 import Models.Region;
 import Utility.Logger;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.logging.Level;
 
 /**
  *
@@ -49,8 +52,8 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
         super();
         m_Region = region;
         m_Records = new RecordsMap();
-        m_Logger = new Logger( m_Region.getPrefix() );
-        
+        m_Logger = new Logger(m_Region.getPrefix());
+
         m_Logger.Log(m_Region.toString() + " is running!");
     }
 
@@ -75,7 +78,7 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
             e.printStackTrace();
         }
 
-        m_Logger.Log("Created Manager Record : " + m_Records.toString());
+        m_Logger.Log("Created Manager Record: " + m_Records.toString());
     }
 
     @Override
@@ -95,6 +98,100 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
 
     @Override
     public void editRecord(String recordID, String feildName, Object newValue) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            Feild feild = Feild.fromString(feildName);
+
+            Record record = m_Records.removeRecord(recordID);
+
+            if (record == null) {
+                throw new Exception("Invalid Record ID");
+            }
+
+            switch (feild) {
+                case FIRST_NAME:
+                    if (newValue.getClass() == String.class) {
+                        record.setFirstName((String) newValue);
+                    } else {
+                        throw new Exception("Invalid paramater");
+                    }
+                    break;
+                case LAST_NAME:
+                    if (newValue.getClass() == String.class) {
+                        record.setLastName((String) newValue);
+                    } else {
+                        throw new Exception("Invalid paramater");
+                    }
+                    break;
+                case EMPLOYEE_ID:
+                    if (newValue.getClass() == int.class) {
+                        record.setEmployeeNumber((int) newValue);
+                    } else {
+                        throw new Exception("Invalid paramater");
+                    }
+                    break;
+                case MAIL_ID:
+                    if (newValue.getClass() == String.class) {
+                        record.setMailId((String) newValue);
+                    } else {
+                        throw new Exception("Invalid paramater");
+                    }
+                    break;
+                case PROJECT_ID:
+                    if (newValue.getClass() == String.class) {
+                        if (record.getClass() == ManagerRecord.class) {
+                            ((ManagerRecord) record).setProjectId((String) newValue);
+                        } else if (record.getClass() == EmployeeRecord.class) {
+                            ((EmployeeRecord) record).setProjectId((String) newValue);
+                        } else {
+                            throw new Exception("Invalid record type");
+                        }
+                    } else {
+                        throw new Exception("Invalid paramater");
+                    }
+                    break;
+                case PROJECT_NAME:
+                    if (newValue.getClass() == String.class) {
+                        if (record.getClass() == ManagerRecord.class) {
+                            ((ManagerRecord) record).setProjectName((String) newValue);
+                        } else {
+                            throw new Exception("Invalid record type");
+                        }
+                    } else {
+                        throw new Exception("Invalid paramater");
+                    }
+                    break;
+                case PROJECT_CLIENT:
+                    if (newValue.getClass() == String.class) {
+                        if (record.getClass() == ManagerRecord.class) {
+                            ((ManagerRecord) record).setProjectClient((String) newValue);
+                        } else {
+                            throw new Exception("Invalid record type");
+                        }
+                    } else {
+                        throw new Exception("Invalid paramater");
+                    }
+                    break;
+                case LOCATION:
+                    if (newValue.getClass() == String.class) {
+                        if (record.getClass() == ManagerRecord.class) {
+                            ((ManagerRecord) record).setRegion(Region.fromString((String) newValue));
+                        } else {
+                            throw new Exception("Invalid record type");
+                        }
+                    } else {
+                        throw new Exception("Invalid paramater");
+                    }
+                    break;
+                default:
+                    throw new Exception("Unknow Feild");
+            }
+            
+            m_Records.addRecord(record);
+            m_Logger.Log("Successfully modified '" + feildName + "' for record [ " + recordID + " ]    " + m_Records.toString());
+            
+        } catch (Exception e) {
+            m_Logger.Log("Failed to Edit " + feildName + "!");
+            e.printStackTrace();
+        }
     }
 }

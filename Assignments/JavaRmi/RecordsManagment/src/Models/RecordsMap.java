@@ -65,4 +65,16 @@ public class RecordsMap {
 
         return counter;
     }
+
+    public Record removeRecord(String recordID) {
+        for (HashMap.Entry<String, LinkedList<Record>> entry : m_MapOfRecords.entrySet()) {
+            for(Record record : entry.getValue()) {
+                if(record.equals( recordID)){
+                    return entry.getValue().remove(record) ? record : null;
+                }
+            }
+        }
+        
+        return null;
+    }
 }

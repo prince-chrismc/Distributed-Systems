@@ -23,50 +23,39 @@
  */
 package Models;
 
-import java.io.Serializable;
-
 /**
  *
  * @author cmcarthur
  */
-public class ManagerRecord extends Record implements Serializable {
+public enum Feild {
+    FIRST_NAME("first name"),
+    LAST_NAME("last name"),
+    EMPLOYEE_ID("employee id"),
+    MAIL_ID("mail id"),
+    PROJECT_ID("project id"),
+    PROJECT_NAME("project name"),
+    PROJECT_CLIENT("project client"),
+    LOCATION("location");
 
-    private Region m_Region;
-    private Project m_Project;
+    private String m_Name;
 
-    public ManagerRecord(int recordId, String firstName, String lastName, int employeeNumber, String mailId, Project projects, Region region) throws Exception {
-        super(new RecordIdentifier(RecordType.MANAGER, recordId), firstName, lastName, employeeNumber, mailId);
-        m_Region = region;
-        m_Project = projects;
-
+    private Feild(String name) {
+        m_Name = name;
     }
 
     @Override
     public String toString() {
-        return "ManagerRecord{" + super.toString() + ", m_Region=" + m_Region + ", m_Project=" + m_Project + '}';
+        return m_Name;
     }
 
-    public Region getRegion() {
-        return m_Region;
-    }
+    public static Feild fromString(String name) throws Exception {
 
-    public void setRegion(Region region) {
-        this.m_Region = region;
-    }
+        for (Feild feild : Feild.values()) {
+            if (feild.toString().equals(name)) {
+                return feild;
+            }
+        }
 
-    public Project getProject() {
-        return m_Project;
-    }
-
-    public void setProjectId(String projectId) throws Exception {
-        m_Project.getId().setId(projectId);
-    }
-
-    public void setProjectName(String projectName) {
-        m_Project.setName(projectName);
-    }
-
-    public void setProjectClient(String projectClient) {
-        m_Project.setClient(projectClient);
+        throw new Exception("Invalid Feild!");
     }
 }

@@ -38,8 +38,8 @@ public class EmployeeRecord extends Record {
         return m_ProjectId;
     }
 
-    public void setProjectId(ProjectIdentifier projectId) {
-        m_ProjectId = projectId;
+    public void setProjectId(String projectId) throws Exception {
+        m_ProjectId.setId(projectId);
     }
     
     private ProjectIdentifier m_ProjectId;

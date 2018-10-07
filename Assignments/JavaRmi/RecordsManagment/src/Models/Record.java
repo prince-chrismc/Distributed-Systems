@@ -25,6 +25,7 @@
 package Models;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  *
@@ -64,6 +65,24 @@ public class Record implements Serializable{
         return Character.toString( m_LastName.charAt(0) );
     }
 
+    public void setFirstName(String firstName) {
+        m_FirstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        m_LastName = lastName;
+    }
+
+    public void setEmployeeNumber(int employeeNumber) {
+        m_EmployeeNumber = employeeNumber;
+    }
+
+    public void setMailId(String mailId) {
+        m_MailId = mailId;
+    }
+
+    
+    
     private final RecordIdentifier m_RecordId;
 
     private String m_FirstName;
@@ -76,4 +95,7 @@ public class Record implements Serializable{
         return "Record{" + "m_RecordId=" + m_RecordId + ", m_FirstName=" + m_FirstName + ", m_LastName=" + m_LastName + ", m_EmployeeNumber=" + m_EmployeeNumber + ", m_MailId=" + m_MailId + '}';
     }
 
+    public boolean equals(String rhs) {
+        return m_RecordId.toString().equals(rhs);
+    }
 }
