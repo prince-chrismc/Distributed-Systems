@@ -113,9 +113,9 @@ public class RegionalClientTest {
         assertEquals("Should not be a new record", CanadianRecordCounter, Canada.getRegionalRecordCount());
         assertEquals("Should not be a new record", AmerianRecordCounter, US.getRegionalRecordCount());
 
-        Canada.createMRecord("jane", "doe", 36978, "jane.dow@example.com", new Project(new ProjectIdentifier(23), "Huge Project", "Rich Client"), Region.US.toString());
-        assertEquals("Should only be two new records", ++CanadianRecordCounter, Canada.getRegionalRecordCount());
-        assertEquals("Should not be a new record", AmerianRecordCounter, US.getRegionalRecordCount());
+        US.createMRecord("jane", "doe", 36978, "jane.dow@example.com", new Project(new ProjectIdentifier(23), "Huge Project", "Rich Client"), Region.US.toString());
+        assertEquals("Should only be two new records", ++AmerianRecordCounter, US.getRegionalRecordCount());
+        assertEquals("Should not be a new record", CanadianRecordCounter, Canada.getRegionalRecordCount());
         assertEquals("Should not be a new record", BritishRecordCounter, UK.getRegionalRecordCount());
     }
 
@@ -138,14 +138,14 @@ public class RegionalClientTest {
         assertEquals("Should only be one new record", ++BritishRecordCounter, UK.getRegionalRecordCount());
         assertEquals("Should not be a new record", CanadianRecordCounter, Canada.getRegionalRecordCount());
         assertEquals("Should not be a new record", AmerianRecordCounter, US.getRegionalRecordCount());
-        
+
         assertEquals("Modified Record ID should match", BritishEmployeeRecordId, UK.editRecord(BritishEmployeeRecordId, Feild.FIRST_NAME.toString(), "James"));
         assertEquals("Modified Record ID should match", BritishEmployeeRecordId, UK.editRecord(BritishEmployeeRecordId, Feild.LAST_NAME.toString(), "BOND"));
         assertEquals("Modified Record ID should match", BritishEmployeeRecordId, UK.editRecord(BritishEmployeeRecordId, Feild.EMPLOYEE_ID.toString(), 9007));
         assertEquals("Should not be a new record", CanadianRecordCounter, Canada.getRegionalRecordCount());
         assertEquals("Should not be a new record", AmerianRecordCounter, US.getRegionalRecordCount());
         assertEquals("Should not be a new record", BritishRecordCounter, UK.getRegionalRecordCount());
-        
+
         Canada.createMRecord("jane", "doe", 36978, "jane.dow@example.com", new Project(new ProjectIdentifier(23), "Huge Project", "Rich Client"), Region.US.toString());
         assertEquals("Should only be two new records", ++CanadianRecordCounter, Canada.getRegionalRecordCount());
         assertEquals("Should not be a new record", AmerianRecordCounter, US.getRegionalRecordCount());

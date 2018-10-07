@@ -58,7 +58,7 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
         m_Region = region;
         m_Records = new RecordsMap();
         m_Logger = new Logger(m_Region.getPrefix());
-        m_Listener = new RequestListener(this, m_Region.toInt());
+        m_Listener = new RequestListener(this, m_Region);
         m_IdTracker = new RecordUuidTracker(m_Region);
     }
 

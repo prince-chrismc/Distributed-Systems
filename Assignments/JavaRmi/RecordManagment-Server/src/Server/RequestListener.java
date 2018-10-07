@@ -24,6 +24,7 @@
 package Server;
 
 import Models.RecordIdentifier;
+import Models.Region;
 import Utility.Logger;
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -50,10 +51,10 @@ public class RequestListener extends Thread {
     private DatagramSocket socket;
     private Logger m_Logger;
 
-    public RequestListener(Processor handler, int port) throws SocketException, IOException {
+    public RequestListener(Processor handler, Region region) throws SocketException, IOException {
         m_Handler = handler;
-        socket = new DatagramSocket(port);
-        m_Logger = new Logger("UDP Server " + port);
+        socket = new DatagramSocket(region.toInt());
+        m_Logger = new Logger(region.getPrefix());
     }
 
     @SuppressWarnings("UnusedAssignment")
