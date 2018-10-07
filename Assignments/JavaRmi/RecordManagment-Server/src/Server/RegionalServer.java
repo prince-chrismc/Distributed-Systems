@@ -30,6 +30,7 @@ import Models.ManagerRecord;
 import Models.Project;
 import Models.ProjectIdentifier;
 import Models.Record;
+import Models.RecordType;
 import Models.RecordsMap;
 import Models.Region;
 import Utility.Logger;
@@ -107,91 +108,140 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
                 throw new Exception("Invalid Record ID");
             }
 
-            switch (feild) {
-                case FIRST_NAME:
-                    if (newValue.getClass() == String.class) {
-                        record.setFirstName((String) newValue);
-                    } else {
-                        throw new Exception("Invalid paramater");
-                    }
+            switch (record.getRecordId().getType()) {
+                case MANAGER:
+                    editManagerRecord(record, feild, newValue);
                     break;
-                case LAST_NAME:
-                    if (newValue.getClass() == String.class) {
-                        record.setLastName((String) newValue);
-                    } else {
-                        throw new Exception("Invalid paramater");
-                    }
-                    break;
-                case EMPLOYEE_ID:
-                    if (newValue.getClass() == int.class) {
-                        record.setEmployeeNumber((int) newValue);
-                    } else {
-                        throw new Exception("Invalid paramater");
-                    }
-                    break;
-                case MAIL_ID:
-                    if (newValue.getClass() == String.class) {
-                        record.setMailId((String) newValue);
-                    } else {
-                        throw new Exception("Invalid paramater");
-                    }
-                    break;
-                case PROJECT_ID:
-                    if (newValue.getClass() == String.class) {
-                        if (record.getClass() == ManagerRecord.class) {
-                            ((ManagerRecord) record).setProjectId((String) newValue);
-                        } else if (record.getClass() == EmployeeRecord.class) {
-                            ((EmployeeRecord) record).setProjectId((String) newValue);
-                        } else {
-                            throw new Exception("Invalid record type");
-                        }
-                    } else {
-                        throw new Exception("Invalid paramater");
-                    }
-                    break;
-                case PROJECT_NAME:
-                    if (newValue.getClass() == String.class) {
-                        if (record.getClass() == ManagerRecord.class) {
-                            ((ManagerRecord) record).setProjectName((String) newValue);
-                        } else {
-                            throw new Exception("Invalid record type");
-                        }
-                    } else {
-                        throw new Exception("Invalid paramater");
-                    }
-                    break;
-                case PROJECT_CLIENT:
-                    if (newValue.getClass() == String.class) {
-                        if (record.getClass() == ManagerRecord.class) {
-                            ((ManagerRecord) record).setProjectClient((String) newValue);
-                        } else {
-                            throw new Exception("Invalid record type");
-                        }
-                    } else {
-                        throw new Exception("Invalid paramater");
-                    }
-                    break;
-                case LOCATION:
-                    if (newValue.getClass() == String.class) {
-                        if (record.getClass() == ManagerRecord.class) {
-                            ((ManagerRecord) record).setRegion(Region.fromString((String) newValue));
-                        } else {
-                            throw new Exception("Invalid record type");
-                        }
-                    } else {
-                        throw new Exception("Invalid paramater");
-                    }
+                case EMPLOYEE:
+                    editEmployeeRecord(record, feild, newValue);
                     break;
                 default:
-                    throw new Exception("Unknow Feild");
+                    throw new Exception("Invalid record type");
             }
-            
+
             m_Records.addRecord(record);
             m_Logger.Log("Successfully modified '" + feildName + "' for record [ " + recordID + " ]    " + m_Records.toString());
-            
+
         } catch (Exception e) {
             m_Logger.Log("Failed to Edit " + feildName + "!");
             e.printStackTrace();
+        }
+    }
+
+    private void editManagerRecord(Record record, Feild feild, Object newValue) throws Exception {
+        if (record.getClass() != ManagerRecord.class) {
+            throw new Exception("Invalid record type");
+        }
+
+        switch (feild) {
+            case FIRST_NAME:
+                if (newValue.getClass() == String.class) {
+                    record.setFirstName((String) newValue);
+                } else {
+                    throw new Exception("Invalid paramater");
+                }
+                break;
+            case LAST_NAME:
+                if (newValue.getClass() == String.class) {
+                    record.setLastName((String) newValue);
+                } else {
+                    throw new Exception("Invalid paramater");
+                }
+                break;
+            case EMPLOYEE_ID:
+                if (newValue.getClass() == int.class) {
+                    record.setEmployeeNumber((int) newValue);
+                } else {
+                    throw new Exception("Invalid paramater");
+                }
+                break;
+            case MAIL_ID:
+                if (newValue.getClass() == String.class) {
+                    record.setMailId((String) newValue);
+                } else {
+                    throw new Exception("Invalid paramater");
+                }
+                break;
+            case PROJECT_ID:
+                if (newValue.getClass() == String.class) {
+                    ((ManagerRecord) record).setProjectId((String) newValue);
+                } else {
+                    throw new Exception("Invalid paramater");
+                }
+                break;
+            case PROJECT_NAME:
+                if (newValue.getClass() == String.class) {
+                    if (record.getClass() == ManagerRecord.class) {
+                        ((ManagerRecord) record).setProjectName((String) newValue);
+                    } else {
+                        throw new Exception("Invalid record type");
+                    }
+                } else {
+                    throw new Exception("Invalid paramater");
+                }
+                break;
+            case PROJECT_CLIENT:
+                if (newValue.getClass() == String.class) {
+                    ((ManagerRecord) record).setProjectClient((String) newValue);
+                } else {
+                    throw new Exception("Invalid paramater");
+                }
+                break;
+            case LOCATION:
+                if (newValue.getClass() == String.class) {
+                    ((ManagerRecord) record).setRegion(Region.fromString((String) newValue));
+                } else {
+                    throw new Exception("Invalid paramater");
+                }
+                break;
+            default:
+                throw new Exception("Unknow Feild");
+        }
+    }
+
+    private void editEmployeeRecord(Record record, Feild feild, Object newValue) throws Exception {
+        if (record.getClass() != EmployeeRecord.class) {
+            throw new Exception("Invalid record type");
+        }
+
+        switch (feild) {
+            case FIRST_NAME:
+                if (newValue.getClass() == String.class) {
+                    record.setFirstName((String) newValue);
+                } else {
+                    throw new Exception("Invalid paramater");
+                }
+                break;
+            case LAST_NAME:
+                if (newValue.getClass() == String.class) {
+                    record.setLastName((String) newValue);
+                } else {
+                    throw new Exception("Invalid paramater");
+                }
+                break;
+            case EMPLOYEE_ID:
+                if (newValue.getClass() == int.class) {
+                    record.setEmployeeNumber((int) newValue);
+                } else {
+                    throw new Exception("Invalid paramater");
+                }
+                break;
+            case MAIL_ID:
+                if (newValue.getClass() == String.class) {
+                    record.setMailId((String) newValue);
+                } else {
+                    throw new Exception("Invalid paramater");
+                }
+                break;
+            case PROJECT_ID:
+                if (newValue.getClass() == String.class) {
+                    ((EmployeeRecord) record).setProjectId((String) newValue);
+                } else {
+                    throw new Exception("Invalid paramater");
+                }
+                break;
+            default:
+                throw new Exception("Unknow Feild");
         }
     }
 }
