@@ -30,31 +30,37 @@ import Models.ManagerRecord;
 import Models.Project;
 import Models.ProjectIdentifier;
 import Models.Record;
-import Models.RecordType;
+import Models.RecordIdentifier;
 import Models.RecordsMap;
 import Models.Region;
 import Utility.Logger;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.logging.Level;
 
 /**
  *
  * @author c_mcart
  */
-public class RegionalServer extends UnicastRemoteObject implements RegionalRecordManipulator {
+public class RegionalServer extends UnicastRemoteObject implements RegionalRecordManipulator, RequestListener.Processor {
 
     private Region m_Region;
     private RecordsMap m_Records;
+    private RequestListener m_Listener;
     private Logger m_Logger;
+    
+    
 
     public RegionalServer(Region region) throws RemoteException, IOException {
         super();
         m_Region = region;
         m_Records = new RecordsMap();
         m_Logger = new Logger(m_Region.getPrefix());
-
+        m_Listener = new RequestListener(this, m_Region.toInt());
+    }
+    
+    public void Start(){
+        m_Listener.start();
         m_Logger.Log(m_Region.toString() + " is running!");
     }
 
@@ -243,5 +249,10 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
             default:
                 throw new Exception("Unknow Feild");
         }
+    }
+
+    @Override
+    public RecordIdentifier updateRecordUuid(RecordIdentifier newRecordId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -21,39 +21,37 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
  */
-
-package Models;
+package Server;
 
 /**
  *
  * @author cmcarthur
  */
-public class RecordIdentifier {
+public enum OperationCode {
+    INVALID(-1),
+    UPDATE_RECORD_INDEX(1001),
+    ACK_UPDATE_RECORD_INDEX(3001);
 
-    public static RecordIdentifier fromString(String data) throws Exception {
-        if( data.length() != 7)
-            throw new Exception("Invalid Record ID!");
-        
-        RecordType type = RecordType.valueOf(data.substring(0, 2));
-        int uuid = Integer.parseInt(data.substring(2));
-        
-        return new RecordIdentifier( type, uuid );
+    private OperationCode(int val) {
+        m_Value = val;
     }
 
-    public RecordIdentifier(RecordType type, int UUID) throws Exception {
-        m_Type = type;
-        m_UUID = UUID;
-        
-        if(m_UUID > 99999) throw new Exception("Invalid ID!");
-    }
-    
     @Override
-    public String toString() { return m_Type.toString() + String.format("%05d", m_UUID); }
-
-    public RecordType getType() {
-        return m_Type;
+    public String toString() {
+        return "" + m_Value;
     }
-    
-    private final RecordType m_Type;
-    private final int m_UUID;
+
+    final private int m_Value;
+
+    static public OperationCode fromString(String val) {
+        int newVal = Integer.parseInt(val);
+
+        for (OperationCode opcode : OperationCode.values()) {
+            if (newVal == opcode.m_Value) {
+                return opcode;
+            }
+        }
+
+        return INVALID;
+    }
 }

@@ -21,7 +21,6 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
  */
-
 package App;
 
 import java.rmi.registry.LocateRegistry;
@@ -36,19 +35,22 @@ import Server.RegionalServer;
  */
 public class CentralServers {
 
-    public static void main(String[] args ) {
+    public static void main(String[] args) {
         try {
             // https://stackoverflow.com/a/52552583/8480874
             Registry registry = LocateRegistry.createRegistry(12345);
 
             RegionalServer Canada = new RegionalServer(Region.CA);
             registry.rebind(Canada.getUrl(), Canada);
+            Canada.Start();
 
             RegionalServer UnitedStates = new RegionalServer(Region.US);
             registry.rebind(UnitedStates.getUrl(), UnitedStates);
+            UnitedStates.Start();
 
             RegionalServer UnitedKingdom = new RegionalServer(Region.UK);
             registry.rebind(UnitedKingdom.getUrl(), UnitedKingdom);
+            UnitedKingdom.Start();
 
         } catch (Exception e) {
             System.out.println("   --> ERROR : Internal Server <--");

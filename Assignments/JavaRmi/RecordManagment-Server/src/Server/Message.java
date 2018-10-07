@@ -21,39 +21,57 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
  */
+package Server;
 
-package Models;
+import java.net.DatagramPacket;
+import java.net.InetAddress;
 
 /**
  *
  * @author cmcarthur
  */
-public class RecordIdentifier {
+public class Message {
 
-    public static RecordIdentifier fromString(String data) throws Exception {
-        if( data.length() != 7)
-            throw new Exception("Invalid Record ID!");
+    /*
+    
+    Simple message definition for server-server communication
+    inspired by HTTP:
+        OperationCode + "\r\n" + { data }   
+    
+     */
+    private OperationCode m_Code;
+    private String m_Data;
+    InetAddress m_Addr;
+    int m_Port;
+
+    public Message(DatagramPacket packet) {
         
-        RecordType type = RecordType.valueOf(data.substring(0, 2));
-        int uuid = Integer.parseInt(data.substring(2));
+        String payload = new String(packet.getData(), 0, packet.getLength());
         
-        return new RecordIdentifier( type, uuid );
+        this.m_Code = OperationCode.fromString( payload.substring(0, payload.indexOf("\r\n")) );
+        this.m_Data = payload.substring(payload.indexOf("\r\n") + 2 );
+        this.m_Addr = packet.getAddress();
+        this.m_Port = packet.getPort();
     }
 
-    public RecordIdentifier(RecordType type, int UUID) throws Exception {
-        m_Type = type;
-        m_UUID = UUID;
-        
-        if(m_UUID > 99999) throw new Exception("Invalid ID!");
+    public Message(OperationCode code, String data, InetAddress addr, int port) {
+        this.m_Code = code;
+        this.m_Data = data;
+        this.m_Addr = addr;
+        this.m_Port = port;
+    }
+
+    public DatagramPacket getPacket() {
+        String payload = m_Code.toString() + "\r\n" + m_Data;
+        return new DatagramPacket(payload.getBytes(), payload.length(), m_Addr, m_Port);
     }
     
-    @Override
-    public String toString() { return m_Type.toString() + String.format("%05d", m_UUID); }
-
-    public RecordType getType() {
-        return m_Type;
+    public String getData(){
+        return m_Data;
     }
-    
-    private final RecordType m_Type;
-    private final int m_UUID;
+
+    public OperationCode getOpCode() {
+        return m_Code;
+    }
+
 }
