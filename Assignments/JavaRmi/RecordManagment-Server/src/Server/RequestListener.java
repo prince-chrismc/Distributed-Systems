@@ -46,8 +46,6 @@ public class RequestListener extends Thread {
 
     private boolean running;
     private DatagramSocket socket;
-    private byte[] buf = new byte[256];
-
     private Logger m_Logger;
 
     public RequestListener(Processor handler, int port) throws SocketException, IOException {
@@ -58,13 +56,16 @@ public class RequestListener extends Thread {
 
     public void run() {
         running = true;
+        m_Logger.Log("Ready...");
 
         while (running) {
+            byte[] buf = new byte[256];
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
             try {
                 socket.receive(packet);
             } catch (IOException ex) {
                 m_Logger.Log("Failed to receive message");
+                System.out.println(ex);
             }
 
             m_Logger.Log("Processing new request...");
@@ -77,6 +78,7 @@ public class RequestListener extends Thread {
                         responsePayload = m_Handler.updateRecordUuid(RecordIdentifier.fromString(request.getData())).toString();
                     } catch (Exception ex) {
                         m_Logger.Log("Failed to handle update record uuid request");
+                        System.out.println(ex);
                     }
                 }
                 default: {
@@ -92,6 +94,7 @@ public class RequestListener extends Thread {
                 socket.send(response.getPacket());
             } catch (IOException ex) {
                 m_Logger.Log("Failed to send message");
+                System.out.println(ex);
             }
         }
 
