@@ -23,14 +23,11 @@
  */
 package Models;
 
-import java.io.Serializable;
-import java.util.Objects;
-
 /**
  *
  * @author cmcarthur
  */
-public class Record implements Serializable {
+public class Record {
 
     protected Record(RecordIdentifier recordId, String firstName, String lastName, int employeeNumber, String mailId) {
         m_RecordId = recordId;
@@ -64,19 +61,22 @@ public class Record implements Serializable {
         return Character.toString(Character.toLowerCase(m_LastName.charAt(0)));
     }
 
-    public void setFirstName(String firstName) {
+    public void manipulateFeild(Record record, Feild feild, Object newValue) throws Exception {
+    }
+    
+    private void setFirstName(String firstName) {
         m_FirstName = firstName;
     }
 
-    public void setLastName(String lastName) {
+    private void setLastName(String lastName) {
         m_LastName = lastName;
     }
 
-    public void setEmployeeNumber(int employeeNumber) {
+    private void setEmployeeNumber(int employeeNumber) {
         m_EmployeeNumber = employeeNumber;
     }
 
-    public void setMailId(String mailId) {
+    private void setMailId(String mailId) {
         m_MailId = mailId;
     }
 

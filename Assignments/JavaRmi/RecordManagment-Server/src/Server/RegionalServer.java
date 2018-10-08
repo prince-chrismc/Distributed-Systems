@@ -166,32 +166,10 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
 
         switch (feild) {
             case FIRST_NAME:
-                if (newValue.getClass() == String.class) {
-                    record.setFirstName((String) newValue);
-                } else {
-                    throw new Exception("Invalid paramater");
-                }
-                break;
             case LAST_NAME:
-                if (newValue.getClass() == String.class) {
-                    record.setLastName((String) newValue);
-                } else {
-                    throw new Exception("Invalid paramater");
-                }
-                break;
             case EMPLOYEE_ID:
-                if (newValue.getClass() == Integer.class) {
-                    record.setEmployeeNumber((int) newValue);
-                } else {
-                    throw new Exception("Invalid paramater");
-                }
-                break;
             case MAIL_ID:
-                if (newValue.getClass() == String.class) {
-                    record.setMailId((String) newValue);
-                } else {
-                    throw new Exception("Invalid paramater");
-                }
+                record.manipulateFeild(feild, newValue);
                 break;
             case PROJECT_ID:
                 if (newValue.getClass() == String.class) {
@@ -237,32 +215,10 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
 
         switch (feild) {
             case FIRST_NAME:
-                if (newValue.getClass() == String.class) {
-                    record.setFirstName((String) newValue);
-                } else {
-                    throw new Exception("Invalid paramater");
-                }
-                break;
             case LAST_NAME:
-                if (newValue.getClass() == String.class) {
-                    record.setLastName((String) newValue);
-                } else {
-                    throw new Exception("Invalid paramater");
-                }
-                break;
             case EMPLOYEE_ID:
-                if (newValue.getClass() == Integer.class) {
-                    record.setEmployeeNumber((int) newValue);
-                } else {
-                    throw new Exception("Invalid paramater");
-                }
-                break;
             case MAIL_ID:
-                if (newValue.getClass() == String.class) {
-                    record.setMailId((String) newValue);
-                } else {
-                    throw new Exception("Invalid paramater");
-                }
+                record.manipulateFeild(feild, newValue);
                 break;
             case PROJECT_ID:
                 if (newValue.getClass() == String.class) {
@@ -279,12 +235,12 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
     @Override
     public String getRecordCount() throws RemoteException {
         m_Logger.Log("Reporting the number of records for all regions...");
-        
+
         String retval = m_Region.getPrefix() + " ";
         synchronized (m_Records) {
-             retval += m_Records.count();
+            retval += m_Records.count();
         }
-        
+
         for (Region region : Region.values()) {
             if (m_Region == region) {
                 continue;
