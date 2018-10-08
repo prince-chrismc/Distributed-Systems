@@ -284,6 +284,7 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
         synchronized (m_Records) {
              retval += m_Records.count();
         }
+        
         for (Region region : Region.values()) {
             if (m_Region == region) {
                 continue;

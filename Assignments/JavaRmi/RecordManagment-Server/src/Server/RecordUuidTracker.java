@@ -38,10 +38,10 @@ import java.net.InetAddress;
  */
 public class RecordUuidTracker {
 
-    private Region m_Region;
+    final private Region m_Region;
     private RecordIdentifier m_CurrentManagerId;
     private RecordIdentifier m_CurrentEmployeeId;
-    private Logger m_Logger;
+    final private Logger m_Logger;
 
     public RecordUuidTracker(Region region) throws IOException {
         m_Region = region;
@@ -53,29 +53,37 @@ public class RecordUuidTracker {
     public RecordIdentifier updateRecordUuid(RecordIdentifier newRecordId) {
         switch (newRecordId.getType()) {
             case MANAGER:
-                if (m_CurrentManagerId.getUUID() < newRecordId.getUUID()) {
-                    m_Logger.Log("Updating next manager UUID to be '" + newRecordId.toString() + "'.");
-                    m_CurrentManagerId = newRecordId;
-                    return m_CurrentManagerId;
-                } else {
-                    m_Logger.Log("Suggesting greater value for next ID... Current value is '" + m_CurrentManagerId.toString() + "'.");
-                    return new RecordIdentifier(RecordType.MANAGER, m_CurrentManagerId.getUUID() + 1);
-                }
+                return updateManagerRecordUuid(newRecordId);
             case EMPLOYEE:
-                if (m_CurrentEmployeeId.getUUID() < newRecordId.getUUID()) {
-                    m_Logger.Log("Updating next employee UUID to be '" + newRecordId.toString() + "'.");
-                    m_CurrentEmployeeId = newRecordId;
-                    return m_CurrentEmployeeId;
-                } else {
-                    m_Logger.Log("Suggesting greater value for next ID... Current value is '" + m_CurrentEmployeeId.toString() + "'.");
-                    return new RecordIdentifier(RecordType.EMPLOYEE, m_CurrentEmployeeId.getUUID() + 1);
-                }
+                return updateEmployeeRecordUuid(newRecordId);
         }
 
         return null;
     }
 
-    public RecordIdentifier getNextManagerId() {
+    public RecordIdentifier updateManagerRecordUuid(RecordIdentifier newRecordId) {
+        if (m_CurrentManagerId.getUUID() < newRecordId.getUUID()) {
+            m_Logger.Log("Updating next manager UUID to be '" + newRecordId.toString() + "'.");
+            m_CurrentManagerId = newRecordId;
+            return m_CurrentManagerId;
+        } else {
+            m_Logger.Log("Suggesting greater value for next ID... Current value is '" + m_CurrentManagerId.toString() + "'.");
+            return new RecordIdentifier(RecordType.MANAGER, m_CurrentManagerId.getUUID() + 1);
+        }
+    }
+
+    public RecordIdentifier updateEmployeeRecordUuid(RecordIdentifier newRecordId) {
+        if (m_CurrentEmployeeId.getUUID() < newRecordId.getUUID()) {
+            m_Logger.Log("Updating next employee UUID to be '" + newRecordId.toString() + "'.");
+            m_CurrentEmployeeId = newRecordId;
+            return m_CurrentEmployeeId;
+        } else {
+            m_Logger.Log("Suggesting greater value for next ID... Current value is '" + m_CurrentEmployeeId.toString() + "'.");
+            return new RecordIdentifier(RecordType.EMPLOYEE, m_CurrentEmployeeId.getUUID() + 1);
+        }
+    }
+
+    public synchronized RecordIdentifier getNextManagerId() {
         m_Logger.Log("Attempting to determine next manager UUID...");
         RecordIdentifier nextId = new RecordIdentifier(RecordType.MANAGER, m_CurrentManagerId.getUUID() + 1);
         for (Region region : Region.values()) {
@@ -91,7 +99,7 @@ public class RecordUuidTracker {
         return m_CurrentManagerId;
     }
 
-    public RecordIdentifier getNextEmployeeId() {
+    public synchronized RecordIdentifier getNextEmployeeId() {
         m_Logger.Log("Attempting to determine next employee UUID...");
         RecordIdentifier nextId = new RecordIdentifier(RecordType.EMPLOYEE, m_CurrentEmployeeId.getUUID() + 1);
         for (Region region : Region.values()) {
