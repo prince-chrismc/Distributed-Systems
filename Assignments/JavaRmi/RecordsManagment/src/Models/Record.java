@@ -61,9 +61,41 @@ public class Record {
         return Character.toString(Character.toLowerCase(m_LastName.charAt(0)));
     }
 
-    public void manipulateFeild(Record record, Feild feild, Object newValue) throws Exception {
+    public void manipulateFeild(Feild feild, Object newValue) throws Exception {
+        switch (feild) {
+            case FIRST_NAME:
+                if (newValue.getClass() == String.class) {
+                    setFirstName((String) newValue);
+                } else {
+                    throw new Exception("Invalid paramater");
+                }
+                break;
+            case LAST_NAME:
+                if (newValue.getClass() == String.class) {
+                    setLastName((String) newValue);
+                } else {
+                    throw new Exception("Invalid paramater");
+                }
+                break;
+            case EMPLOYEE_ID:
+                if (newValue.getClass() == Integer.class) {
+                    setEmployeeNumber((int) newValue);
+                } else {
+                    throw new Exception("Invalid paramater");
+                }
+                break;
+            case MAIL_ID:
+                if (newValue.getClass() == String.class) {
+                    setMailId((String) newValue);
+                } else {
+                    throw new Exception("Invalid paramater");
+                }
+                break;
+            default:
+                throw new Exception("Unknow Feild");
+        }
     }
-    
+
     private void setFirstName(String firstName) {
         m_FirstName = firstName;
     }
