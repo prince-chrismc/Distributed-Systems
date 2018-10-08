@@ -34,15 +34,12 @@ import Models.RecordIdentifier;
 import Models.RecordsMap;
 import Models.Region;
 import Utility.Logger;
-import Utility.AutoLock;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  *
@@ -50,12 +47,11 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class RegionalServer extends UnicastRemoteObject implements RegionalRecordManipulator, RequestListener.Processor {
 
-    private Region m_Region;
-    private RecordsMap m_Records;
-    private RequestListener m_Listener;
-    private Logger m_Logger;
-    private RecordUuidTracker m_IdTracker;
-    private ReentrantLock m_MapLock;
+    final private Region m_Region;
+    final private RecordsMap m_Records;
+    final private RequestListener m_Listener;
+    final private Logger m_Logger;
+    final private RecordUuidTracker m_IdTracker;
 
     public RegionalServer(Region region) throws RemoteException, IOException {
         super();
@@ -64,7 +60,6 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
         m_Logger = new Logger(m_Region.getPrefix());
         m_Listener = new RequestListener(this, m_Region);
         m_IdTracker = new RecordUuidTracker(m_Region);
-        m_MapLock = new ReentrantLock();
     }
 
     public void Start() {
@@ -79,26 +74,24 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
     @Override
     public int getCurrentRecordCount() {
         m_Logger.Log("Reporting the number of records...");
-        AutoLock locker = new AutoLock(m_MapLock);
-        return m_Records.count();
+        synchronized (m_Records) {
+            return m_Records.count();
+        }
     }
 
     @Override
     public String createMRecord(String firstName, String lastName, int employeeID, String mailID, Project projects, String location) throws RemoteException {
-        AutoLock locker = null;
         try {
             Region region = Region.fromString(location);
             RecordIdentifier newID = m_IdTracker.getNextManagerId();
 
-            {
-                locker = new AutoLock(m_MapLock);
+            synchronized (m_Records) {
                 m_Records.addRecord(new ManagerRecord(newID.getUUID(), firstName, lastName, employeeID, mailID, projects, region));
             }
 
             m_Logger.Log("Created Manager Record: " + m_Records.toString());
             return newID.toString();
         } catch (Exception e) {
-            locker.close();
             m_Logger.Log("Failed to Create Manager Record!");
             System.err.println(e);
             return "ERROR";
@@ -111,9 +104,8 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
             ProjectIdentifier projID = new ProjectIdentifier(-1);
             projID.setId(projectId);
             RecordIdentifier newID = m_IdTracker.getNextEmployeeId();
-            {
 
-                AutoLock locker = new AutoLock(m_MapLock);
+            synchronized (m_Records) {
                 m_Records.addRecord(new EmployeeRecord(newID.getUUID(), firstName, lastName, employeeID, mailID, projID));
             }
 
@@ -128,42 +120,42 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
 
     @Override
     public String editRecord(String recordID, String feildName, Object newValue) throws RemoteException {
+        synchronized (m_Records) {
+            Record record = null;
+            try {
+                Feild feild = Feild.fromString(feildName);
 
-        AutoLock locker = new AutoLock(m_MapLock);
-        Record record = null;
-        try {
-            Feild feild = Feild.fromString(feildName);
+                record = m_Records.removeRecord(recordID);
 
-            record = m_Records.removeRecord(recordID);
+                if (record == null) {
+                    throw new Exception("Invalid Record ID");
+                }
 
-            if (record == null) {
-                throw new Exception("Invalid Record ID");
-            }
+                switch (record.getRecordId().getType()) {
+                    case MANAGER:
+                        editManagerRecord(record, feild, newValue);
+                        break;
+                    case EMPLOYEE:
+                        editEmployeeRecord(record, feild, newValue);
+                        break;
+                    default:
+                        throw new Exception("Invalid record type");
+                }
 
-            switch (record.getRecordId().getType()) {
-                case MANAGER:
-                    editManagerRecord(record, feild, newValue);
-                    break;
-                case EMPLOYEE:
-                    editEmployeeRecord(record, feild, newValue);
-                    break;
-                default:
-                    throw new Exception("Invalid record type");
-            }
-
-            m_Records.addRecord(record);
-            m_Logger.Log("Successfully modified '" + feildName + "' for record [ " + recordID + " ]    " + m_Records.toString());
-            return recordID;
-
-        } catch (Exception e) {
-
-            if (record != null) {
                 m_Records.addRecord(record);
-            }
+                m_Logger.Log("Successfully modified '" + feildName + "' for record [ " + recordID + " ]    " + m_Records.toString());
+                return recordID;
 
-            m_Logger.Log("Failed to Edit " + feildName + "!");
-            System.err.println(e);
-            return "ERROR";
+            } catch (Exception e) {
+
+                if (record != null) {
+                    m_Records.addRecord(record);
+                }
+
+                m_Logger.Log("Failed to Edit " + feildName + "!");
+                System.err.println(e);
+                return "ERROR";
+            }
         }
     }
 
@@ -287,7 +279,11 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
     @Override
     public String getRecordCount() throws RemoteException {
         m_Logger.Log("Reporting the number of records for all regions...");
-        String retval = m_Region.getPrefix() + " " + m_Records.count();
+        
+        String retval = m_Region.getPrefix() + " ";
+        synchronized (m_Records) {
+             retval += m_Records.count();
+        }
         for (Region region : Region.values()) {
             if (m_Region == region) {
                 continue;
