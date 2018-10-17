@@ -5,7 +5,7 @@ jdk:
   - openjdk8
   
 script:
-  - cd Assignments/JavaRmi/RecordsManagment
+  - cd Assignments/RecordsManagment
   - ant
   - cd ../RecordsManagment-Server
   - ant test
