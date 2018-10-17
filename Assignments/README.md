@@ -1,5 +1,5 @@
 ## Assignments
-This directory contains all the assignments for the class. The common project `RecordsManagment` holds everything that is not specific to the framework of the assignment since those components will be re-used through out.
+This directory contains all the assignments for the class. The common project [`RecordsManagment`](https://github.com/prince-chrismc/Distributed-Systems/tree/master/Assignments/RecordsManagment) holds everything that is not specific to the framework of the assignment since those components will be re-used through out.
 
 **Number** | **Name** | **Status**
 :---: | :--- | ---
