@@ -38,3 +38,7 @@ hs_err_pid*
 /Assignments/JavaRmi/RecordsManagment-Server/build/
 /Assignments/JavaRmi/RecordsManagment-Server/Logs/
 /Assignments/JavaRmi/RecordsManagment-Server/nbproject/private/
+
+/Assignments/Corba/RecMgnt-CorbaServer/nbproject/private/
+/Assignments/Corba/RecMgnt-CorbaServer/build/
+/Assignments/Corba/RecMgnt-CorbaServer/dist/

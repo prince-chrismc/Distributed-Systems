@@ -1,0 +1,13 @@
+
+/**
+ *
+ * @author imed
+ */
+module AdditionApp
+{
+  interface Addition
+  {
+    long add(in long a,in long b);
+    oneway void shutdown();
+    };
+};
