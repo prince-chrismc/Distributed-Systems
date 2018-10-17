@@ -33,9 +33,8 @@ import java.io.Serializable;
 public class Project implements Serializable {
 
     public Project(ProjectIdentifier id, String name, String client) {
-        this.m_Id = id;
-        this.m_Name = name;
-        this.m_Client = client;
+        m_Id = id;
+        m_Project = new Interface.Corba.DEMS.Project( m_Id.getRawId(), name, client );
     }
 
     public ProjectIdentifier getId() {
@@ -43,32 +42,32 @@ public class Project implements Serializable {
     }
 
     public void setId(ProjectIdentifier id) {
-        this.m_Id = id;
+        m_Id = id;
+        m_Project.m_Id.m_UUID = id.getRawId().m_UUID;
     }
 
     public String getName() {
-        return m_Name;
+        return m_Project.m_Name;
     }
 
     public void setName(String name) {
-        this.m_Name = name;
+        m_Project.m_Name = name;
     }
 
     public String getClient() {
-        return m_Client;
+        return m_Project.m_Client;
     }
 
     public void setClient(String client) {
-        this.m_Client = client;
+        m_Project.m_Client = client;
     }
 
     private ProjectIdentifier m_Id;
-    private String m_Name;
-    private String m_Client;
+    private Interface.Corba.DEMS.Project m_Project;
 
     @Override
     public String toString() {
-        return "Project{" + "m_Id=" + m_Id + ", m_Name=" + m_Name + ", m_Client=" + m_Client + '}';
+        return "Project{" + "m_Id=" + m_Id + ", m_Name=" + m_Project.m_Name + ", m_Client=" + m_Project.m_Client + '}';
     }
     
     

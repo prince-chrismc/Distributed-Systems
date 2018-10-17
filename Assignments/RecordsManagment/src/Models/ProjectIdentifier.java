@@ -29,26 +29,33 @@ import java.io.Serializable;
  *
  * @author cmcarthur
  */
-public class ProjectIdentifier implements Serializable{
+public class ProjectIdentifier implements Serializable {
 
     public ProjectIdentifier(int uuid) throws Exception {
-        m_UUID = uuid;
-        
-        if(m_UUID > 99999) throw new Exception("Invalid ID!");
+        if (uuid > 99999) {
+            throw new Exception("Invalid ID!");
+        }
+
+        m_Id = new Interface.Corba.DEMS.ProjectIdentifier(m_Prefix, uuid);
     }
 
     @Override
     public String toString() {
-        return m_Prefix + String.format("%05d", m_UUID);
+        return m_Prefix + String.format("%05d", m_Id.m_UUID);
     }
 
     public void setId(String projectId) throws NumberFormatException, Exception {
-        if (projectId.startsWith(m_Prefix))
-            m_UUID = Integer.parseInt(projectId.substring(m_Prefix.length()));
-        else
-            throw new Exception("Invalid ID!");            
+        if (projectId.startsWith(m_Prefix)) {
+            m_Id.m_UUID = Integer.parseInt(projectId.substring(m_Prefix.length()));
+        } else {
+            throw new Exception("Invalid ID!");
+        }
+    }
+
+    public Interface.Corba.DEMS.ProjectIdentifier getRawId() {
+        return m_Id;
     }
 
     static final String m_Prefix = "P";
-    private int m_UUID;
+    private Interface.Corba.DEMS.ProjectIdentifier m_Id;
 }
