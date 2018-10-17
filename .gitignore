@@ -42,3 +42,11 @@ hs_err_pid*
 /Assignments/Corba/RecMgnt-CorbaServer/nbproject/private/
 /Assignments/Corba/RecMgnt-CorbaServer/build/
 /Assignments/Corba/RecMgnt-CorbaServer/dist/
+
+/Assignments/Corba/RecMgnt-Corba/nbproject/private/
+/Assignments/Corba/RecMgnt-Corba/dist/
+/Assignments/Corba/RecMgnt-Corba/build/
+
+/Assignments/Corba/RecMgnt-CorbaClient/nbproject/private/
+/Assignments/Corba/RecMgnt-CorbaClient/build/
+/Assignments/Corba/RecMgnt-CorbaClient/dist/
