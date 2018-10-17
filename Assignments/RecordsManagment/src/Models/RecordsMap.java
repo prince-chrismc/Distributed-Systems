@@ -38,7 +38,7 @@ public class RecordsMap {
         m_MapOfRecords = new HashMap<>();
     }
 
-    public synchronized void addRecord(Record record) {
+    public void addRecord(Record record) {
         LinkedList<Record> listOfRecords = m_MapOfRecords.get(record.getHashIndex());
 
         if (listOfRecords == null) {
@@ -52,11 +52,11 @@ public class RecordsMap {
     }
 
     @Override
-    public synchronized String toString() {
+    public String toString() {
         return m_MapOfRecords.toString();
     }
 
-    public synchronized int count() {
+    public int count() {
         int counter = 0;
 
         for (HashMap.Entry<String, LinkedList<Record>> entry : m_MapOfRecords.entrySet()) {
@@ -66,7 +66,7 @@ public class RecordsMap {
         return counter;
     }
 
-    public synchronized Record removeRecord(String recordID) {
+    public Record removeRecord(String recordID) {
         for (HashMap.Entry<String, LinkedList<Record>> entry : m_MapOfRecords.entrySet()) {
             for(Record record : entry.getValue()) {
                 if(record.equals( recordID)){

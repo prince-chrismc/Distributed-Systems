@@ -84,7 +84,11 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
         try {
             Region region = Region.fromString(location);
             RecordIdentifier newID = m_IdTracker.getNextManagerId();
+
+            synchronized (m_Records) {
                 m_Records.addRecord(new ManagerRecord(newID.getUUID(), firstName, lastName, employeeID, mailID, projects, region));
+            }
+
             m_Logger.Log("Created Manager Record: " + m_Records.toString());
             return newID.toString();
         } catch (Exception e) {
@@ -100,7 +104,11 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
             ProjectIdentifier projID = new ProjectIdentifier(-1);
             projID.setId(projectId);
             RecordIdentifier newID = m_IdTracker.getNextEmployeeId();
+
+            synchronized (m_Records) {
                 m_Records.addRecord(new EmployeeRecord(newID.getUUID(), firstName, lastName, employeeID, mailID, projID));
+            }
+
             m_Logger.Log("Created Employee Record: " + m_Records.toString());
             return newID.toString();
         } catch (Exception e) {
