@@ -28,7 +28,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import Interface.RegionalRecordManipulator;
+import Interface.Rmi.RegionalRecordManipulator;
 import Models.Project;
 import Utility.Logger;
 import java.io.IOException;

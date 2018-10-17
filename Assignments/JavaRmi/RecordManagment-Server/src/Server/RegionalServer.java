@@ -23,7 +23,7 @@
  */
 package Server;
 
-import Interface.RegionalRecordManipulator;
+import Interface.Rmi.RegionalRecordManipulator;
 import Models.EmployeeRecord;
 import Models.Feild;
 import Models.ManagerRecord;
