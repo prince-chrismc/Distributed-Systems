@@ -21,29 +21,20 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-/Assignment_1_Client/nbproject/private/
-/Assignment_1_Server/nbproject/private/
-/Assignemnt_1/nbproject/private/
-/Assignment_1_Server/build/
-/Assignment_1_Server/dist/
-/Assignemnt_1/dist/
-/Assignemnt_1/build/
-/Assignments/JavaRmi/RecordsManagment/nbproject/private/
-/Assignments/JavaRmi/RecordsManagment-Client/nbproject/private/
-/Assignments/JavaRmi/RecordManagment-Server/nbproject/private/
-/Assignments/JavaRmi/RecordManagment-Server/build/
-/Assignments/JavaRmi/RecordsManagment/dist/
-/Assignments/JavaRmi/RecordsManagment/build/
-/Assignments/JavaRmi/RecordManagment-Server/dist/
-/Assignments/JavaRmi/RecordsManagment-Client/build/
-/Assignments/JavaRmi/RecordsManagment-Client/dist/
-Assignments/JavaRmi/RecordManagment-Server/Logs/
 
-Assignments/JavaRmi/RecordsManagment-Client/Logs/
-/Assignments/RecordsManagment/nbproject/private/
-/Assignments/JavaRmi/RecordsManagment-Server/nbproject/private/
+# General Package project and build files
 /Assignments/RecordsManagment/dist/
 /Assignments/RecordsManagment/build/
+/Assignments/RecordsManagment/nbproject/private/
+
+# Java RMI Client Package project and build files
+/Assignments/JavaRmi/RecordsManagment-Client/dist/
+/Assignments/JavaRmi/RecordsManagment-Client/build/
+/Assignments/JavaRmi/RecordsManagment-Client/Logs/
+/Assignments/JavaRmi/RecordsManagment-Client/nbproject/private/
+
+# Java RMI Server Package project and build files
 /Assignments/JavaRmi/RecordsManagment-Server/dist/
 /Assignments/JavaRmi/RecordsManagment-Server/build/
-Assignments/JavaRmi/RecordsManagment-Server/Logs/
+/Assignments/JavaRmi/RecordsManagment-Server/Logs/
+/Assignments/JavaRmi/RecordsManagment-Server/nbproject/private/
