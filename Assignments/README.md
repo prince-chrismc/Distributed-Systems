@@ -3,8 +3,8 @@ This directory contains all the assignments for the class. The common project [`
 
 **Number** | **Name** | **Status**
 :---: | :--- | ---
-1 | JavaRmi | Completed
-2 | Corba | _WIP_
+1 | [JavaRmi](https://github.com/prince-chrismc/Distributed-Systems/tree/master/Assignments/JavaRmi) | Completed
+2 | [Corba](https://github.com/prince-chrismc/Distributed-Systems/tree/master/Assignments/Corba) | _WIP_
 
 ### Notes
 ##### Creating Java Files from a .idl
