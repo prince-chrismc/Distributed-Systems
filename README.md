@@ -2,12 +2,10 @@
 This is a Java IPC repository to contain my work for Distributed Systems (SOEN423) from Concordia Universirty during Fall 2018.
 
 ### Table of Contents
-- [Modules](#Modules)
-   - [Assignments](#Assignments)
+- [Assignments](#Assignments)
 - [Building](#Building)
   
-## Modules
-#### [Assignments](https://github.com/prince-chrismc/Distributed-Systems/tree/master/Assignments)
+## [Assignments](https://github.com/prince-chrismc/Distributed-Systems/tree/master/Assignments)
 - [Java RMI](https://github.com/prince-chrismc/Distributed-Systems/tree/master/Assignments/JavaRmi)
 - [CORBA](https://github.com/prince-chrismc/Distributed-Systems/tree/master/Assignments/Corba)
 
