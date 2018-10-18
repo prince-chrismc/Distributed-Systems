@@ -52,5 +52,3 @@ Multiple Points of failure | Single Point of failure
 - Communication { Unreliable, Insecure, Costly |
 - Must provide high availablility and transparency
 - Atomicity is difficult whit no grand master
-
-## Remote Procedure Calls ( RPC )
