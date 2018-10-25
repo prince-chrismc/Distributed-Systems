@@ -13,4 +13,4 @@ script:
   - ant compile jar
   - cd ..
   - ant -f RecordsManagment-Server run &
-  - anf -f RecordsManagment-Client test
+  - ant -f RecordsManagment-Client test
