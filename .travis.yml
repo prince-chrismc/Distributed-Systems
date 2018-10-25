@@ -1,6 +1,4 @@
 language: java
-install: ant deps
-
 jdk:
   - oraclejdk8
   - openjdk10
@@ -13,4 +11,4 @@ script:
   - ant test
   - java -jar dist\RecordsManagment-Server.jar &
   - cd ../RecordsManagment-Client
-  - ant test
+  - ant deps test
