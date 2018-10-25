@@ -8,10 +8,6 @@ script:
   - cd Assignments/RecordsManagment
   - ant
   - cd ../JavaRmi/RecordsManagment-Server
-  - ant jar test
-  - ls -la
-  - ls -la dist/
-  - ls -la build/
-  - java -jar -Djava.rmi.server.hostname="127.0.0.1" dist/RecordsManagment-Server.jar &
+  - ant jar
+  - java -jar -Djava.rmi.server.hostname="127.0.0.1" dist/RecordsManagment-Server.jar
   - cd ../RecordsManagment-Client
-  - ant test
