@@ -11,3 +11,4 @@ script:
   - ant init deps-jar compile jar
   - java -jar -Djava.rmi.server.hostname="127.0.0.1" dist/RecordsManagment-Server.jar
   - cd ../RecordsManagment-Client
+  - ant compile
