@@ -48,7 +48,6 @@ public class RegionalClient implements RegionalRecordManipulator {
         m_HRID = id;
         m_Region = Region.fromString(id.substring(0, 2));
 
-        System.setProperty("java.rmi.server.hostname", "127.0.0.1");
         Registry registry = LocateRegistry.getRegistry(12345);
         m_Remote = (RegionalRecordManipulator) registry.lookup("rmi://127.0.0.1/" + m_Region.toString());
         
