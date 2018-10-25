@@ -23,28 +23,45 @@
  */
 package Server;
 
-import Interface.AdditionApp.*;
+import Interface.Corba.DEMS.Project;
+import Interface.Corba.DEMS.RegionalRecordManipulatorPOA;
+import Interface.Corba.DEMS.RemoteException;
 import org.omg.CORBA.*;
 
 /**
  *
  * @author cmcarthur
  */
-public class ServerObject  extends AdditionPOA {
+public class ServerObject  extends RegionalRecordManipulatorPOA {
   private ORB orb;
  
   public void setORB(ORB orb_val) {
     orb = orb_val; 
   }
- 
-  // implement add() method
-  public int add(int a, int b) {
-    int r=a+b;
-    return r;
-  }
- 
+  
   // implement shutdown() method
+  @Override
   public void shutdown() {
     orb.shutdown(false);
   }
+
+    @Override
+    public String createMRecord(String firstName, String lastName, int employeeID, String mailID, Project projects, String location) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String createERecord(String firstName, String lastName, int employeeID, String mailID, String projectId) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String editRecord(String recordID, String feildName, Any newValue) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getRecordCount() throws RemoteException {
+        return "test 123";
+    }
 }

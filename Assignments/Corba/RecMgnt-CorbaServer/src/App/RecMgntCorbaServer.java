@@ -5,7 +5,8 @@
  */
 package App;
 
-import Interface.AdditionApp.*;
+import Interface.Corba.DEMS.RegionalRecordManipulator;
+import Interface.Corba.DEMS.RegionalRecordManipulatorHelper;
 import Server.ServerObject;
 import org.omg.CosNaming.*;
 import org.omg.CORBA.*;
@@ -38,7 +39,7 @@ public class RecMgntCorbaServer {
  
       // get object reference from the servant
       org.omg.CORBA.Object ref = rootpoa.servant_to_reference(addobj);
-      Addition href = AdditionHelper.narrow(ref);
+      RegionalRecordManipulator href = RegionalRecordManipulatorHelper.narrow(ref);
  
       org.omg.CORBA.Object objRef =  orb.resolve_initial_references("NameService");
       NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
