@@ -8,6 +8,7 @@ script:
   - cd Assignments/RecordsManagment
   - ant compile jar
   - cd ../JavaRmi/RecordsManagment-Server
-  - ant compile jar run
+  - ant compile jar
+  - ant run &
   - cd ../RecordsManagment-Client
   - ant compile jar
