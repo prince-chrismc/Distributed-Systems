@@ -9,6 +9,8 @@ script:
   - ant compile jar
   - cd ../JavaRmi/RecordsManagment-Server
   - ant compile jar
-  - ant run &
   - cd ../RecordsManagment-Client
-  - ant compile jar test
+  - ant compile jar
+  - cd ..
+  - ant -f RecordsManagment-Server run &
+  - anf -f RecordsManagment-Client test
