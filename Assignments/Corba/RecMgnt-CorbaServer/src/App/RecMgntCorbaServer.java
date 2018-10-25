@@ -7,7 +7,8 @@ package App;
 
 import Interface.Corba.DEMS.RegionalRecordManipulator;
 import Interface.Corba.DEMS.RegionalRecordManipulatorHelper;
-import Server.ServerObject;
+import Models.Region;
+import Server.CorbaRegionalServer;
 import org.omg.CosNaming.*;
 import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
@@ -24,44 +25,39 @@ public class RecMgntCorbaServer {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        
-        
-        
-            try{
-      // create and initialize the ORB //// get reference to rootpoa &amp; activate the POAManager
-      ORB orb = ORB.init(args, null);      
-      POA rootpoa = POAHelper.narrow(orb.resolve_initial_references("RootPOA"));
-      rootpoa.the_POAManager().activate();
- 
-      // create servant and register it with the ORB
-      ServerObject addobj = new ServerObject();
-      addobj.setORB(orb); 
- 
-      // get object reference from the servant
-      org.omg.CORBA.Object ref = rootpoa.servant_to_reference(addobj);
-      RegionalRecordManipulator href = RegionalRecordManipulatorHelper.narrow(ref);
- 
-      org.omg.CORBA.Object objRef =  orb.resolve_initial_references("NameService");
-      NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
- 
-      NameComponent path[] = ncRef.to_name( "ABC" );
-      ncRef.rebind(path, href);
- 
-      System.out.println("Addition Server ready and waiting ...");
- 
-      // wait for invocations from clients
-      for (;;){
-	  orb.run();
-      }
-    } 
- 
-      catch (Exception e) {
-        System.err.println("ERROR: " + e);
-        e.printStackTrace(System.out);
-      }
- 
-      System.out.println("HelloServer Exiting ...");
- 
+
+        try {
+            // create and initialize the ORB //// get reference to rootpoa & activate the POAManager
+            ORB orb = ORB.init(args, null);
+            POA rootpoa = POAHelper.narrow(orb.resolve_initial_references("RootPOA"));
+            rootpoa.the_POAManager().activate();
+
+            // LEt's get a reference to the NamingService of CORBA
+            org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
+            NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
+
+            // create servant and register it with the ORB
+            CorbaRegionalServer Canada = new CorbaRegionalServer(Region.CA);
+            Canada.setORB(orb);
+            // get object reference from the servant
+            org.omg.CORBA.Object refCanada = rootpoa.servant_to_reference(Canada);
+            RegionalRecordManipulator CanadianHref = RegionalRecordManipulatorHelper.narrow(refCanada);
+            // Create path and bind Canada reference
+            NameComponent path[] = ncRef.to_name(Region.CA.toString());
+            ncRef.rebind(path, CanadianHref);
+
+            System.out.println("Canada Server ready and waiting ...");
+
+            // wait for invocations from clients
+            for (;;) {
+                orb.run();
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        System.out.println("Central Server Exiting ...");
+
     }
-    
+
 }

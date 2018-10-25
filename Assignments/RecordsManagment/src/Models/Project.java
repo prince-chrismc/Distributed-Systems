@@ -37,6 +37,11 @@ public class Project implements Serializable {
         m_Project = new Interface.Corba.DEMS.Project( m_Id.getRawId(), name, client );
     }
 
+    public Project(Interface.Corba.DEMS.Project project) throws Exception {
+        m_Id = new ProjectIdentifier( project.m_Id.m_UUID  );
+        m_Project = project;
+    }
+
     public ProjectIdentifier getId() {
         return m_Id;
     }

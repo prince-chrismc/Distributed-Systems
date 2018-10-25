@@ -26,42 +26,58 @@ package Server;
 import Interface.Corba.DEMS.Project;
 import Interface.Corba.DEMS.RegionalRecordManipulatorPOA;
 import Interface.Corba.DEMS.RemoteException;
+import Models.Region;
+import java.io.IOException;
 import org.omg.CORBA.*;
 
 /**
  *
  * @author cmcarthur
  */
-public class ServerObject  extends RegionalRecordManipulatorPOA {
-  private ORB orb;
- 
-  public void setORB(ORB orb_val) {
-    orb = orb_val; 
-  }
-  
-  // implement shutdown() method
-  @Override
-  public void shutdown() {
-    orb.shutdown(false);
-  }
+public class CorbaRegionalServer extends RegionalRecordManipulatorPOA {
+
+    public CorbaRegionalServer(Region region) throws IOException {
+        //m_Region = region;
+        m_Server = new RegionalServer(region);
+    }
+
+    private ORB orb;
+    //final private Region m_Region;
+    final private RegionalServer m_Server;
+
+    public void setORB(ORB orb_val) {
+        orb = orb_val;
+    }
+
+    // implement shutdown() method
+    @Override
+    public void shutdown() {
+        orb.shutdown(false);
+    }
 
     @Override
     public String createMRecord(String firstName, String lastName, int employeeID, String mailID, Project projects, String location) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            Models.Project project = new Models.Project( projects );
+            return m_Server.createManagerRecord(firstName, lastName, employeeID, mailID, project, location);
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return "ERROR";
     }
 
     @Override
     public String createERecord(String firstName, String lastName, int employeeID, String mailID, String projectId) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return m_Server.createEmployeeRecord(firstName, lastName, employeeID, mailID, projectId);
     }
 
     @Override
     public String editRecord(String recordID, String feildName, Any newValue) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return m_Server.editRecord(recordID, feildName, newValue);
     }
 
     @Override
     public String getRecordCount() throws RemoteException {
-        return "test 123";
+        return m_Server.getRecordCount();
     }
 }
