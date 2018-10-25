@@ -48,6 +48,10 @@ public class CorbaRegionalServer extends RegionalRecordManipulatorPOA {
     public void setORB(ORB orb_val) {
         orb = orb_val;
     }
+    
+    public void Start() {
+        m_Server.Start();
+    }
 
     // implement shutdown() method
     @Override

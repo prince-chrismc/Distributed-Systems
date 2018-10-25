@@ -50,6 +50,7 @@ public class RecMgntCorbaServer {
             NameComponent pathCanada[] = ncRef.to_name(Region.CA.toString());
             ncRef.rebind(pathCanada, CanadianHref);
 
+            Canada.Start();
             System.out.println("Canada Server ready and waiting ...");
             
             
@@ -57,19 +58,37 @@ public class RecMgntCorbaServer {
             
             // create servant and register it with the ORB
             CorbaRegionalServer UnitedStates = new CorbaRegionalServer(Region.US);
-            Canada.setORB(orb);
+            UnitedStates.setORB(orb);
             // get object reference from the servant
             org.omg.CORBA.Object refUnitedStates = rootpoa.servant_to_reference(UnitedStates);
             RegionalRecordManipulator UnitedStatesHref = RegionalRecordManipulatorHelper.narrow(refUnitedStates);
-            // Create path and bind Canada reference
+            // Create path and bind United States reference
             NameComponent pathUnitedStates[] = ncRef.to_name(Region.US.toString());
             ncRef.rebind(pathUnitedStates, UnitedStatesHref);
 
+            UnitedStates.Start();
             System.out.println("United States Server ready and waiting ...");
             
             // --------------------------------------------------------------------------------------------------------------
 
             
+                        // create servant and register it with the ORB
+            CorbaRegionalServer UnitedKingdom = new CorbaRegionalServer(Region.UK);
+            UnitedKingdom.setORB(orb);
+            // get object reference from the servant
+            org.omg.CORBA.Object refUnitedKingdom = rootpoa.servant_to_reference(UnitedKingdom);
+            RegionalRecordManipulator UnitedKingdomHref = RegionalRecordManipulatorHelper.narrow(refUnitedKingdom);
+            // Create path and bind United Kingdom reference
+            NameComponent pathUnitedKingdom[] = ncRef.to_name(Region.UK.toString());
+            ncRef.rebind(pathUnitedKingdom, UnitedKingdomHref);
+
+            UnitedKingdom.Start();
+            System.out.println("United States Server ready and waiting ...");
+            
+                        // --------------------------------------------------------------------------------------------------------------
+
+                        
+                        
             // wait for invocations from clients
             for (;;) {
                 orb.run();
