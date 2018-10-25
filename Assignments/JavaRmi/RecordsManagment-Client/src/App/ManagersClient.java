@@ -200,6 +200,7 @@ public class ManagersClient {
         String feildName = reader.nextLine();
 
         Object newValue;
+        System.out.println("Enter value for " + feildName + ":");
         if (feildName.equals("employee id")) {
             newValue = reader.nextInt();
             reader.nextLine();
