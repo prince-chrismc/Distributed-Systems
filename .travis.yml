@@ -1,15 +1,8 @@
 language: java
 jdk:
-  - oraclejdk11
   - oraclejdk8
-  - openjdk11
   - openjdk10
   - openjdk8
-  
-addons:
-  apt:
-    packages:
-      - junit4
   
 script:
   - cd Assignments/RecordsManagment
