@@ -11,4 +11,4 @@ script:
   - ant compile jar
   - ant run &
   - cd ../RecordsManagment-Client
-  - ant compile jar
+  - ant compile jar test
