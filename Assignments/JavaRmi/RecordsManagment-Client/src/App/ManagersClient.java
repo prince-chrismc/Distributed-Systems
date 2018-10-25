@@ -50,6 +50,7 @@ public class ManagersClient {
         Scanner reader = new Scanner(System.in);
 
         do {
+            loginIsValid = true;
             System.out.print("Please enter your 'Human Resources Manager ID': ");
             userLogin = reader.nextLine();
 
