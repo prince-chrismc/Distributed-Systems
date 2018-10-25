@@ -49,7 +49,7 @@ public class RegionalClient implements RegionalRecordManipulator {
         m_Region = Region.fromString(id.substring(0, 2));
 
         Registry registry = LocateRegistry.getRegistry(12345);
-        m_Remote = (RegionalRecordManipulator) registry.lookup("rmi://127.0.0.1/" + m_Region.toString());
+        m_Remote = (RegionalRecordManipulator) registry.lookup("rmi://localhost/" + m_Region.toString());
         
         m_Logger = new Logger( m_HRID );
         m_Logger.Log(m_HRID + " has connected!");
