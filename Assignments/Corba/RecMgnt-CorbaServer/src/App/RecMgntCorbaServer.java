@@ -35,7 +35,11 @@ public class RecMgntCorbaServer {
             // LEt's get a reference to the NamingService of CORBA
             org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
             NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
+            
+            
+            // --------------------------------------------------------------------------------------------------------------
 
+            
             // create servant and register it with the ORB
             CorbaRegionalServer Canada = new CorbaRegionalServer(Region.CA);
             Canada.setORB(orb);
@@ -43,11 +47,29 @@ public class RecMgntCorbaServer {
             org.omg.CORBA.Object refCanada = rootpoa.servant_to_reference(Canada);
             RegionalRecordManipulator CanadianHref = RegionalRecordManipulatorHelper.narrow(refCanada);
             // Create path and bind Canada reference
-            NameComponent path[] = ncRef.to_name(Region.CA.toString());
-            ncRef.rebind(path, CanadianHref);
+            NameComponent pathCanada[] = ncRef.to_name(Region.CA.toString());
+            ncRef.rebind(pathCanada, CanadianHref);
 
             System.out.println("Canada Server ready and waiting ...");
+            
+            
+            // --------------------------------------------------------------------------------------------------------------
+            
+            // create servant and register it with the ORB
+            CorbaRegionalServer UnitedStates = new CorbaRegionalServer(Region.US);
+            Canada.setORB(orb);
+            // get object reference from the servant
+            org.omg.CORBA.Object refUnitedStates = rootpoa.servant_to_reference(UnitedStates);
+            RegionalRecordManipulator UnitedStatesHref = RegionalRecordManipulatorHelper.narrow(refUnitedStates);
+            // Create path and bind Canada reference
+            NameComponent pathUnitedStates[] = ncRef.to_name(Region.US.toString());
+            ncRef.rebind(pathUnitedStates, UnitedStatesHref);
 
+            System.out.println("United States Server ready and waiting ...");
+            
+            // --------------------------------------------------------------------------------------------------------------
+
+            
             // wait for invocations from clients
             for (;;) {
                 orb.run();

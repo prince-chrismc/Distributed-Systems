@@ -1,17 +1,30 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/* 
+    MIT License
+
+    Copyright (c) 2018 Chris Mc, prince.chrismc(at)gmail(dot)com
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
+*/
 package App;
 
-import Interface.Corba.DEMS.RegionalRecordManipulator;
-import Interface.Corba.DEMS.RegionalRecordManipulatorHelper;
-import Models.Region;
-import java.util.Scanner;
+import Client.RegionalClient;
 import org.omg.CORBA.ORB;
-import org.omg.CosNaming.NamingContextExt;
-import org.omg.CosNaming.NamingContextExtHelper;
 
 /**
  *
@@ -27,13 +40,9 @@ public class ManagersClient {
 
         try {
             ORB orb = ORB.init(args, null);
-            org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
-            NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
-            RegionalRecordManipulator addobj = (RegionalRecordManipulator) RegionalRecordManipulatorHelper.narrow(ncRef.resolve_str(Region.CA.toString()));
+            RegionalClient client = new RegionalClient(orb, "US1234" );
 
-            Scanner c = new Scanner(System.in);
-            System.out.println("Welcome to the addition system:");
-            System.out.println("The result for addition is : " + addobj.getRecordCount());
+            System.out.println("The result for addition is : " + client.getRecordCount());
             System.out.println("-----------------------------------");
         } catch (Exception e) {
             System.out.println("Hello Client exception: " + e);
