@@ -41,11 +41,11 @@ public class RegionalClientTest {
     private RegionalClient Canada;
 
     public RegionalClientTest() {
-        System.setProperty("java.rmi.server.hostname", "127.0.0.1");
     }
 
     @Before
     public void setRmiRegistry() throws Exception {
+        System.setProperty("java.rmi.server.hostname", "127.0.0.1");
         Canada = new RegionalClient("CA1234");
     }
 
