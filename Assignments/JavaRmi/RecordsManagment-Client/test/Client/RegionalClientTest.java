@@ -27,6 +27,8 @@ import Models.Feild;
 import Models.Project;
 import Models.ProjectIdentifier;
 import Models.Region;
+
+import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -42,6 +44,11 @@ public class RegionalClientTest {
         Canada = new RegionalClient("CA1234");
     }
 
+    @Before
+    public void setRmiRegistry() {
+        System.setProperty("java.rmi.server.hostname","127.0.0.1");
+    }
+    
     @Test
     public void canCreateManageRecords() throws Exception {
         int startNumberOfRecords = Canada.getRegionalRecordCount();
