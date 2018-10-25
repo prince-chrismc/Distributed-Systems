@@ -23,7 +23,6 @@
  */
 package Server;
 
-import Interface.Rmi.RegionalRecordManipulator;
 import Models.EmployeeRecord;
 import Models.Feild;
 import Models.ManagerRecord;
@@ -38,14 +37,12 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 
 /**
  *
  * @author c_mcart
  */
-public class RegionalServer extends UnicastRemoteObject implements RegionalRecordManipulator, RequestListener.Processor {
+public class RegionalServer implements RequestListener.Processor {
 
     final private Region m_Region;
     final private RecordsMap m_Records;
@@ -53,8 +50,7 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
     final private Logger m_Logger;
     final private RecordUuidTracker m_IdTracker;
 
-    public RegionalServer(Region region) throws RemoteException, IOException {
-        super();
+    public RegionalServer(Region region) throws IOException {
         m_Region = region;
         m_Records = new RecordsMap();
         m_Logger = new Logger(m_Region.getPrefix());
@@ -67,10 +63,6 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
         m_Logger.Log(m_Region.toString() + " is running!");
     }
 
-    public String getUrl() {
-        return "rmi://localhost/" + m_Region.toString();
-    }
-
     @Override
     public int getCurrentRecordCount() {
         m_Logger.Log("Reporting the number of records...");
@@ -79,8 +71,7 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
         }
     }
 
-    @Override
-    public String createMRecord(String firstName, String lastName, int employeeID, String mailID, Project projects, String location) throws RemoteException {
+    public String createManagerRecord(String firstName, String lastName, int employeeID, String mailID, Project projects, String location) {
         try {
             Region region = Region.fromString(location);
             RecordIdentifier newID = m_IdTracker.getNextManagerId();
@@ -98,8 +89,7 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
         }
     }
 
-    @Override
-    public String createERecord(String firstName, String lastName, int employeeID, String mailID, String projectId) throws RemoteException {
+    public String createEmployeeRecord(String firstName, String lastName, int employeeID, String mailID, String projectId){
         try {
             ProjectIdentifier projID = new ProjectIdentifier(-1);
             projID.setId(projectId);
@@ -118,8 +108,7 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
         }
     }
 
-    @Override
-    public String editRecord(String recordID, String feildName, Object newValue) throws RemoteException {
+    public String editRecord(String recordID, String feildName, Object newValue){
         synchronized (m_Records) {
             Record record = null;
             try {
@@ -232,8 +221,7 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
         }
     }
 
-    @Override
-    public String getRecordCount() throws RemoteException {
+    public String getRecordCount() {
         m_Logger.Log("Reporting the number of records for all regions...");
 
         String retval = m_Region.getPrefix() + " ";

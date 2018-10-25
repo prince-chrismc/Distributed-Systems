@@ -27,7 +27,8 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 import Models.Region;
-import Server.RegionalServer;
+import Rmi.Server.RmiRegionalServer;
+import java.io.IOException;
 
 /**
  *
@@ -40,21 +41,21 @@ public class CentralServers {
             // https://stackoverflow.com/a/52552583/8480874
             Registry registry = LocateRegistry.createRegistry(12345);
 
-            RegionalServer Canada = new RegionalServer(Region.CA);
+            RmiRegionalServer Canada = new RmiRegionalServer(Region.CA);
             registry.rebind(Canada.getUrl(), Canada);
             Canada.Start();
 
-            RegionalServer UnitedStates = new RegionalServer(Region.US);
+            RmiRegionalServer UnitedStates = new RmiRegionalServer(Region.US);
             registry.rebind(UnitedStates.getUrl(), UnitedStates);
             UnitedStates.Start();
 
-            RegionalServer UnitedKingdom = new RegionalServer(Region.UK);
+            RmiRegionalServer UnitedKingdom = new RmiRegionalServer(Region.UK);
             registry.rebind(UnitedKingdom.getUrl(), UnitedKingdom);
             UnitedKingdom.Start();
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.println("   --> ERROR : Internal Server <--");
-            e.printStackTrace();
+            System.out.println(e);
         }
     }
 }
