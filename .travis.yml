@@ -6,9 +6,8 @@ jdk:
   
 script:
   - cd Assignments/RecordsManagment
-  - ant init deps-jar compile jar
+  - ant compile jar
   - cd ../JavaRmi/RecordsManagment-Server
-  - ant init deps-jar compile jar
-  - java -jar -Djava.rmi.server.hostname="127.0.0.1" dist/RecordsManagment-Server.jar
+  - ant compile jar
   - cd ../RecordsManagment-Client
-  - ant compile
+  - ant compile jar
