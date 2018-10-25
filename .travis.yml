@@ -9,6 +9,7 @@ script:
   - ant
   - cd ../JavaRmi/RecordsManagment-Server
   - ant test
+  - ls -la dist/
   - java -jar -Djava.rmi.server.hostname="127.0.0.1" dist/RecordsManagment-Server.jar &
   - cd ../RecordsManagment-Client
   - ant test
