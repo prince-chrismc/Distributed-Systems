@@ -263,6 +263,8 @@ public class RegionalServer extends UnicastRemoteObject implements RegionalRecor
 
             byte[] buf = new byte[256];
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
+            
+            socket.setSoTimeout(10*1000); // Set timeoue in case packet is lost
             socket.receive(packet);
 
             Message response = new Message(packet);
