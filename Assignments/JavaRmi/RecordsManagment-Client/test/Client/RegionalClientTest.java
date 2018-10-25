@@ -40,15 +40,15 @@ public class RegionalClientTest {
 
     private RegionalClient Canada;
 
-    public RegionalClientTest() throws Exception {
-        Canada = new RegionalClient("CA1234");
+    public RegionalClientTest() {
+        System.setProperty("java.rmi.server.hostname", "127.0.0.1");
     }
 
     @Before
-    public void setRmiRegistry() {
-        System.setProperty("java.rmi.server.hostname","127.0.0.1");
+    public void setRmiRegistry() throws Exception {
+        Canada = new RegionalClient("CA1234");
     }
-    
+
     @Test
     public void canCreateManageRecords() throws Exception {
         int startNumberOfRecords = Canada.getRegionalRecordCount();
