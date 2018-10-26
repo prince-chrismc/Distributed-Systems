@@ -21,33 +21,24 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
  */
-package Models;
+package Server;
 
 /**
  *
- * @author c_mcart
+ * @author cmcarthur
  */
-public enum Region implements Interface.Region {
-    CA(6000, "Canada", "CA"),
-    US(6001, "United-States", "US"),
-    UK(6002, "United-Kingdom", "UK");
-
-    public static Region fromString(String location) throws Exception {
-
-        for (Region region : Region.values()) {
-            if ((region.getPrefix() == null ? location == null : region.getPrefix().equals(location))
-                    || (region.toString() == null ? location == null : region.toString().equals(location))) {
-                return region;
-            }
-        }
-
-        throw new Exception("Invalid Location!");
-    }
-
-    private Region(int ID, String name, String prefix) {
+public enum TestRegion implements Interface.Region {
+    CA(6000),
+    US(6001),
+    UK(6002),
+    MX(6003),
+    TK(6004),
+    DB(6005),
+    AU(6006),
+    TZ(6007);
+    
+    TestRegion(int ID ) {
         m_UUID = ID;
-        m_Name = name;
-        m_Prefix = prefix;
     }
 
     @Override
@@ -55,18 +46,11 @@ public enum Region implements Interface.Region {
         return m_UUID;
     }
 
-    @Override
-    public String toString() {
-        return m_Name;
-    }
 
     @Override
     public String getPrefix() {
-        return m_Prefix;
+        return toString();
     }
 
     private int m_UUID;
-    private String m_Name;
-    private String m_Prefix;
-
 }

@@ -24,7 +24,7 @@
 package Server;
 
 import Models.RecordIdentifier;
-import Models.Region;
+import Interface.Region;
 import Utility.Logger;
 import java.io.IOException;
 import java.net.DatagramPacket;

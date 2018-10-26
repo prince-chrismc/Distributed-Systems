@@ -25,7 +25,7 @@ package Server;
 
 import Models.RecordIdentifier;
 import Models.RecordType;
-import Models.Region;
+import Interface.Region;
 import Utility.Logger;
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -86,7 +86,7 @@ public class RecordUuidTracker {
     public synchronized RecordIdentifier getNextManagerId() {
         m_Logger.Log("Attempting to determine next manager UUID...");
         RecordIdentifier nextId = new RecordIdentifier(RecordType.MANAGER, m_CurrentManagerId.getUUID() + 1);
-        for (Region region : Region.values()) {
+        for (Models.Region region : Models.Region.values()) {
             if (m_Region == region) {
                 continue;
             }
@@ -102,7 +102,7 @@ public class RecordUuidTracker {
     public synchronized RecordIdentifier getNextEmployeeId() {
         m_Logger.Log("Attempting to determine next employee UUID...");
         RecordIdentifier nextId = new RecordIdentifier(RecordType.EMPLOYEE, m_CurrentEmployeeId.getUUID() + 1);
-        for (Region region : Region.values()) {
+        for (Models.Region region : Models.Region.values()) {
             if (m_Region == region) {
                 continue;
             }

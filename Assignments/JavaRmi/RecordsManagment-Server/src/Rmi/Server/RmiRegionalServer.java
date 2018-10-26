@@ -26,7 +26,7 @@ package Rmi.Server;
 import Server.RegionalServer;
 import Interface.Rmi.RegionalRecordManipulator;
 import Models.Project;
-import Models.Region;
+import Interface.Region;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

@@ -31,7 +31,7 @@ import Models.ProjectIdentifier;
 import Models.Record;
 import Models.RecordIdentifier;
 import Models.RecordsMap;
-import Models.Region;
+import Interface.Region;
 import Utility.Logger;
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -73,7 +73,7 @@ public class RegionalServer implements RequestListener.Processor {
 
     public String createManagerRecord(String firstName, String lastName, int employeeID, String mailID, Project projects, String location) {
         try {
-            Region region = Region.fromString(location);
+            Models.Region region = Models.Region.fromString(location);
             RecordIdentifier newID = m_IdTracker.getNextManagerId();
 
             synchronized (m_Records) {
@@ -187,7 +187,7 @@ public class RegionalServer implements RequestListener.Processor {
                 break;
             case LOCATION:
                 if (newValue.getClass() == String.class) {
-                    ((ManagerRecord) record).setRegion(Region.fromString((String) newValue));
+                    ((ManagerRecord) record).setRegion(Models.Region.fromString((String) newValue));
                 } else {
                     throw new Exception("Invalid paramater");
                 }
@@ -229,7 +229,7 @@ public class RegionalServer implements RequestListener.Processor {
             retval += m_Records.count();
         }
 
-        for (Region region : Region.values()) {
+        for (Models.Region region : Models.Region.values()) {
             if (m_Region == region) {
                 continue;
             }
