@@ -59,23 +59,23 @@ public class RegionalClient {
     }
 
     public String createManagerRecord(String firstName, String lastName, int employeeID, String mailID, Project projects, String location) throws RemoteException {
-        return m_Remote.createMRecord(firstName, lastName, employeeID, mailID, projects, location);
+        return m_Remote.createMRecord(m_HRID, firstName, lastName, employeeID, mailID, projects, location);
     }
 
     public String createEmployeeRecord(String firstName, String lastName, int employeeID, String mailID, String projectId) throws RemoteException {
-        return m_Remote.createERecord(firstName, lastName, employeeID, mailID, projectId);
+        return m_Remote.createERecord(m_HRID, firstName, lastName, employeeID, mailID, projectId);
     }
 
     public String editRecord(String recordID, String feildName, Any newValue) throws RemoteException {
-        return m_Remote.editRecord(recordID, feildName, newValue);
+        return m_Remote.editRecord(m_HRID, recordID, feildName, newValue);
     }
 
     public String getRecordCount() throws RemoteException {
-        return m_Remote.getRecordCount();
+        return m_Remote.getRecordCount(m_HRID);
     }
 
     public int getRegionalRecordCount() throws RemoteException {
-        String allDesc = m_Remote.getRecordCount();
+        String allDesc = m_Remote.getRecordCount(m_HRID);
 
         allDesc = allDesc.substring(allDesc.indexOf(m_Region.getPrefix()) + 3);
         allDesc = allDesc.substring(0, allDesc.indexOf(" "));
