@@ -61,10 +61,10 @@ public class CorbaRegionalServer extends RegionalRecordManipulatorPOA {
     }
 
     @Override
-    public String createMRecord(String firstName, String lastName, int employeeID, String mailID, Project projects, String location) throws RemoteException {
+    public String createMRecord(String managerID, String firstName, String lastName, int employeeID, String mailID, Project projects, String location) throws RemoteException {
         try {
             Models.Project project = new Models.Project(projects);
-            return m_Server.createManagerRecord(firstName, lastName, employeeID, mailID, project, location);
+            return m_Server.createManagerRecord(managerID, firstName, lastName, employeeID, mailID, project, location);
         } catch (Exception ex) {
             System.out.println(ex);
         }
@@ -72,17 +72,22 @@ public class CorbaRegionalServer extends RegionalRecordManipulatorPOA {
     }
 
     @Override
-    public String createERecord(String firstName, String lastName, int employeeID, String mailID, String projectId) throws RemoteException {
-        return m_Server.createEmployeeRecord(firstName, lastName, employeeID, mailID, projectId);
+    public String createERecord(String managerID, String firstName, String lastName, int employeeID, String mailID, String projectId) throws RemoteException {
+        return m_Server.createEmployeeRecord(managerID, firstName, lastName, employeeID, mailID, projectId);
     }
 
     @Override
-    public String editRecord(String recordID, String feildName, Any newValue) throws RemoteException {
-        return m_Server.editRecord(recordID, feildName, newValue);
+    public String editRecord(String managerID, String recordID, String feildName, Any newValue) throws RemoteException {
+        return m_Server.editRecord(managerID, recordID, feildName, newValue);
     }
 
     @Override
-    public String getRecordCount() throws RemoteException {
-        return m_Server.getRecordCount();
+    public String getRecordCount(String managerID) throws RemoteException {
+        return m_Server.getRecordCount(managerID);
+    }
+
+    @Override
+    public String transferRecord(String managerID, String recordID, String remoteSeverName) throws RemoteException {
+        return m_Server.transferRecord(managerID, recordID, remoteSeverName);
     }
 }

@@ -71,7 +71,7 @@ public class RegionalServer implements RequestListener.Processor {
         }
     }
 
-    public String createManagerRecord(String firstName, String lastName, int employeeID, String mailID, Project projects, String location) {
+    public String createManagerRecord(String managerID, String firstName, String lastName, int employeeID, String mailID, Project projects, String location) {
         try {
             Models.Region region = Models.Region.fromString(location);
             RecordIdentifier newID = m_IdTracker.getNextManagerId();
@@ -89,7 +89,7 @@ public class RegionalServer implements RequestListener.Processor {
         }
     }
 
-    public String createEmployeeRecord(String firstName, String lastName, int employeeID, String mailID, String projectId){
+    public String createEmployeeRecord(String managerID, String firstName, String lastName, int employeeID, String mailID, String projectId){
         try {
             ProjectIdentifier projID = new ProjectIdentifier(-1);
             projID.setId(projectId);
@@ -108,7 +108,7 @@ public class RegionalServer implements RequestListener.Processor {
         }
     }
 
-    public String editRecord(String recordID, String feildName, Object newValue){
+    public String editRecord(String managerID, String recordID, String feildName, Object newValue){
         synchronized (m_Records) {
             Record record = null;
             try {
@@ -221,7 +221,7 @@ public class RegionalServer implements RequestListener.Processor {
         }
     }
 
-    public String getRecordCount() {
+    public String getRecordCount(String managerID) {
         m_Logger.Log("Reporting the number of records for all regions...");
 
         String retval = m_Region.getPrefix() + " ";
@@ -274,5 +274,9 @@ public class RegionalServer implements RequestListener.Processor {
     @Override
     public RecordIdentifier updateRecordUuid(RecordIdentifier newRecordId) {
         return m_IdTracker.updateRecordUuid(newRecordId);
+    }
+
+    public String transferRecord(String managerID, String recordID, String remoteSeverName) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
