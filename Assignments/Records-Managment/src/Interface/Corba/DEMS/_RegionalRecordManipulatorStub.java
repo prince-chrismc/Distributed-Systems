@@ -1,4 +1,4 @@
-package DEMS;
+package Interface.Corba.DEMS;
 
 
 /**
@@ -8,10 +8,10 @@ package DEMS;
 * Thursday, October 25, 2018 9:48:52 o'clock PM EDT
 */
 
-public class _RegionalRecordManipulatorStub extends org.omg.CORBA.portable.ObjectImpl implements DEMS.RegionalRecordManipulator
+public class _RegionalRecordManipulatorStub extends org.omg.CORBA.portable.ObjectImpl implements RegionalRecordManipulator
 {
 
-  public String createMRecord (String managerID, String firstName, String lastName, int employeeID, String mailID, DEMS.Project projects, String location) throws DEMS.RemoteException
+  public String createMRecord (String managerID, String firstName, String lastName, int employeeID, String mailID, Project projects, String location) throws RemoteException
   {
             org.omg.CORBA.portable.InputStream $in = null;
             try {
@@ -21,7 +21,7 @@ public class _RegionalRecordManipulatorStub extends org.omg.CORBA.portable.Objec
                 $out.write_string (lastName);
                 $out.write_long (employeeID);
                 $out.write_string (mailID);
-                DEMS.ProjectHelper.write ($out, projects);
+                ProjectHelper.write ($out, projects);
                 $out.write_string (location);
                 $in = _invoke ($out);
                 String $result = $in.read_string ();
@@ -30,7 +30,7 @@ public class _RegionalRecordManipulatorStub extends org.omg.CORBA.portable.Objec
                 $in = $ex.getInputStream ();
                 String _id = $ex.getId ();
                 if (_id.equals ("IDL:DEMS/RemoteException:1.0"))
-                    throw DEMS.RemoteExceptionHelper.read ($in);
+                    throw RemoteExceptionHelper.read ($in);
                 else
                     throw new org.omg.CORBA.MARSHAL (_id);
             } catch (org.omg.CORBA.portable.RemarshalException $rm) {
@@ -40,7 +40,7 @@ public class _RegionalRecordManipulatorStub extends org.omg.CORBA.portable.Objec
             }
   } // createMRecord
 
-  public String createERecord (String managerID, String firstName, String lastName, int employeeID, String mailID, String projectId) throws DEMS.RemoteException
+  public String createERecord (String managerID, String firstName, String lastName, int employeeID, String mailID, String projectId) throws RemoteException
   {
             org.omg.CORBA.portable.InputStream $in = null;
             try {
@@ -58,7 +58,7 @@ public class _RegionalRecordManipulatorStub extends org.omg.CORBA.portable.Objec
                 $in = $ex.getInputStream ();
                 String _id = $ex.getId ();
                 if (_id.equals ("IDL:DEMS/RemoteException:1.0"))
-                    throw DEMS.RemoteExceptionHelper.read ($in);
+                    throw RemoteExceptionHelper.read ($in);
                 else
                     throw new org.omg.CORBA.MARSHAL (_id);
             } catch (org.omg.CORBA.portable.RemarshalException $rm) {
@@ -68,7 +68,7 @@ public class _RegionalRecordManipulatorStub extends org.omg.CORBA.portable.Objec
             }
   } // createERecord
 
-  public String editRecord (String managerID, String recordID, String feildName, org.omg.CORBA.Any newValue) throws DEMS.RemoteException
+  public String editRecord (String managerID, String recordID, String feildName, org.omg.CORBA.Any newValue) throws RemoteException
   {
             org.omg.CORBA.portable.InputStream $in = null;
             try {
@@ -84,7 +84,7 @@ public class _RegionalRecordManipulatorStub extends org.omg.CORBA.portable.Objec
                 $in = $ex.getInputStream ();
                 String _id = $ex.getId ();
                 if (_id.equals ("IDL:DEMS/RemoteException:1.0"))
-                    throw DEMS.RemoteExceptionHelper.read ($in);
+                    throw RemoteExceptionHelper.read ($in);
                 else
                     throw new org.omg.CORBA.MARSHAL (_id);
             } catch (org.omg.CORBA.portable.RemarshalException $rm) {
@@ -94,7 +94,7 @@ public class _RegionalRecordManipulatorStub extends org.omg.CORBA.portable.Objec
             }
   } // editRecord
 
-  public String transferRecord (String managerID, String recordID, String remoteSeverName) throws DEMS.RemoteException
+  public String transferRecord (String managerID, String recordID, String remoteSeverName) throws RemoteException
   {
             org.omg.CORBA.portable.InputStream $in = null;
             try {
@@ -109,7 +109,7 @@ public class _RegionalRecordManipulatorStub extends org.omg.CORBA.portable.Objec
                 $in = $ex.getInputStream ();
                 String _id = $ex.getId ();
                 if (_id.equals ("IDL:DEMS/RemoteException:1.0"))
-                    throw DEMS.RemoteExceptionHelper.read ($in);
+                    throw RemoteExceptionHelper.read ($in);
                 else
                     throw new org.omg.CORBA.MARSHAL (_id);
             } catch (org.omg.CORBA.portable.RemarshalException $rm) {
@@ -119,7 +119,7 @@ public class _RegionalRecordManipulatorStub extends org.omg.CORBA.portable.Objec
             }
   } // transferRecord
 
-  public String getRecordCount (String managerID) throws DEMS.RemoteException
+  public String getRecordCount (String managerID) throws RemoteException
   {
             org.omg.CORBA.portable.InputStream $in = null;
             try {
@@ -132,7 +132,7 @@ public class _RegionalRecordManipulatorStub extends org.omg.CORBA.portable.Objec
                 $in = $ex.getInputStream ();
                 String _id = $ex.getId ();
                 if (_id.equals ("IDL:DEMS/RemoteException:1.0"))
-                    throw DEMS.RemoteExceptionHelper.read ($in);
+                    throw RemoteExceptionHelper.read ($in);
                 else
                     throw new org.omg.CORBA.MARSHAL (_id);
             } catch (org.omg.CORBA.portable.RemarshalException $rm) {

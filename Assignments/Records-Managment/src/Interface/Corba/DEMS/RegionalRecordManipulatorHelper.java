@@ -1,4 +1,4 @@
-package DEMS;
+package Interface.Corba.DEMS;
 
 
 /**
@@ -12,7 +12,7 @@ abstract public class RegionalRecordManipulatorHelper
 {
   private static String  _id = "IDL:DEMS/RegionalRecordManipulator:1.0";
 
-  public static void insert (org.omg.CORBA.Any a, DEMS.RegionalRecordManipulator that)
+  public static void insert (org.omg.CORBA.Any a, RegionalRecordManipulator that)
   {
     org.omg.CORBA.portable.OutputStream out = a.create_output_stream ();
     a.type (type ());
@@ -20,7 +20,7 @@ abstract public class RegionalRecordManipulatorHelper
     a.read_value (out.create_input_stream (), type ());
   }
 
-  public static DEMS.RegionalRecordManipulator extract (org.omg.CORBA.Any a)
+  public static RegionalRecordManipulator extract (org.omg.CORBA.Any a)
   {
     return read (a.create_input_stream ());
   }
@@ -30,7 +30,7 @@ abstract public class RegionalRecordManipulatorHelper
   {
     if (__typeCode == null)
     {
-      __typeCode = org.omg.CORBA.ORB.init ().create_interface_tc (DEMS.RegionalRecordManipulatorHelper.id (), "RegionalRecordManipulator");
+      __typeCode = org.omg.CORBA.ORB.init ().create_interface_tc (RegionalRecordManipulatorHelper.id (), "RegionalRecordManipulator");
     }
     return __typeCode;
   }
@@ -40,43 +40,43 @@ abstract public class RegionalRecordManipulatorHelper
     return _id;
   }
 
-  public static DEMS.RegionalRecordManipulator read (org.omg.CORBA.portable.InputStream istream)
+  public static RegionalRecordManipulator read (org.omg.CORBA.portable.InputStream istream)
   {
     return narrow (istream.read_Object (_RegionalRecordManipulatorStub.class));
   }
 
-  public static void write (org.omg.CORBA.portable.OutputStream ostream, DEMS.RegionalRecordManipulator value)
+  public static void write (org.omg.CORBA.portable.OutputStream ostream, RegionalRecordManipulator value)
   {
     ostream.write_Object ((org.omg.CORBA.Object) value);
   }
 
-  public static DEMS.RegionalRecordManipulator narrow (org.omg.CORBA.Object obj)
+  public static RegionalRecordManipulator narrow (org.omg.CORBA.Object obj)
   {
     if (obj == null)
       return null;
-    else if (obj instanceof DEMS.RegionalRecordManipulator)
-      return (DEMS.RegionalRecordManipulator)obj;
+    else if (obj instanceof RegionalRecordManipulator)
+      return (RegionalRecordManipulator)obj;
     else if (!obj._is_a (id ()))
       throw new org.omg.CORBA.BAD_PARAM ();
     else
     {
       org.omg.CORBA.portable.Delegate delegate = ((org.omg.CORBA.portable.ObjectImpl)obj)._get_delegate ();
-      DEMS._RegionalRecordManipulatorStub stub = new DEMS._RegionalRecordManipulatorStub ();
+      _RegionalRecordManipulatorStub stub = new _RegionalRecordManipulatorStub ();
       stub._set_delegate(delegate);
       return stub;
     }
   }
 
-  public static DEMS.RegionalRecordManipulator unchecked_narrow (org.omg.CORBA.Object obj)
+  public static RegionalRecordManipulator unchecked_narrow (org.omg.CORBA.Object obj)
   {
     if (obj == null)
       return null;
-    else if (obj instanceof DEMS.RegionalRecordManipulator)
-      return (DEMS.RegionalRecordManipulator)obj;
+    else if (obj instanceof RegionalRecordManipulator)
+      return (RegionalRecordManipulator)obj;
     else
     {
       org.omg.CORBA.portable.Delegate delegate = ((org.omg.CORBA.portable.ObjectImpl)obj)._get_delegate ();
-      DEMS._RegionalRecordManipulatorStub stub = new DEMS._RegionalRecordManipulatorStub ();
+      _RegionalRecordManipulatorStub stub = new _RegionalRecordManipulatorStub ();
       stub._set_delegate(delegate);
       return stub;
     }

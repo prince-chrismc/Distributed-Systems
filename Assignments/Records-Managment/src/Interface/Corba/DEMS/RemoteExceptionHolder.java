@@ -1,4 +1,4 @@
-package DEMS;
+package Interface.Corba.DEMS;
 
 /**
 * DEMS/RemoteExceptionHolder.java .
@@ -9,30 +9,30 @@ package DEMS;
 
 public final class RemoteExceptionHolder implements org.omg.CORBA.portable.Streamable
 {
-  public DEMS.RemoteException value = null;
+  public RemoteException value = null;
 
   public RemoteExceptionHolder ()
   {
   }
 
-  public RemoteExceptionHolder (DEMS.RemoteException initialValue)
+  public RemoteExceptionHolder (RemoteException initialValue)
   {
     value = initialValue;
   }
 
   public void _read (org.omg.CORBA.portable.InputStream i)
   {
-    value = DEMS.RemoteExceptionHelper.read (i);
+    value = RemoteExceptionHelper.read (i);
   }
 
   public void _write (org.omg.CORBA.portable.OutputStream o)
   {
-    DEMS.RemoteExceptionHelper.write (o, value);
+    RemoteExceptionHelper.write (o, value);
   }
 
   public org.omg.CORBA.TypeCode _type ()
   {
-    return DEMS.RemoteExceptionHelper.type ();
+    return RemoteExceptionHelper.type ();
   }
 
 }

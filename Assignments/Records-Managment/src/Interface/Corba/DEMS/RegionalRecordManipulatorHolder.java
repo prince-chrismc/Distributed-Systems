@@ -1,4 +1,4 @@
-package DEMS;
+package Interface.Corba.DEMS;
 
 /**
 * DEMS/RegionalRecordManipulatorHolder.java .
@@ -9,30 +9,30 @@ package DEMS;
 
 public final class RegionalRecordManipulatorHolder implements org.omg.CORBA.portable.Streamable
 {
-  public DEMS.RegionalRecordManipulator value = null;
+  public RegionalRecordManipulator value = null;
 
   public RegionalRecordManipulatorHolder ()
   {
   }
 
-  public RegionalRecordManipulatorHolder (DEMS.RegionalRecordManipulator initialValue)
+  public RegionalRecordManipulatorHolder (RegionalRecordManipulator initialValue)
   {
     value = initialValue;
   }
 
   public void _read (org.omg.CORBA.portable.InputStream i)
   {
-    value = DEMS.RegionalRecordManipulatorHelper.read (i);
+    value = RegionalRecordManipulatorHelper.read (i);
   }
 
   public void _write (org.omg.CORBA.portable.OutputStream o)
   {
-    DEMS.RegionalRecordManipulatorHelper.write (o, value);
+    RegionalRecordManipulatorHelper.write (o, value);
   }
 
   public org.omg.CORBA.TypeCode _type ()
   {
-    return DEMS.RegionalRecordManipulatorHelper.type ();
+    return RegionalRecordManipulatorHelper.type ();
   }
 
 }

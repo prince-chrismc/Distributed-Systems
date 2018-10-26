@@ -1,4 +1,4 @@
-package DEMS;
+package Interface.Corba.DEMS;
 
 
 /**
@@ -9,7 +9,7 @@ package DEMS;
 */
 
 public abstract class RegionalRecordManipulatorPOA extends org.omg.PortableServer.Servant
- implements DEMS.RegionalRecordManipulatorOperations, org.omg.CORBA.portable.InvokeHandler
+ implements RegionalRecordManipulatorOperations, org.omg.CORBA.portable.InvokeHandler
 {
 
   // Constructors
@@ -44,15 +44,15 @@ public abstract class RegionalRecordManipulatorPOA extends org.omg.PortableServe
            String lastName = in.read_string ();
            int employeeID = in.read_long ();
            String mailID = in.read_string ();
-           DEMS.Project projects = DEMS.ProjectHelper.read (in);
+           Project projects = ProjectHelper.read (in);
            String location = in.read_string ();
            String $result = null;
            $result = this.createMRecord (managerID, firstName, lastName, employeeID, mailID, projects, location);
            out = $rh.createReply();
            out.write_string ($result);
-         } catch (DEMS.RemoteException $ex) {
+         } catch (RemoteException $ex) {
            out = $rh.createExceptionReply ();
-           DEMS.RemoteExceptionHelper.write (out, $ex);
+           RemoteExceptionHelper.write (out, $ex);
          }
          break;
        }
@@ -70,9 +70,9 @@ public abstract class RegionalRecordManipulatorPOA extends org.omg.PortableServe
            $result = this.createERecord (managerID, firstName, lastName, employeeID, mailID, projectId);
            out = $rh.createReply();
            out.write_string ($result);
-         } catch (DEMS.RemoteException $ex) {
+         } catch (RemoteException $ex) {
            out = $rh.createExceptionReply ();
-           DEMS.RemoteExceptionHelper.write (out, $ex);
+           RemoteExceptionHelper.write (out, $ex);
          }
          break;
        }
@@ -88,9 +88,9 @@ public abstract class RegionalRecordManipulatorPOA extends org.omg.PortableServe
            $result = this.editRecord (managerID, recordID, feildName, newValue);
            out = $rh.createReply();
            out.write_string ($result);
-         } catch (DEMS.RemoteException $ex) {
+         } catch (RemoteException $ex) {
            out = $rh.createExceptionReply ();
-           DEMS.RemoteExceptionHelper.write (out, $ex);
+           RemoteExceptionHelper.write (out, $ex);
          }
          break;
        }
@@ -105,9 +105,9 @@ public abstract class RegionalRecordManipulatorPOA extends org.omg.PortableServe
            $result = this.transferRecord (managerID, recordID, remoteSeverName);
            out = $rh.createReply();
            out.write_string ($result);
-         } catch (DEMS.RemoteException $ex) {
+         } catch (RemoteException $ex) {
            out = $rh.createExceptionReply ();
-           DEMS.RemoteExceptionHelper.write (out, $ex);
+           RemoteExceptionHelper.write (out, $ex);
          }
          break;
        }
@@ -120,9 +120,9 @@ public abstract class RegionalRecordManipulatorPOA extends org.omg.PortableServe
            $result = this.getRecordCount (managerID);
            out = $rh.createReply();
            out.write_string ($result);
-         } catch (DEMS.RemoteException $ex) {
+         } catch (RemoteException $ex) {
            out = $rh.createExceptionReply ();
-           DEMS.RemoteExceptionHelper.write (out, $ex);
+           RemoteExceptionHelper.write (out, $ex);
          }
          break;
        }

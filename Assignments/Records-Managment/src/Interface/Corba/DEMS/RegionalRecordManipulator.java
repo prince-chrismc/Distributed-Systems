@@ -1,4 +1,4 @@
-package DEMS;
+package Interface.Corba.DEMS;
 
 
 /**

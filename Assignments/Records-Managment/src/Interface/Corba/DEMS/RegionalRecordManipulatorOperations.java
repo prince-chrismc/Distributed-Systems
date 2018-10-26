@@ -1,4 +1,4 @@
-package DEMS;
+package Interface.Corba.DEMS;
 
 
 /**
@@ -10,10 +10,10 @@ package DEMS;
 
 public interface RegionalRecordManipulatorOperations 
 {
-  String createMRecord (String managerID, String firstName, String lastName, int employeeID, String mailID, DEMS.Project projects, String location) throws DEMS.RemoteException;
-  String createERecord (String managerID, String firstName, String lastName, int employeeID, String mailID, String projectId) throws DEMS.RemoteException;
-  String editRecord (String managerID, String recordID, String feildName, org.omg.CORBA.Any newValue) throws DEMS.RemoteException;
-  String transferRecord (String managerID, String recordID, String remoteSeverName) throws DEMS.RemoteException;
-  String getRecordCount (String managerID) throws DEMS.RemoteException;
+  String createMRecord (String managerID, String firstName, String lastName, int employeeID, String mailID, Project projects, String location) throws RemoteException;
+  String createERecord (String managerID, String firstName, String lastName, int employeeID, String mailID, String projectId) throws RemoteException;
+  String editRecord (String managerID, String recordID, String feildName, org.omg.CORBA.Any newValue) throws RemoteException;
+  String transferRecord (String managerID, String recordID, String remoteSeverName) throws RemoteException;
+  String getRecordCount (String managerID) throws RemoteException;
   void shutdown ();
 } // interface RegionalRecordManipulatorOperations
