@@ -33,13 +33,15 @@ module DEMS
 
    interface RegionalRecordManipulator
    {
-      string createMRecord(in string firstName, in string lastName, in long employeeID, in string mailID, in Project projects, in string location) raises(RemoteException);
+      string createMRecord(in string managerID, in string firstName, in string lastName, in long employeeID, in string mailID, in Project projects, in string location) raises(RemoteException);
 
-      string createERecord(in string firstName, in string lastName, in long employeeID, in string mailID, in string projectId) raises(RemoteException);
+      string createERecord(in string managerID, in string firstName, in string lastName, in long employeeID, in string mailID, in string projectId) raises(RemoteException);
 
-      string editRecord(in string recordID, in string feildName, in any newValue) raises(RemoteException);
-    
-      string getRecordCount() raises(RemoteException);
+      string editRecord(in string managerID, in string recordID, in string feildName, in any newValue) raises(RemoteException);
+
+      string transferRecord(in string managerID, in string recordID, in string remoteSeverName) raises(RemoteException);
+
+      string getRecordCount(in string managerID) raises(RemoteException);
 
       oneway void shutdown();
    };
