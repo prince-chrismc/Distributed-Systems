@@ -73,13 +73,13 @@ public class RegionalClient {
     public String getRecordCount() throws RemoteException {
         return m_Remote.getRecordCount();
     }
-    
-        public int getRegionalRecordCount() throws RemoteException {
+
+    public int getRegionalRecordCount() throws RemoteException {
         String allDesc = m_Remote.getRecordCount();
-        
-        allDesc = allDesc.substring(allDesc.indexOf(m_Region.getPrefix())+3);
+
+        allDesc = allDesc.substring(allDesc.indexOf(m_Region.getPrefix()) + 3);
         allDesc = allDesc.substring(0, allDesc.indexOf(" "));
-        
+
         return Integer.parseInt(allDesc);
     }
 }

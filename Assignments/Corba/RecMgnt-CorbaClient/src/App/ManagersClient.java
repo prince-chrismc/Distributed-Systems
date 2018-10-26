@@ -20,7 +20,7 @@
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
-*/
+ */
 package App;
 
 import Client.RegionalClient;
@@ -40,7 +40,7 @@ public class ManagersClient {
 
         try {
             ORB orb = ORB.init(args, null);
-            RegionalClient client = new RegionalClient(orb, "US1234" );
+            RegionalClient client = new RegionalClient(orb, "US1234");
 
             System.out.println("The result for addition is : " + client.getRecordCount());
             System.out.println("-----------------------------------");

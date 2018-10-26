@@ -21,12 +21,13 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
  */
-package Server;
+package Corba.Server;
 
 import Interface.Corba.DEMS.Project;
 import Interface.Corba.DEMS.RegionalRecordManipulatorPOA;
 import Interface.Corba.DEMS.RemoteException;
 import Models.Region;
+import Server.RegionalServer;
 import java.io.IOException;
 import org.omg.CORBA.*;
 
@@ -48,7 +49,7 @@ public class CorbaRegionalServer extends RegionalRecordManipulatorPOA {
     public void setORB(ORB orb_val) {
         orb = orb_val;
     }
-    
+
     public void Start() {
         m_Server.Start();
     }
@@ -62,7 +63,7 @@ public class CorbaRegionalServer extends RegionalRecordManipulatorPOA {
     @Override
     public String createMRecord(String firstName, String lastName, int employeeID, String mailID, Project projects, String location) throws RemoteException {
         try {
-            Models.Project project = new Models.Project( projects );
+            Models.Project project = new Models.Project(projects);
             return m_Server.createManagerRecord(firstName, lastName, employeeID, mailID, project, location);
         } catch (Exception ex) {
             System.out.println(ex);

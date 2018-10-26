@@ -1,14 +1,32 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+    MIT License
+
+    Copyright (c) 2018 Chris Mc, prince.chrismc(at)gmail(dot)com
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
  */
 package App;
 
 import Interface.Corba.DEMS.RegionalRecordManipulator;
 import Interface.Corba.DEMS.RegionalRecordManipulatorHelper;
 import Models.Region;
-import Server.CorbaRegionalServer;
+import Corba.Server.CorbaRegionalServer;
 import org.omg.CosNaming.*;
 import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
@@ -18,13 +36,12 @@ import org.omg.PortableServer.POA;
  *
  * @author cmcarthur
  */
-public class RecMgntCorbaServer {
+public class CentralServers {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
 
         try {
             // create and initialize the ORB //// get reference to rootpoa & activate the POAManager
@@ -35,11 +52,8 @@ public class RecMgntCorbaServer {
             // LEt's get a reference to the NamingService of CORBA
             org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
             NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
-            
-            
-            // --------------------------------------------------------------------------------------------------------------
 
-            
+            // --------------------------------------------------------------------------------------------------------------
             // create servant and register it with the ORB
             CorbaRegionalServer Canada = new CorbaRegionalServer(Region.CA);
             Canada.setORB(orb);
@@ -52,10 +66,8 @@ public class RecMgntCorbaServer {
 
             Canada.Start();
             System.out.println("Canada Server ready and waiting ...");
-            
-            
+
             // --------------------------------------------------------------------------------------------------------------
-            
             // create servant and register it with the ORB
             CorbaRegionalServer UnitedStates = new CorbaRegionalServer(Region.US);
             UnitedStates.setORB(orb);
@@ -68,11 +80,9 @@ public class RecMgntCorbaServer {
 
             UnitedStates.Start();
             System.out.println("United States Server ready and waiting ...");
-            
-            // --------------------------------------------------------------------------------------------------------------
 
-            
-                        // create servant and register it with the ORB
+            // --------------------------------------------------------------------------------------------------------------
+            // create servant and register it with the ORB
             CorbaRegionalServer UnitedKingdom = new CorbaRegionalServer(Region.UK);
             UnitedKingdom.setORB(orb);
             // get object reference from the servant
@@ -84,21 +94,17 @@ public class RecMgntCorbaServer {
 
             UnitedKingdom.Start();
             System.out.println("United States Server ready and waiting ...");
-            
-                        // --------------------------------------------------------------------------------------------------------------
 
-                        
-                        
+            // --------------------------------------------------------------------------------------------------------------
             // wait for invocations from clients
             for (;;) {
                 orb.run();
             }
         } catch (Exception e) {
+            System.out.println(" --> Internal Server ERROR: ");
             System.out.println(e);
         }
 
         System.out.println("Central Server Exiting ...");
-
     }
-
 }
