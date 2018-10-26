@@ -4,12 +4,16 @@ jdk:
   - openjdk8
   
 script:
-  - cd Assignments/RecordsManagment
+  - cd Assignments/Records-Managment
   - ant compile jar
-  - cd ../JavaRmi/RecordsManagment-Server
+  - cd ../Java-Rmi/Server
   - ant compile jar test
-  - cd ../RecordsManagment-Client
+  - cd ../Client
   - ant compile jar
   - cd ..
-  - ant -f RecordsManagment-Server run &
-  - ant -f RecordsManagment-Client test
+  - ant -f Server run &
+  - ant -f Client test
+  - cd ../Corba/Server
+  - ant compile jar
+  - cd ../Client
+  - ant compile jar

@@ -22,33 +22,11 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
-# General Package project and build files
-/Assignments/RecordsManagment/dist/
-/Assignments/RecordsManagment/build/
-/Assignments/RecordsManagment/nbproject/private/
 
-# Java RMI Client Package project and build files
-/Assignments/JavaRmi/RecordsManagment-Client/dist/
-/Assignments/JavaRmi/RecordsManagment-Client/build/
-/Assignments/JavaRmi/RecordsManagment-Client/Logs/
-/Assignments/JavaRmi/RecordsManagment-Client/nbproject/private/
-
-# Java RMI Server Package project and build files
-/Assignments/JavaRmi/RecordsManagment-Server/dist/
-/Assignments/JavaRmi/RecordsManagment-Server/build/
-/Assignments/JavaRmi/RecordsManagment-Server/Logs/
-/Assignments/JavaRmi/RecordsManagment-Server/nbproject/private/
-
-/Assignments/Corba/RecMgnt-CorbaServer/nbproject/private/
-/Assignments/Corba/RecMgnt-CorbaServer/build/
-/Assignments/Corba/RecMgnt-CorbaServer/dist/
-/Assignments/Corba/RecMgnt-CorbaServer/Logs/
-
-/Assignments/Corba/RecMgnt-Corba/nbproject/private/
-/Assignments/Corba/RecMgnt-Corba/dist/
-/Assignments/Corba/RecMgnt-Corba/build/
-
-/Assignments/Corba/RecMgnt-CorbaClient/nbproject/private/
-/Assignments/Corba/RecMgnt-CorbaClient/build/
-/Assignments/Corba/RecMgnt-CorbaClient/dist/
-/Assignments/Corba/RecMgnt-CorbaClient/Logs/
+#
+# Output files from the assignments
+#
+build/
+dist/
+Logs/
+private/

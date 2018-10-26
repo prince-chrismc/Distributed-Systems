@@ -6,7 +6,7 @@ This is a Java IPC repository to contain my work for Distributed Systems (SOEN42
 - [Building](#Building)
   
 ## [Assignments](https://github.com/prince-chrismc/Distributed-Systems/tree/master/Assignments)
-- [Java RMI](https://github.com/prince-chrismc/Distributed-Systems/tree/master/Assignments/JavaRmi)
+- [Java RMI](https://github.com/prince-chrismc/Distributed-Systems/tree/master/Assignments/Java-Rmi)
 - [CORBA](https://github.com/prince-chrismc/Distributed-Systems/tree/master/Assignments/Corba)
 
 ## Building

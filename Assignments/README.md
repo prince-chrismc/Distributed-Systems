@@ -1,9 +1,9 @@
 ## Assignments
-This directory contains all the assignments for the class. The common project [`RecordsManagment`](https://github.com/prince-chrismc/Distributed-Systems/tree/master/Assignments/RecordsManagment) holds everything that is not specific to the framework of the assignment since those components will be re-used through out.
+This directory contains all the assignments for the class. The common project [`RecordsManagment`](https://github.com/prince-chrismc/Distributed-Systems/tree/master/Assignments/Records-Managment) holds everything that is not specific to the framework of the assignment since those components will be re-used through out.
 
 **Number** | **Name** | **Status**
 :---: | :--- | ---
-1 | [JavaRmi](https://github.com/prince-chrismc/Distributed-Systems/tree/master/Assignments/JavaRmi) | Completed
+1 | [JavaRmi](https://github.com/prince-chrismc/Distributed-Systems/tree/master/Assignments/Java-Rmi) | Completed
 2 | [Corba](https://github.com/prince-chrismc/Distributed-Systems/tree/master/Assignments/Corba) | _WIP_
 
 ### Notes
