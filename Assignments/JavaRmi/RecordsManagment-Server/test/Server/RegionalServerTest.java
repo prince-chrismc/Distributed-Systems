@@ -23,11 +23,20 @@
  */
 package Server;
 
+import Interface.Rmi.RegionalRecordManipulator;
 import Models.Region;
 import Rmi.Server.RmiRegionalServer;
 import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import org.junit.Assert;
+import static org.junit.Assert.assertEquals;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -35,22 +44,54 @@ import org.junit.Test;
  * @author cmcarthur
  */
 public class RegionalServerTest {
-    
+
+    static private Registry registry;
+
     public RegionalServerTest() {
     }
-    
+
+    @BeforeClass
+    static public void setupRegistry() throws RemoteException {
+        registry = LocateRegistry.createRegistry(12345);
+    }
+
     @Test
-    public void canLaunchServer() {
-            try {
-            Registry registry = LocateRegistry.createRegistry(12345);
+    public void canLaunchServer() throws RemoteException, IOException {
+        RmiRegionalServer UnitedStates = new RmiRegionalServer(Region.US);
+        registry.rebind("canLaunchServer", UnitedStates);
+        UnitedStates.Start();
+    }
 
-            RmiRegionalServer Canada = new RmiRegionalServer(Region.CA);
-            registry.rebind(Canada.getUrl(), Canada);
-            Canada.Start();
+    @Test
+    public void canLookupServer() throws RemoteException, NotBoundException, IOException {
+        RmiRegionalServer Canada = new RmiRegionalServer(Region.CA);
+        registry.rebind(Canada.getUrl(), Canada);
 
-        } catch (IOException e) {
-            System.out.println("   --> ERROR : Internal Server <--");
-            System.out.println(e);
-        }
+        RegionalRecordManipulator Remote = (RegionalRecordManipulator) registry.lookup("rmi://localhost/" + Region.CA.toString());
+
+        Assert.assertNotEquals("Remote Interface must be obtained", null, Remote);
+    }
+
+    @Test
+    public void canCommunicateWithServer() throws Exception {
+        RmiRegionalServer UnitedKingdom = new RmiRegionalServer(Region.UK);
+        UnitedKingdom.Start();
+
+        DatagramSocket socket = new DatagramSocket();
+        InetAddress address = InetAddress.getByName("localhost");
+        Message request = new Message(OperationCode.GET_RECORD_COUNT, "", address, Region.UK.toInt());
+
+        socket.send(request.getPacket());
+
+        byte[] buf = new byte[256];
+        DatagramPacket packet = new DatagramPacket(buf, buf.length);
+
+        socket.setSoTimeout(1000); // Set timeout in case packet is lost
+        socket.receive(packet);
+
+        Message response = new Message(packet);
+
+        assertEquals("Get Record cound must be answered with an ACK", OperationCode.ACK_GET_RECORD_COUNT, response.getOpCode());
+        assertEquals("Canada RS should have Zero records", "UK 0", Region.UK.getPrefix() + " " + response.getData());
     }
 }
