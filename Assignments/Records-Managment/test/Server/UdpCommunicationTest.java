@@ -23,10 +23,15 @@
  */
 package Server;
 
+import Models.ManagerRecord;
 import Models.Project;
 import Models.ProjectIdentifier;
 import Models.Region;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -213,7 +218,7 @@ public class UdpCommunicationTest {
 
         assertEquals("request must be answered with an ACK", OperationCode.ACK_DOES_RECORD_EXIST, responseOne.getOpCode());
         assertEquals("record should be found", newManagerRecordId, responseOne.getData());
-        
+
         socket.send(request.getPacket());
         socket.receive(packet);
         Message responseTwo = new Message(packet);
@@ -305,4 +310,44 @@ public class UdpCommunicationTest {
         assertEquals("UK RS should have Zero records", currentRegion.getPrefix() + " 0", currentRegion.getPrefix() + " " + responseTwo.getData());
 
     }
+
+    @Test
+    public void canTransferRecord() throws Exception {
+        TestRegion currentRegion = TestRegion.TEN;
+
+        RegionalServer Server = new RegionalServer(currentRegion);
+        Server.Start();
+
+        DatagramSocket socket = new DatagramSocket();
+        InetAddress address = InetAddress.getByName("localhost");
+
+        ManagerRecord recordToSend = new ManagerRecord(12, "canTransferRecord", "JUnit Test Case", 1654, "test.code@pronerd.com",
+                new Project(new ProjectIdentifier(0), "Huge Project", "Rich Client"), Region.CA);
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        ObjectOutputStream os = new ObjectOutputStream(outputStream);
+        os.writeObject(recordToSend);
+
+        Message request = new Message(OperationCode.TRANSFER_RECORD, outputStream.toString(), address, currentRegion.toInt());
+
+        socket.send(request.getPacket());
+
+        byte[] buf = new byte[512];
+        DatagramPacket packet = new DatagramPacket(buf, buf.length);
+
+        socket.setSoTimeout(1000); // Set timeout in case packet is lost
+        socket.receive(packet);
+
+        Message response = new Message(packet);
+
+        byte[] data = response.getData().getBytes();
+        ByteArrayInputStream in = new ByteArrayInputStream(data);
+        ObjectInputStream is = new ObjectInputStream(in);
+        
+        ManagerRecord result = (ManagerRecord) is.readObject();
+
+        assertEquals("transfer Record must be answered with an ACK", OperationCode.ACK_TRANSFER_RECORD, response.getOpCode());
+        assertEquals("Record sent must match received data", recordToSend, result);
+    }
+
 }

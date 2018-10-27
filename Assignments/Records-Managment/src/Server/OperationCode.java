@@ -34,7 +34,9 @@ public enum OperationCode {
     GET_RECORD_COUNT(1002),
     ACK_GET_RECORD_COUNT(3002),
     DOES_RECORD_EXIST(1003),
-    ACK_DOES_RECORD_EXIST(3003);
+    ACK_DOES_RECORD_EXIST(3003),
+    TRANSFER_RECORD(1004),
+    ACK_TRANSFER_RECORD(3004);
 
     private OperationCode(int val) {
         m_Value = val;
