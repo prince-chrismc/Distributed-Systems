@@ -5,7 +5,7 @@ jdk:
   
 script:
   - cd Assignments/Records-Managment
-  - ant compile jar
+  - ant compile jar test
   - cd ../Java-Rmi/Server
   - ant compile jar test
   - cd ../Client
