@@ -78,7 +78,7 @@ public class UdpCommunicationTest {
         byte[] buf = new byte[256];
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
 
-        socket.setSoTimeout(1000); // Set timeout in case packet is lost
+        socket.setSoTimeout(5000); // Set timeout in case packet is lost
         socket.receive(packet);
 
         Message response = new Message(packet);
@@ -101,7 +101,7 @@ public class UdpCommunicationTest {
         byte[] buf = new byte[256];
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
 
-        socket.setSoTimeout(1000); // Set timeout in case packet is lost
+        socket.setSoTimeout(5000); // Set timeout in case packet is lost
         socket.receive(packet);
 
         Message response = new Message(packet);
@@ -126,7 +126,7 @@ public class UdpCommunicationTest {
         byte[] buf = new byte[256];
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
 
-        socket.setSoTimeout(1000); // Set timeout in case packet is lost
+        socket.setSoTimeout(5000); // Set timeout in case packet is lost
         socket.receive(packet);
 
         Message response = new Message(packet);
@@ -167,7 +167,7 @@ public class UdpCommunicationTest {
         byte[] buf = new byte[256];
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
 
-        socket.setSoTimeout(1000); // Set timeout in case packet is lost
+        socket.setSoTimeout(5000); // Set timeout in case packet is lost
         socket.receive(packet);
 
         Message response = new Message(packet);
@@ -206,7 +206,7 @@ public class UdpCommunicationTest {
         byte[] buf = new byte[256];
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
 
-        socket.setSoTimeout(1000); // Set timeout in case packet is lost
+        socket.setSoTimeout(5000); // Set timeout in case packet is lost
         socket.receive(packet);
 
         Message responseOne = new Message(packet);
@@ -215,6 +215,7 @@ public class UdpCommunicationTest {
         assertEquals("record should be found", newManagerRecordId, responseOne.getData());
         
         socket.send(request.getPacket());
+        socket.receive(packet);
         Message responseTwo = new Message(packet);
 
         assertEquals("request must be answered with an ACK", OperationCode.ACK_DOES_RECORD_EXIST, responseTwo.getOpCode());
@@ -237,7 +238,7 @@ public class UdpCommunicationTest {
         byte[] buf = new byte[256];
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
 
-        socket.setSoTimeout(1000); // Set timeout in case packet is lost
+        socket.setSoTimeout(5000); // Set timeout in case packet is lost
         socket.receive(packet);
 
         Message response = new Message(packet);
@@ -250,7 +251,7 @@ public class UdpCommunicationTest {
         socket.send(request.getPacket());
 
         try {
-            socket.setSoTimeout(1000); // Set timeout in case packet is lost
+            socket.setSoTimeout(5000); // Set timeout in case packet is lost
             socket.receive(packet);
         } catch (IOException e) {
             assertEquals("Scoket should time out", "Receive timed out", e.getMessage());
@@ -273,7 +274,7 @@ public class UdpCommunicationTest {
         byte[] buf = new byte[256];
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
 
-        socket.setSoTimeout(1000); // Set timeout in case packet is lost
+        socket.setSoTimeout(5000); // Set timeout in case packet is lost
         socket.receive(packet);
 
         Message response = new Message(packet);
@@ -286,7 +287,7 @@ public class UdpCommunicationTest {
         socket.send(request.getPacket());
 
         try {
-            socket.setSoTimeout(1000); // Set timeout in case packet is lost
+            socket.setSoTimeout(5000); // Set timeout in case packet is lost
             socket.receive(packet);
         } catch (IOException e) {
             assertEquals("Scoket should time out", "Receive timed out", e.getMessage());
