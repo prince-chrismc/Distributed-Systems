@@ -86,6 +86,7 @@ public class RequestListener implements Runnable {
                 socket.receive(packet);
             } catch (IOException ex) {
                 m_Logger.Log("Failed to receive message due to: " + ex.getMessage());
+                return;
             }
 
             m_Logger.Log("Processing new request...");
@@ -113,7 +114,7 @@ public class RequestListener implements Runnable {
                 case DOES_RECORD_EXIST:
                     responsePayload = m_Handler.doesRecordExists(request.getData());
                     responseCode = OperationCode.ACK_DOES_RECORD_EXIST;
-                    m_Logger.Log("Answering Request for record count '" + responsePayload + "'.");
+                    m_Logger.Log("Answering Request for does record exist '" + responsePayload + "'.");
                     break;
                 default:
                     m_Logger.Log("Unhandle request: " + request.toString());
