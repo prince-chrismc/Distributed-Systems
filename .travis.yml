@@ -5,17 +5,20 @@ jdk:
   
 script:
   - cd Assignments/Records-Managment
-  - ant compile jar test
+  - ant compile jar > /dev/null 2>&1
+  - ant test
   - cd ../Java-Rmi/Server
-  - ant compile jar test
+  - ant compile jar > /dev/null 2>&1
+  - ant test
   - cd ../Client
-  - ant compile jar
+  - ant compile jar > /dev/null 2>&1
   - cd ..
-  - ant -f Server run &
+  - ant -f Server run > /dev/null 2>&1 &
   - ant -f Client test
   - kill %1
   - cd ../Corba/Server
   - orbd -ORBInitialPort 1050 &
-  - ant compile jar test
+  - ant compile jar > /dev/null 2>&1
+  - ant test
   - cd ../Client
   - ant compile jar
