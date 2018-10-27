@@ -32,7 +32,9 @@ public enum OperationCode {
     UPDATE_RECORD_INDEX(1001),
     ACK_UPDATE_RECORD_INDEX(3001),
     GET_RECORD_COUNT(1002),
-    ACK_GET_RECORD_COUNT(3002);
+    ACK_GET_RECORD_COUNT(3002),
+    DOES_RECORD_EXIST(1003),
+    ACK_DOES_RECORD_EXIST(3003);
 
     private OperationCode(int val) {
         m_Value = val;

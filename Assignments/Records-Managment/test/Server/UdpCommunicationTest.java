@@ -127,4 +127,29 @@ public class UdpCommunicationTest {
         final String result = Server.getRecordCount("");
         assertEquals("Models.Regions should have TIMEOUT status", expected, result);
     }
+    
+    @Test
+    public void doesRecordNotExistInServer() throws Exception {
+        RegionalServer Server = new RegionalServer(TestRegion.SIX);
+        Server.Start();
+        
+        final String TEST_MANAGER_RECORD = "MR6541";
+
+        DatagramSocket socket = new DatagramSocket();
+        InetAddress address = InetAddress.getByName("localhost");
+        Message request = new Message(OperationCode.DOES_RECORD_EXIST, TEST_MANAGER_RECORD, address, TestRegion.SIX.toInt());
+
+        socket.send(request.getPacket());
+
+        byte[] buf = new byte[256];
+        DatagramPacket packet = new DatagramPacket(buf, buf.length);
+
+        socket.setSoTimeout(1000); // Set timeout in case packet is lost
+        socket.receive(packet);
+
+        Message response = new Message(packet);
+
+        assertEquals("request must be answered with an ACK", OperationCode.ACK_DOES_RECORD_EXIST, response.getOpCode());
+        assertEquals("record should not be found", "NOT FOUND", response.getData());
+    }
 }
