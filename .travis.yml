@@ -14,7 +14,7 @@ script:
   - ant -f Server run &
   - ant -f Client test
   - cd ../Corba/Server
-  - start orbd -ORBInitialPort 1050 &
+  - orbd -ORBInitialPort 1050 &
   - ant compile jar test
   - cd ../Client
   - ant compile jar
