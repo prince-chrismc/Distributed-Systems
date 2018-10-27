@@ -278,7 +278,7 @@ public class RegionalServer implements RequestListener.Processor {
 
         } catch (Exception ex) {
 
-            if (retryCounter >= 10) {
+            if (retryCounter < 10) {
                 m_Logger.Log("Failed to get record count from [" + region + "]. trying...");
                 System.out.println(ex);
                 return getRegionalCount(region, ++retryCounter);
