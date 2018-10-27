@@ -33,7 +33,9 @@ import Models.RecordIdentifier;
 import Models.RecordsMap;
 import Interface.Region;
 import Utility.Logger;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -279,8 +281,7 @@ public class RegionalServer implements RequestListener.Processor {
         } catch (Exception ex) {
 
             if (retryCounter < 10) {
-                m_Logger.Log("Failed to get record count from [" + region + "]. trying...");
-                System.out.println(ex);
+                m_Logger.Log("Failed to get record count from [" + region + "] due to : " + ex.getMessage() + ". Retrying...");
                 return getRegionalCount(region, ++retryCounter);
             } else {
                 return region.getPrefix() + " TIMEOUT";
@@ -298,9 +299,9 @@ public class RegionalServer implements RequestListener.Processor {
     }
 
     @Override
-    public String doesRecordExists(String data) {
+    public String doesRecordExists(String recordID) {
         synchronized (m_Records) {
-            Record record = m_Records.removeRecord(data);
+            Record record = m_Records.removeRecord(recordID);
 
             if (record == null) {
                 return "NOT FOUND";
@@ -309,5 +310,38 @@ public class RegionalServer implements RequestListener.Processor {
                 return record.getRecordId().toString();
             }
         }
+    }
+
+    @Override
+    public String transferRecord(String data) {
+        System.out.println("Server.RegionalServer.transferRecord()  " + data);
+        
+        try {
+            ByteArrayInputStream in = new ByteArrayInputStream(data.getBytes());
+            ObjectInputStream is = new ObjectInputStream(in);
+            if (is.readObject().getClass() == ManagerRecord.class) {
+                ManagerRecord newRecord = (ManagerRecord) is.readObject();
+
+                synchronized (m_Records) {
+                    m_Records.addRecord(newRecord);
+                    return newRecord.getRecordId().toString();
+                }
+            } else if (is.readObject().getClass() == EmployeeRecord.class) {
+                EmployeeRecord newRecord = (EmployeeRecord) is.readObject();
+
+                synchronized (m_Records) {
+                    m_Records.addRecord(newRecord);
+                    return newRecord.getRecordId().toString();
+                }
+            }
+            is.close();
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+            ex.printStackTrace();
+            return "ERROR";
+        }
+
+        return "ERROR";
     }
 }

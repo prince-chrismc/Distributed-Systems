@@ -45,6 +45,8 @@ public class RequestListener implements Runnable {
         public int getCurrentRecordCount();
 
         public String doesRecordExists(String data);
+
+        public String transferRecord(String data);
     }
 
     private Processor m_Handler;
@@ -132,6 +134,11 @@ public class RequestListener implements Runnable {
                     responsePayload = m_Handler.doesRecordExists(request.getData());
                     responseCode = OperationCode.ACK_DOES_RECORD_EXIST;
                     m_Logger.Log("Answering Request for does record exist '" + responsePayload + "'.");
+                    break;
+                case TRANSFER_RECORD:
+                    responsePayload = m_Handler.transferRecord(request.getData());
+                    responseCode = OperationCode.ACK_TRANSFER_RECORD;
+                    m_Logger.Log("Answering Request for transfer record '" + responsePayload + "'.");
                     break;
                 default:
                     m_Logger.Log("Unhandle request: " + request.toString());
