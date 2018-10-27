@@ -73,7 +73,6 @@ public class UdpCommunicationTest {
         InetAddress address = InetAddress.getByName("localhost");
         Message request = new Message(OperationCode.GET_RECORD_COUNT, "", address, currentRegion.toInt());
 
-        System.out.println("Sending Packet... Testing for timming");
         socket.send(request.getPacket());
 
         byte[] buf = new byte[256];
@@ -97,7 +96,6 @@ public class UdpCommunicationTest {
         InetAddress address = InetAddress.getByName("localhost");
         Message request = new Message(OperationCode.UPDATE_RECORD_INDEX, "ER30002", address, TestRegion.THREE.toInt());
 
-        System.out.println("Sending Packet... Testing for timming");
         socket.send(request.getPacket());
 
         byte[] buf = new byte[256];
@@ -123,8 +121,7 @@ public class UdpCommunicationTest {
         InetAddress address = InetAddress.getByName("localhost");
         Message request = new Message(OperationCode.UPDATE_RECORD_INDEX, TEST_MANAGER_RECORD, address, TestRegion.FOUR.toInt());
 
-                System.out.println("Sending Packet... Testing for timming");
-socket.send(request.getPacket());
+        socket.send(request.getPacket());
 
         byte[] buf = new byte[256];
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
@@ -165,8 +162,7 @@ socket.send(request.getPacket());
         InetAddress address = InetAddress.getByName("localhost");
         Message request = new Message(OperationCode.DOES_RECORD_EXIST, TEST_MANAGER_RECORD, address, TestRegion.SIX.toInt());
 
-                System.out.println("Sending Packet... Testing for timming");
-socket.send(request.getPacket());
+        socket.send(request.getPacket());
 
         byte[] buf = new byte[256];
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
@@ -205,8 +201,7 @@ socket.send(request.getPacket());
         InetAddress address = InetAddress.getByName("localhost");
         Message request = new Message(OperationCode.DOES_RECORD_EXIST, newManagerRecordId, address, TestRegion.SEVEN.toInt());
 
-                System.out.println("Sending Packet... Testing for timming");
-socket.send(request.getPacket());
+        socket.send(request.getPacket());
 
         byte[] buf = new byte[256];
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
@@ -238,8 +233,7 @@ socket.send(request.getPacket());
         InetAddress address = InetAddress.getByName("localhost");
         Message request = new Message(OperationCode.GET_RECORD_COUNT, "", address, currentRegion.toInt());
 
-                System.out.println("Sending Packet... Testing for timming");
-socket.send(request.getPacket());
+        socket.send(request.getPacket());
 
         byte[] buf = new byte[256];
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
@@ -254,8 +248,7 @@ socket.send(request.getPacket());
 
         Server.Stop();
 
-                System.out.println("Sending Packet... Testing for timming");
-socket.send(request.getPacket());
+        socket.send(request.getPacket());
 
         try {
             socket.setSoTimeout(1000); // Set timeout in case packet is lost
@@ -276,8 +269,7 @@ socket.send(request.getPacket());
         InetAddress address = InetAddress.getByName("localhost");
         Message request = new Message(OperationCode.GET_RECORD_COUNT, "", address, currentRegion.toInt());
 
-                System.out.println("Sending Packet... Testing for timming");
-socket.send(request.getPacket());
+        socket.send(request.getPacket());
 
         byte[] buf = new byte[256];
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
@@ -292,8 +284,7 @@ socket.send(request.getPacket());
 
         Server.Stop();
 
-                System.out.println("Sending Packet... Testing for timming");
-socket.send(request.getPacket());
+        socket.send(request.getPacket());
 
         try {
             socket.setSoTimeout(1000); // Set timeout in case packet is lost
@@ -304,8 +295,7 @@ socket.send(request.getPacket());
 
         Server.Start();
 
-                System.out.println("Sending Packet... Testing for timming");
-socket.send(request.getPacket());
+        socket.send(request.getPacket());
 
         socket.receive(packet);
 
