@@ -41,7 +41,7 @@ import org.junit.Test;
  */
 public class UdpCommunicationTest {
 
-    final static private ReentrantLock lock = new ReentrantLock();
+    static private ReentrantLock lock = new ReentrantLock();
     static private RegionalServer Canada;
     static private RegionalServer UnitedStates;
     static private RegionalServer UnitedKingdom;
@@ -205,7 +205,7 @@ public class UdpCommunicationTest {
             Message response = new Message(packet);
 
             assertEquals("request must be answered with an ACK", OperationCode.ACK_DOES_RECORD_EXIST, response.getOpCode());
-            assertEquals("record should not be found", "NOT FOUND", response.getData());
+            assertEquals("record should not be found", TEST_MANAGER_RECORD, response.getData());
 
         } finally {
             Canada.Stop();

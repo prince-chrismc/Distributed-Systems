@@ -295,4 +295,17 @@ public class RegionalServer implements RequestListener.Processor {
     public String transferRecord(String managerID, String recordID, String remoteSeverName) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public String doesRecordExists(String data) {
+        synchronized (m_Records) {
+            Record record = m_Records.removeRecord(data);
+
+            if (record == null) {
+                return "NOT FOUND";
+            } else {
+                return record.getRecordId().toString();
+            }
+        }
+    }
 }

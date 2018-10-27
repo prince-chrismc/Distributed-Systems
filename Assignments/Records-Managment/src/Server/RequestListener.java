@@ -43,6 +43,8 @@ public class RequestListener implements Runnable {
         public RecordIdentifier updateRecordUuid(RecordIdentifier newRecordId);
 
         public int getCurrentRecordCount();
+
+        public String doesRecordExists(String data);
     }
 
     private Processor m_Handler;
@@ -93,7 +95,7 @@ public class RequestListener implements Runnable {
             OperationCode responseCode = OperationCode.INVALID;
 
             switch (request.getOpCode()) {
-                case UPDATE_RECORD_INDEX: {
+                case UPDATE_RECORD_INDEX:
                     try {
                         responsePayload = m_Handler.updateRecordUuid(RecordIdentifier.fromString(request.getData())).toString();
                         responseCode = OperationCode.ACK_UPDATE_RECORD_INDEX;
@@ -102,17 +104,19 @@ public class RequestListener implements Runnable {
                         m_Logger.Log("Failed to handle update record index request");
                         System.out.println(ex);
                     }
-                }
-                break;
-                case GET_RECORD_COUNT: {
+                    break;
+                case GET_RECORD_COUNT:
                     responsePayload = String.valueOf(m_Handler.getCurrentRecordCount());
                     responseCode = OperationCode.ACK_GET_RECORD_COUNT;
                     m_Logger.Log("Answering Request for record count '" + responsePayload + "'.");
-                }
-                break;
-                default: {
+                    break;
+                case DOES_RECORD_EXIST:
+                    responsePayload = m_Handler.doesRecordExists(request.getData());
+                    responseCode = OperationCode.ACK_DOES_RECORD_EXIST;
+                    m_Logger.Log("Answering Request for record count '" + responsePayload + "'.");
+                    break;
+                default:
                     m_Logger.Log("Unhandle request: " + request.toString());
-                }
             }
 
             InetAddress address = packet.getAddress();
