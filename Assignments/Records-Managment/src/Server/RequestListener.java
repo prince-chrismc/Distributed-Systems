@@ -49,7 +49,9 @@ public class RequestListener implements Runnable {
 
     private Processor m_Handler;
 
-    private boolean running;
+    private boolean m_ShouldContinueWorking;
+    private boolean m_ProcessingHasBegun;
+
     private Region m_Region;
     private DatagramSocket socket;
     private Logger m_Logger;
@@ -58,28 +60,37 @@ public class RequestListener implements Runnable {
         m_Handler = handler;
         m_Region = region;
         m_Logger = new Logger(region.getPrefix());
+        m_ShouldContinueWorking = false;
+        m_ProcessingHasBegun = false;
     }
 
     public void Stop() {
-        running = false;
+        m_ShouldContinueWorking = false;
         socket.close();
+    }
+
+    public void Wait() {
+        while (m_ProcessingHasBegun == false) {
+            m_Logger.Log("Waiting for Processing to be available");
+        }
     }
 
     @Override
     public void run() {
         try {
             socket = new DatagramSocket(m_Region.toInt());
-            running = true;
+            m_ShouldContinueWorking = true;
         } catch (SocketException ex) {
-            running = false;
+            m_ShouldContinueWorking = false;
             m_Logger.Log("Failed to create socket due to: " + ex.getMessage());
         }
 
-        if (running) {
+        if (m_ShouldContinueWorking) {
             m_Logger.Log("Ready...");
+            m_ProcessingHasBegun = true;
         }
 
-        while (running) {
+        while (m_ShouldContinueWorking) {
             byte[] buf = new byte[256];
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
             try {

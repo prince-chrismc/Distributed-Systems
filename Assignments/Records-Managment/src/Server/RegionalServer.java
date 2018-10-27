@@ -62,6 +62,7 @@ public class RegionalServer implements RequestListener.Processor {
     public void Start() {
         m_ListenerThread = new Thread(m_Listener);
         m_ListenerThread.start();
+        m_Listener.Wait();
         m_Logger.Log(m_Region.toString() + " is running!");
     }
 
