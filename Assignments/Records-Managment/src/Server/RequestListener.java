@@ -66,6 +66,7 @@ public class RequestListener implements Runnable {
 
     public void Stop() {
         m_ShouldContinueWorking = false;
+        m_ProcessingHasBegun = false;
         socket.close();
     }
 
