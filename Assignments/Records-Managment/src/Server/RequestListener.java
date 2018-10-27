@@ -36,7 +36,7 @@ import java.net.SocketException;
  *
  * @author cmcarthur
  */
-public class RequestListener extends Thread {
+public class RequestListener implements Runnable {
 
     public interface Processor {
 
@@ -48,25 +48,34 @@ public class RequestListener extends Thread {
     private Processor m_Handler;
 
     private boolean running;
+    private Region m_Region;
     private DatagramSocket socket;
     private Logger m_Logger;
 
     public RequestListener(Processor handler, Region region) throws SocketException, IOException {
         m_Handler = handler;
-        socket = new DatagramSocket(region.toInt());
+        m_Region = region;
         m_Logger = new Logger(region.getPrefix());
     }
-    
-    public void Stop() throws InterruptedException{
+
+    public void Stop() {
         running = false;
         socket.close();
-        this.join();
     }
 
     @Override
     public void run() {
-        running = true;
-        m_Logger.Log("Ready...");
+        try {
+            socket = new DatagramSocket(m_Region.toInt());
+            running = true;
+        } catch (SocketException ex) {
+            running = false;
+            m_Logger.Log("Failed to create socket due to: " + ex.getMessage());
+        }
+
+        if (running) {
+            m_Logger.Log("Ready...");
+        }
 
         while (running) {
             byte[] buf = new byte[256];
@@ -82,7 +91,7 @@ public class RequestListener extends Thread {
 
             String responsePayload = "ERROR";
             OperationCode responseCode = OperationCode.INVALID;
-            
+
             switch (request.getOpCode()) {
                 case UPDATE_RECORD_INDEX: {
                     try {

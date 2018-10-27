@@ -49,6 +49,7 @@ public class RegionalServer implements RequestListener.Processor {
     final private RequestListener m_Listener;
     final private Logger m_Logger;
     final private RecordUuidTracker m_IdTracker;
+    private Thread m_ListenerThread;
 
     public RegionalServer(Region region) throws IOException {
         m_Region = region;
@@ -59,16 +60,18 @@ public class RegionalServer implements RequestListener.Processor {
     }
 
     public void Start() {
-        m_Listener.start();
+        m_ListenerThread = new Thread(m_Listener);
+        m_ListenerThread.start();
         m_Logger.Log(m_Region.toString() + " is running!");
     }
 
     public void Stop() {
         try {
             m_Listener.Stop();
+            m_ListenerThread.join();
             m_Logger.Log(m_Region.toString() + " has shutdown!");
         } catch (InterruptedException ex) {
-            m_Logger.Log(m_Region.toString() + " --> ERROR <-- Failed to shutdown!");
+            m_Logger.Log(m_Region.toString() + " --> ERROR <-- Failed to shutdown -- " + ex.getMessage());
         }
     }
 
@@ -98,7 +101,7 @@ public class RegionalServer implements RequestListener.Processor {
         }
     }
 
-    public String createEmployeeRecord(String managerID, String firstName, String lastName, int employeeID, String mailID, String projectId){
+    public String createEmployeeRecord(String managerID, String firstName, String lastName, int employeeID, String mailID, String projectId) {
         try {
             ProjectIdentifier projID = new ProjectIdentifier(-1);
             projID.setId(projectId);
@@ -117,7 +120,7 @@ public class RegionalServer implements RequestListener.Processor {
         }
     }
 
-    public String editRecord(String managerID, String recordID, String feildName, Object newValue){
+    public String editRecord(String managerID, String recordID, String feildName, Object newValue) {
         synchronized (m_Records) {
             Record record = null;
             try {
@@ -260,7 +263,7 @@ public class RegionalServer implements RequestListener.Processor {
 
             byte[] buf = new byte[256];
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
-            
+
             socket.setSoTimeout(1000); // Set timeoue in case packet is lost
             socket.receive(packet);
 
@@ -274,14 +277,11 @@ public class RegionalServer implements RequestListener.Processor {
 
         } catch (Exception ex) {
 
-            if( retryCounter >= 10)
-            {
+            if (retryCounter >= 10) {
                 m_Logger.Log("Failed to get record count from [" + region + "]. trying...");
                 System.out.println(ex);
                 return getRegionalCount(region, ++retryCounter);
-            }
-            else
-            {
+            } else {
                 return region.getPrefix() + " TIMEOUT";
             }
         }
