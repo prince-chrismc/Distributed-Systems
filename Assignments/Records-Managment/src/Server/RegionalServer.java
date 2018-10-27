@@ -304,6 +304,7 @@ public class RegionalServer implements RequestListener.Processor {
             if (record == null) {
                 return "NOT FOUND";
             } else {
+                m_Records.addRecord(record);
                 return record.getRecordId().toString();
             }
         }

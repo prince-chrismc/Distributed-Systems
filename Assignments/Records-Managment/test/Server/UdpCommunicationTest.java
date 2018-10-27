@@ -178,41 +178,47 @@ public class UdpCommunicationTest {
 
     @Test
     public void doesRecordExistInServer() throws Exception {
+        String newManagerRecordId = "TBA";
+        RegionalServer Server = new RegionalServer(TestRegion.SEVEN);
+        Server.Start();
+
         lock.lock();
         try {
             Canada.Start();
             UnitedStates.Start();
             UnitedKingdom.Start();
 
-            RegionalServer Server = new RegionalServer(TestRegion.SEVEN);
-            Server.Start();
-
-            final String TEST_MANAGER_RECORD = Server.createManagerRecord("XX0000", "John", "Smith", 25165, "john.smith@example.com",
+            newManagerRecordId = Server.createManagerRecord("XX0000", "John", "Smith", 25165, "john.smith@example.com",
                     new Project(new ProjectIdentifier(0), "Huge Project", "Rich Client"), Region.CA.toString());
-
-            DatagramSocket socket = new DatagramSocket();
-            InetAddress address = InetAddress.getByName("localhost");
-            Message request = new Message(OperationCode.DOES_RECORD_EXIST, TEST_MANAGER_RECORD, address, TestRegion.SEVEN.toInt());
-
-            socket.send(request.getPacket());
-
-            byte[] buf = new byte[256];
-            DatagramPacket packet = new DatagramPacket(buf, buf.length);
-
-            socket.setSoTimeout(1000); // Set timeout in case packet is lost
-            socket.receive(packet);
-
-            Message response = new Message(packet);
-
-            assertEquals("request must be answered with an ACK", OperationCode.ACK_DOES_RECORD_EXIST, response.getOpCode());
-            assertEquals("record should not be found", TEST_MANAGER_RECORD, response.getData());
-
         } finally {
             Canada.Stop();
             UnitedStates.Stop();
             UnitedKingdom.Stop();
             lock.unlock();
         }
+
+        DatagramSocket socket = new DatagramSocket();
+        InetAddress address = InetAddress.getByName("localhost");
+        Message request = new Message(OperationCode.DOES_RECORD_EXIST, newManagerRecordId, address, TestRegion.SEVEN.toInt());
+
+        socket.send(request.getPacket());
+
+        byte[] buf = new byte[256];
+        DatagramPacket packet = new DatagramPacket(buf, buf.length);
+
+        socket.setSoTimeout(1000); // Set timeout in case packet is lost
+        socket.receive(packet);
+
+        Message responseOne = new Message(packet);
+
+        assertEquals("request must be answered with an ACK", OperationCode.ACK_DOES_RECORD_EXIST, responseOne.getOpCode());
+        assertEquals("record should be found", newManagerRecordId, responseOne.getData());
+        
+        socket.send(request.getPacket());
+        Message responseTwo = new Message(packet);
+
+        assertEquals("request must be answered with an ACK", OperationCode.ACK_DOES_RECORD_EXIST, responseTwo.getOpCode());
+        assertEquals("record should be found", newManagerRecordId, responseTwo.getData());
     }
 
     @Test
