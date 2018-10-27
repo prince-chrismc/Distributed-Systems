@@ -79,7 +79,7 @@ public class UdpCommunicationTest {
         byte[] buf = new byte[256];
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
 
-        socket.setSoTimeout(5000); // Set timeout in case packet is lost
+        socket.setSoTimeout(1000); // Set timeout in case packet is lost
         socket.receive(packet);
 
         Message response = new Message(packet);
@@ -103,7 +103,7 @@ public class UdpCommunicationTest {
         byte[] buf = new byte[256];
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
 
-        socket.setSoTimeout(5000); // Set timeout in case packet is lost
+        socket.setSoTimeout(1000); // Set timeout in case packet is lost
         socket.receive(packet);
 
         Message response = new Message(packet);
@@ -129,7 +129,7 @@ socket.send(request.getPacket());
         byte[] buf = new byte[256];
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
 
-        socket.setSoTimeout(5000); // Set timeout in case packet is lost
+        socket.setSoTimeout(1000); // Set timeout in case packet is lost
         socket.receive(packet);
 
         Message response = new Message(packet);
@@ -171,7 +171,7 @@ socket.send(request.getPacket());
         byte[] buf = new byte[256];
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
 
-        socket.setSoTimeout(5000); // Set timeout in case packet is lost
+        socket.setSoTimeout(1000); // Set timeout in case packet is lost
         socket.receive(packet);
 
         Message response = new Message(packet);
@@ -211,7 +211,7 @@ socket.send(request.getPacket());
         byte[] buf = new byte[256];
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
 
-        socket.setSoTimeout(5000); // Set timeout in case packet is lost
+        socket.setSoTimeout(1000); // Set timeout in case packet is lost
         socket.receive(packet);
 
         Message responseOne = new Message(packet);
@@ -219,8 +219,7 @@ socket.send(request.getPacket());
         assertEquals("request must be answered with an ACK", OperationCode.ACK_DOES_RECORD_EXIST, responseOne.getOpCode());
         assertEquals("record should be found", newManagerRecordId, responseOne.getData());
         
-                System.out.println("Sending Packet... Testing for timming");
-socket.send(request.getPacket());
+        socket.send(request.getPacket());
         socket.receive(packet);
         Message responseTwo = new Message(packet);
 
@@ -245,7 +244,7 @@ socket.send(request.getPacket());
         byte[] buf = new byte[256];
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
 
-        socket.setSoTimeout(5000); // Set timeout in case packet is lost
+        socket.setSoTimeout(1000); // Set timeout in case packet is lost
         socket.receive(packet);
 
         Message response = new Message(packet);
@@ -259,7 +258,7 @@ socket.send(request.getPacket());
 socket.send(request.getPacket());
 
         try {
-            socket.setSoTimeout(5000); // Set timeout in case packet is lost
+            socket.setSoTimeout(1000); // Set timeout in case packet is lost
             socket.receive(packet);
         } catch (IOException e) {
             assertEquals("Scoket should time out", "Receive timed out", e.getMessage());
@@ -283,7 +282,7 @@ socket.send(request.getPacket());
         byte[] buf = new byte[256];
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
 
-        socket.setSoTimeout(5000); // Set timeout in case packet is lost
+        socket.setSoTimeout(1000); // Set timeout in case packet is lost
         socket.receive(packet);
 
         Message response = new Message(packet);
@@ -297,7 +296,7 @@ socket.send(request.getPacket());
 socket.send(request.getPacket());
 
         try {
-            socket.setSoTimeout(5000); // Set timeout in case packet is lost
+            socket.setSoTimeout(1000); // Set timeout in case packet is lost
             socket.receive(packet);
         } catch (IOException e) {
             assertEquals("Scoket should time out", "Receive timed out", e.getMessage());
