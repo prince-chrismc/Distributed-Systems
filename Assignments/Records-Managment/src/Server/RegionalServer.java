@@ -234,14 +234,14 @@ public class RegionalServer implements RequestListener.Processor {
                 continue;
             }
 
-            retval += " " + getRegionalCount(region);
+            retval += " " + getRegionalCount(region, 0);
         }
 
         m_Logger.Log("Reporting { " + retval + " } for total records.");
         return retval;
     }
 
-    private String getRegionalCount(Region region) {
+    private String getRegionalCount(Region region, int retryCounter) {
         try {
             DatagramSocket socket = new DatagramSocket();
             InetAddress address = InetAddress.getByName("localhost");
@@ -252,7 +252,7 @@ public class RegionalServer implements RequestListener.Processor {
             byte[] buf = new byte[256];
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
             
-            socket.setSoTimeout(10*1000); // Set timeoue in case packet is lost
+            socket.setSoTimeout(1000); // Set timeoue in case packet is lost
             socket.receive(packet);
 
             Message response = new Message(packet);
@@ -264,10 +264,17 @@ public class RegionalServer implements RequestListener.Processor {
             return region.getPrefix() + " " + response.getData();
 
         } catch (Exception ex) {
-            m_Logger.Log("Failed to get record count from [" + region + "]. trying...");
-            System.out.println(ex);
 
-            return getRegionalCount(region);
+            if( retryCounter >= 10)
+            {
+                m_Logger.Log("Failed to get record count from [" + region + "]. trying...");
+                System.out.println(ex);
+                return getRegionalCount(region, ++retryCounter);
+            }
+            else
+            {
+                return region.getPrefix() + " TIMEOUT";
+            }
         }
     }
 

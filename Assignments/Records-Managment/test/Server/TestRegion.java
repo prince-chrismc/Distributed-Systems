@@ -28,14 +28,17 @@ package Server;
  * @author cmcarthur
  */
 public enum TestRegion implements Interface.Region {
-    CA(6000),
-    US(6001),
-    UK(6002),
-    MX(6003),
-    TK(6004),
-    DB(6005),
-    AU(6006),
-    TZ(6007);
+    ZERO(7000),
+    ONE(7001),
+    TWO(7002),
+    THREE(7003),
+    FOUR(7004),
+    FIVE(7005),
+    SIX(7006),
+    SEVEN(7007),
+    EIGTH(7008),
+    NINE(7009),
+    TEN(7010);
     
     TestRegion(int ID ) {
         m_UUID = ID;

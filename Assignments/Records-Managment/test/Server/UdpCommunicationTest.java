@@ -34,25 +34,27 @@ import org.junit.Test;
  *
  * @author cmcarthur
  */
-public class RegionalServerTest {
+public class UdpCommunicationTest {
 
-    public RegionalServerTest() {
+    public UdpCommunicationTest() {
     }
 
     @Test
     public void canLaunchServer() throws IOException {
-        RegionalServer Server = new RegionalServer(TestRegion.US);
+        RegionalServer Server = new RegionalServer(TestRegion.ZERO);
         Server.Start();
     }
 
     @Test
-    public void canGetRecordCount() throws Exception {
-        RegionalServer Server = new RegionalServer(TestRegion.UK);
+    public void canAnswerRecordCount() throws Exception {
+        TestRegion currentRegion = TestRegion.TWO;
+        
+        RegionalServer Server = new RegionalServer(currentRegion);
         Server.Start();
 
         DatagramSocket socket = new DatagramSocket();
         InetAddress address = InetAddress.getByName("localhost");
-        Message request = new Message(OperationCode.GET_RECORD_COUNT, "", address, TestRegion.UK.toInt());
+        Message request = new Message(OperationCode.GET_RECORD_COUNT, "", address, currentRegion.toInt());
 
         socket.send(request.getPacket());
 
@@ -65,17 +67,17 @@ public class RegionalServerTest {
         Message response = new Message(packet);
 
         assertEquals("Get Record cound must be answered with an ACK", OperationCode.ACK_GET_RECORD_COUNT, response.getOpCode());
-        assertEquals("UK RS should have Zero records", "UK 0", TestRegion.UK.getPrefix() + " " + response.getData());
+        assertEquals("UK RS should have Zero records", currentRegion.getPrefix() + " 0", currentRegion.getPrefix() + " " + response.getData());
     }
 
     @Test
     public void canUpdateEmployeeId() throws Exception {
-        RegionalServer Server = new RegionalServer(TestRegion.TK);
+        RegionalServer Server = new RegionalServer(TestRegion.THREE);
         Server.Start();
 
         DatagramSocket socket = new DatagramSocket();
         InetAddress address = InetAddress.getByName("localhost");
-        Message request = new Message(OperationCode.UPDATE_RECORD_INDEX, "ER30002", address, TestRegion.TK.toInt());
+        Message request = new Message(OperationCode.UPDATE_RECORD_INDEX, "ER30002", address, TestRegion.THREE.toInt());
 
         socket.send(request.getPacket());
 
@@ -93,14 +95,14 @@ public class RegionalServerTest {
 
     @Test
     public void canUpdateManagerId() throws Exception {
-        RegionalServer Server = new RegionalServer(TestRegion.AU);
+        RegionalServer Server = new RegionalServer(TestRegion.FOUR);
         Server.Start();
         
         final String TEST_MANAGER_RECORD = "MR26792";
 
         DatagramSocket socket = new DatagramSocket();
         InetAddress address = InetAddress.getByName("localhost");
-        Message request = new Message(OperationCode.UPDATE_RECORD_INDEX, TEST_MANAGER_RECORD, address, TestRegion.AU.toInt());
+        Message request = new Message(OperationCode.UPDATE_RECORD_INDEX, TEST_MANAGER_RECORD, address, TestRegion.FOUR.toInt());
 
         socket.send(request.getPacket());
 
@@ -114,5 +116,15 @@ public class RegionalServerTest {
 
         assertEquals("Get next id must be answered with an ACK", OperationCode.ACK_UPDATE_RECORD_INDEX, response.getOpCode());
         assertEquals("RS should have accepted new ID", TEST_MANAGER_RECORD, response.getData());
+    }
+
+    @Test
+    public void doesGetRecordCountTimeout() throws Exception {
+        RegionalServer Server = new RegionalServer(TestRegion.FIVE);
+        Server.Start();
+        
+        final String expected = TestRegion.FIVE.getPrefix() + " 0 CA TIMEOUT US TIMEOUT UK TIMEOUT";
+        final String result = Server.getRecordCount("");
+        assertEquals("Models.Regions should have TIMEOUT status", expected, result);
     }
 }
