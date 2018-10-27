@@ -73,6 +73,7 @@ public class UdpCommunicationTest {
         InetAddress address = InetAddress.getByName("localhost");
         Message request = new Message(OperationCode.GET_RECORD_COUNT, "", address, currentRegion.toInt());
 
+        System.out.println("Sending Packet... Testing for timming");
         socket.send(request.getPacket());
 
         byte[] buf = new byte[256];
@@ -96,6 +97,7 @@ public class UdpCommunicationTest {
         InetAddress address = InetAddress.getByName("localhost");
         Message request = new Message(OperationCode.UPDATE_RECORD_INDEX, "ER30002", address, TestRegion.THREE.toInt());
 
+        System.out.println("Sending Packet... Testing for timming");
         socket.send(request.getPacket());
 
         byte[] buf = new byte[256];
@@ -121,7 +123,8 @@ public class UdpCommunicationTest {
         InetAddress address = InetAddress.getByName("localhost");
         Message request = new Message(OperationCode.UPDATE_RECORD_INDEX, TEST_MANAGER_RECORD, address, TestRegion.FOUR.toInt());
 
-        socket.send(request.getPacket());
+                System.out.println("Sending Packet... Testing for timming");
+socket.send(request.getPacket());
 
         byte[] buf = new byte[256];
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
@@ -162,7 +165,8 @@ public class UdpCommunicationTest {
         InetAddress address = InetAddress.getByName("localhost");
         Message request = new Message(OperationCode.DOES_RECORD_EXIST, TEST_MANAGER_RECORD, address, TestRegion.SIX.toInt());
 
-        socket.send(request.getPacket());
+                System.out.println("Sending Packet... Testing for timming");
+socket.send(request.getPacket());
 
         byte[] buf = new byte[256];
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
@@ -201,7 +205,8 @@ public class UdpCommunicationTest {
         InetAddress address = InetAddress.getByName("localhost");
         Message request = new Message(OperationCode.DOES_RECORD_EXIST, newManagerRecordId, address, TestRegion.SEVEN.toInt());
 
-        socket.send(request.getPacket());
+                System.out.println("Sending Packet... Testing for timming");
+socket.send(request.getPacket());
 
         byte[] buf = new byte[256];
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
@@ -214,7 +219,8 @@ public class UdpCommunicationTest {
         assertEquals("request must be answered with an ACK", OperationCode.ACK_DOES_RECORD_EXIST, responseOne.getOpCode());
         assertEquals("record should be found", newManagerRecordId, responseOne.getData());
         
-        socket.send(request.getPacket());
+                System.out.println("Sending Packet... Testing for timming");
+socket.send(request.getPacket());
         socket.receive(packet);
         Message responseTwo = new Message(packet);
 
@@ -233,7 +239,8 @@ public class UdpCommunicationTest {
         InetAddress address = InetAddress.getByName("localhost");
         Message request = new Message(OperationCode.GET_RECORD_COUNT, "", address, currentRegion.toInt());
 
-        socket.send(request.getPacket());
+                System.out.println("Sending Packet... Testing for timming");
+socket.send(request.getPacket());
 
         byte[] buf = new byte[256];
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
@@ -248,7 +255,8 @@ public class UdpCommunicationTest {
 
         Server.Stop();
 
-        socket.send(request.getPacket());
+                System.out.println("Sending Packet... Testing for timming");
+socket.send(request.getPacket());
 
         try {
             socket.setSoTimeout(5000); // Set timeout in case packet is lost
@@ -269,7 +277,8 @@ public class UdpCommunicationTest {
         InetAddress address = InetAddress.getByName("localhost");
         Message request = new Message(OperationCode.GET_RECORD_COUNT, "", address, currentRegion.toInt());
 
-        socket.send(request.getPacket());
+                System.out.println("Sending Packet... Testing for timming");
+socket.send(request.getPacket());
 
         byte[] buf = new byte[256];
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
@@ -284,7 +293,8 @@ public class UdpCommunicationTest {
 
         Server.Stop();
 
-        socket.send(request.getPacket());
+                System.out.println("Sending Packet... Testing for timming");
+socket.send(request.getPacket());
 
         try {
             socket.setSoTimeout(5000); // Set timeout in case packet is lost
@@ -295,7 +305,8 @@ public class UdpCommunicationTest {
 
         Server.Start();
 
-        socket.send(request.getPacket());
+                System.out.println("Sending Packet... Testing for timming");
+socket.send(request.getPacket());
 
         socket.receive(packet);
 
