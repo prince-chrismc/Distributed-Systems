@@ -63,6 +63,15 @@ public class RegionalServer implements RequestListener.Processor {
         m_Logger.Log(m_Region.toString() + " is running!");
     }
 
+    public void Stop() {
+        try {
+            m_Listener.Stop();
+            m_Logger.Log(m_Region.toString() + " has shutdown!");
+        } catch (InterruptedException ex) {
+            m_Logger.Log(m_Region.toString() + " --> ERROR <-- Failed to shutdown!");
+        }
+    }
+
     @Override
     public int getCurrentRecordCount() {
         m_Logger.Log("Reporting the number of records...");

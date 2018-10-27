@@ -56,8 +56,14 @@ public class RequestListener extends Thread {
         socket = new DatagramSocket(region.toInt());
         m_Logger = new Logger(region.getPrefix());
     }
+    
+    public void Stop() throws InterruptedException{
+        running = false;
+        socket.close();
+        this.join();
+    }
 
-    @SuppressWarnings("UnusedAssignment")
+    @Override
     public void run() {
         running = true;
         m_Logger.Log("Ready...");
@@ -68,8 +74,7 @@ public class RequestListener extends Thread {
             try {
                 socket.receive(packet);
             } catch (IOException ex) {
-                m_Logger.Log("Failed to receive message");
-                System.out.println(ex);
+                m_Logger.Log("Failed to receive message due to: " + ex.getMessage());
             }
 
             m_Logger.Log("Processing new request...");

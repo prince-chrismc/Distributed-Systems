@@ -152,4 +152,93 @@ public class UdpCommunicationTest {
         assertEquals("request must be answered with an ACK", OperationCode.ACK_DOES_RECORD_EXIST, response.getOpCode());
         assertEquals("record should not be found", "NOT FOUND", response.getData());
     }
+
+    @Test
+    public void canStopServer() throws Exception {
+        TestRegion currentRegion = TestRegion.EIGTH;
+        
+        RegionalServer Server = new RegionalServer(currentRegion);
+        Server.Start();
+
+        DatagramSocket socket = new DatagramSocket();
+        InetAddress address = InetAddress.getByName("localhost");
+        Message request = new Message(OperationCode.GET_RECORD_COUNT, "", address, currentRegion.toInt());
+
+        socket.send(request.getPacket());
+
+        byte[] buf = new byte[256];
+        DatagramPacket packet = new DatagramPacket(buf, buf.length);
+
+        socket.setSoTimeout(1000); // Set timeout in case packet is lost
+        socket.receive(packet);
+
+        Message response = new Message(packet);
+
+        assertEquals("Get Record cound must be answered with an ACK", OperationCode.ACK_GET_RECORD_COUNT, response.getOpCode());
+        assertEquals("UK RS should have Zero records", currentRegion.getPrefix() + " 0", currentRegion.getPrefix() + " " + response.getData());
+        
+        Server.Stop();
+        
+        socket.send(request.getPacket());
+
+        try{
+        socket.setSoTimeout(1000); // Set timeout in case packet is lost
+        socket.receive(packet);
+        }
+        catch( IOException e )
+        {
+            assertEquals( "Scoket should time out", "Receive timed out", e.getMessage());
+        }
+    }
+
+    @Test
+    public void canRestartServer() throws Exception {
+        TestRegion currentRegion = TestRegion.NINE;
+        
+        RegionalServer Server = new RegionalServer(currentRegion);
+        Server.Start();
+
+        DatagramSocket socket = new DatagramSocket();
+        InetAddress address = InetAddress.getByName("localhost");
+        Message request = new Message(OperationCode.GET_RECORD_COUNT, "", address, currentRegion.toInt());
+
+        socket.send(request.getPacket());
+
+        byte[] buf = new byte[256];
+        DatagramPacket packet = new DatagramPacket(buf, buf.length);
+
+        socket.setSoTimeout(1000); // Set timeout in case packet is lost
+        socket.receive(packet);
+
+        Message response = new Message(packet);
+
+        assertEquals("Get Record cound must be answered with an ACK", OperationCode.ACK_GET_RECORD_COUNT, response.getOpCode());
+        assertEquals("UK RS should have Zero records", currentRegion.getPrefix() + " 0", currentRegion.getPrefix() + " " + response.getData());
+        
+        Server.Stop();
+        
+        socket.send(request.getPacket());
+
+        try{
+        socket.setSoTimeout(1000); // Set timeout in case packet is lost
+        socket.receive(packet);
+        }
+        catch( IOException e )
+        {
+            assertEquals( "Scoket should time out", "Receive timed out", e.getMessage());
+        }
+        
+        
+        Server.Start();
+        
+        socket.send(request.getPacket());
+        
+        socket.receive(packet);
+        
+        Message responseTwo = new Message(packet);
+
+        assertEquals("Get Record cound must be answered with an ACK", OperationCode.ACK_GET_RECORD_COUNT, responseTwo.getOpCode());
+        assertEquals("UK RS should have Zero records", currentRegion.getPrefix() + " 0", currentRegion.getPrefix() + " " + responseTwo.getData());
+        
+    }
 }
