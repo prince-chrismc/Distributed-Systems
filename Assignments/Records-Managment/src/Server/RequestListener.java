@@ -72,7 +72,12 @@ public class RequestListener implements Runnable {
 
     public void Wait() {
         while (m_ProcessingHasBegun == false) {
-            m_Logger.Log("Waiting for Processing to be available");
+            try {
+                Thread.sleep(50); // No need to poll super hard...
+                //m_Logger.Log("Waiting for Processing to be available");
+            } catch (InterruptedException ex) {
+                Wait();
+            }
         }
     }
 
