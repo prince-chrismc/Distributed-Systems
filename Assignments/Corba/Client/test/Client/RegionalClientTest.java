@@ -59,7 +59,7 @@ public class RegionalClientTest {
     static public void setupRegistry() throws AdapterInactive, InvalidName {
         String[] args = {"-ORBInitialPort", "1050", "-ORBInitialHost", "localhost"};
         orb = ORB.init(args, null);
-        
+
         ListOfIDs = new HashSet<>();
     }
 
@@ -136,15 +136,18 @@ public class RegionalClientTest {
     public void canTransferRecord() throws Exception {
         int PrimaryRecordCounter = Primary.getRegionalRecordCount();
         int SecondaryRecordCounter = Secondary.getRegionalRecordCount();
+        int EmptyRecordCounter = EmptyServer.getRegionalRecordCount();
 
         String recordId = Primary.createEmployeeRecord("james", "bond", 1001, "johm.smith@example.com", "P23001");
+        assertTrue("New IDs must be unique", ListOfIDs.add(recordId));
         assertEquals("Should only be one new record", ++PrimaryRecordCounter, Primary.getRegionalRecordCount());
         assertEquals("Should not be a new record", SecondaryRecordCounter, Secondary.getRegionalRecordCount());
-        assertTrue("New IDs must be unique", ListOfIDs.add(recordId));
+        assertEquals("Should not be a new record", EmptyRecordCounter, EmptyServer.getRegionalRecordCount());
 
         assertEquals("Record ID should not change", recordId, Primary.transferRecord(recordId, Region.UK));
         assertEquals("Should only be one less record", --PrimaryRecordCounter, Primary.getRegionalRecordCount());
         assertEquals("Should only be one new record", ++SecondaryRecordCounter, Secondary.getRegionalRecordCount());
+        assertEquals("Should not be a new record", EmptyRecordCounter, EmptyServer.getRegionalRecordCount());
 
         assertEquals("Record ID should not change", recordId, Secondary.editRecord(recordId, Feild.FIRST_NAME.toString(), "James"));
         assertEquals("Record ID should not change", recordId, Secondary.editRecord(recordId, Feild.LAST_NAME.toString(), "BOND"));
@@ -152,6 +155,7 @@ public class RegionalClientTest {
 
         assertEquals("Should only be same number of records", PrimaryRecordCounter, Primary.getRegionalRecordCount());
         assertEquals("Should only be same number of records", SecondaryRecordCounter, Secondary.getRegionalRecordCount());
+        assertEquals("Should not be a new record", EmptyRecordCounter, EmptyServer.getRegionalRecordCount());
     }
 
     @Test
