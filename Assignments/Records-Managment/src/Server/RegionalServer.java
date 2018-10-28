@@ -33,9 +33,7 @@ import Models.RecordIdentifier;
 import Models.RecordsMap;
 import Interface.Region;
 import Utility.Logger;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -313,7 +311,7 @@ public class RegionalServer implements RequestListener.Processor {
     }
 
     @Override
-    public String transferRecord(String data) {
+    public String attemptRecordTransfer(String data) {
 
         if (data.charAt(0) == 'M') {
             ManagerRecord newRecord = ManagerRecord.fromString(data);
