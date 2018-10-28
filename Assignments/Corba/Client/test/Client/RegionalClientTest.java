@@ -124,18 +124,14 @@ public class RegionalClientTest {
     @Test
     public void canTransferRecord() throws Exception {
         int CanadianRecordCounter = Canada.getRegionalRecordCount();
-        int AmerianRecordCounter = UnitedStates.getRegionalRecordCount();
         int BritishRecordCounter = UnitedKingdom.getRegionalRecordCount();
         
         String recordId = Canada.createEmployeeRecord("james", "bond", 1001, "johm.smith@example.com", "P23001");
         assertEquals("Should only be one new record", ++CanadianRecordCounter, Canada.getRegionalRecordCount());
-        assertEquals("Should not be a new record", AmerianRecordCounter, UnitedStates.getRegionalRecordCount());
         assertEquals("Should not be a new record", BritishRecordCounter, UnitedKingdom.getRegionalRecordCount());
         
         assertEquals("Record ID should not change", recordId, Canada.transferRecord(recordId, Region.UK));
         assertEquals("Should only be one less record", --CanadianRecordCounter, Canada.getRegionalRecordCount());
-        assertEquals("Should not be a new record", AmerianRecordCounter, UnitedStates.getRegionalRecordCount());
         assertEquals("Should only be one new record", ++BritishRecordCounter, UnitedKingdom.getRegionalRecordCount());
-        
     }
 }
