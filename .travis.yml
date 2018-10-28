@@ -22,4 +22,7 @@ script:
   - ant test
   - cd ../Client
   - ant compile jar > /dev/null 2>&1
+  - cd ..
+  - ant -f Server run > /dev/null 2>&1 &
+  - ant -f Client test
   - kill %1
