@@ -30,6 +30,8 @@ import Interface.Corba.DEMS.RemoteException;
 import Models.Feild;
 import Models.Region;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.omg.CORBA.ORB;
 
 /**
@@ -42,8 +44,8 @@ public class ManagersClient {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        ORB orb = ORB.init(args,null);
-        
+        ORB orb = ORB.init(args, null);
+
         System.out.println("Welcome to Christopher McArthur's Distributed Employee Management System\r\n");
 
         System.out.println("DEMS Login...");
@@ -86,8 +88,9 @@ public class ManagersClient {
                 System.out.println("   1. Create manager record");
                 System.out.println("   2. Create employee record");
                 System.out.println("   3. Edit an existing record");
-                System.out.println("   4. Display total number of records");
-                System.out.println("   5. Exit");
+                System.out.println("   4. Transfer record to remote location");
+                System.out.println("   5. Display total number of records");
+                System.out.println("   6. Exit");
                 System.out.print("Selection: ");
 
                 int userSelection = reader.nextInt();
@@ -103,9 +106,12 @@ public class ManagersClient {
                         editExistingRecord(client);
                         break;
                     case 4:
-                        System.out.println(client.getRecordCount());
+                        transferExistingRecord(client);
                         break;
                     case 5:
+                        System.out.println(client.getRecordCount());
+                        break;
+                    case 6:
                         System.out.println("Good-bye!");
                         userRequestedExit = true;
                         break;
@@ -136,7 +142,7 @@ public class ManagersClient {
         System.out.println("Employee ID:");
         int employeeId = reader.nextInt();
         reader.nextLine();
-        
+
         System.out.println("Email:");
         String mailId = reader.nextLine();
 
@@ -213,6 +219,35 @@ public class ManagersClient {
         } else {
             newRecordId = client.editRecord(recordId, feildName, reader.nextLine());
         }
+
+        System.out.println("Successfully edited record: " + newRecordId);
+    }
+
+    private static void transferExistingRecord(RegionalClient client) throws RemoteException {
+        Scanner reader = new Scanner(System.in);
+
+        System.out.println("Which Record would you like to transfer...");
+        System.out.print("   Possible location values are { ");
+        for (Region region : Region.values()) {
+            System.out.print("{ " + region.toString() + " | " + region.getPrefix() + " }, ");
+        }
+        System.out.println(" }");
+
+        System.out.println("Record ID:");
+        String recordId = reader.nextLine();
+
+        System.out.println("Location:");
+        String location = reader.nextLine();
+
+        Region region;
+        try {
+            region = Region.fromString(location);
+        } catch (Exception ex) {
+            System.out.println("Invalid location specified: " + ex.getMessage());
+            return;
+        }
+
+        String newRecordId = client.transferRecord(recordId, region);
 
         System.out.println("Successfully edited record: " + newRecordId);
     }
