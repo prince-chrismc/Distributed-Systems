@@ -168,6 +168,5 @@ public class RegionalClientTest {
         assertTrue("Should return ERROR message",
                 UnitedStates.createEmployeeRecord("john", "smith", 5479, "johm.smith@example.com", "P458754687").startsWith("ERROR"));
         assertEquals("Should not be a new record", startNumberOfRecords, UnitedStates.getRegionalRecordCount());
-
     }
 }

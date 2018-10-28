@@ -70,7 +70,6 @@ public class CentralServers {
             ncRef.rebind(pathCanada, CanadianHref);
 
             Canada.Start();
-            System.out.println("Canada Server ready and waiting ...");
 
             // --------------------------------------------------------------------------------------------------------------
             // create servant and register it with the ORB
@@ -84,7 +83,6 @@ public class CentralServers {
             ncRef.rebind(pathUnitedStates, UnitedStatesHref);
 
             UnitedStates.Start();
-            System.out.println("United States Server ready and waiting ...");
 
             // --------------------------------------------------------------------------------------------------------------
             // create servant and register it with the ORB
@@ -98,7 +96,6 @@ public class CentralServers {
             ncRef.rebind(pathUnitedKingdom, UnitedKingdomHref);
 
             UnitedKingdom.Start();
-            System.out.println("United States Server ready and waiting ...");
 
             // --------------------------------------------------------------------------------------------------------------
             // wait for invocations from clients

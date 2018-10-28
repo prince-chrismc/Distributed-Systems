@@ -55,21 +55,21 @@ public class RmiRegionalServer extends UnicastRemoteObject implements RegionalRe
 
     @Override
     public String createMRecord(String firstName, String lastName, int employeeID, String mailID, Project projects, String location) throws RemoteException {
-        return m_Server.createManagerRecord("", firstName, lastName, employeeID, mailID, projects, location);
+        return m_Server.createManagerRecord(null, firstName, lastName, employeeID, mailID, projects, location);
     }
 
     @Override
     public String createERecord(String firstName, String lastName, int employeeID, String mailID, String projectId) throws RemoteException {
-        return m_Server.createEmployeeRecord("", firstName, lastName, employeeID, mailID, projectId);
+        return m_Server.createEmployeeRecord(null, firstName, lastName, employeeID, mailID, projectId);
     }
 
     @Override
     public String editRecord(String recordID, String feildName, Object newValue) throws RemoteException {
-        return m_Server.editRecord("", recordID, feildName, newValue);
+        return m_Server.editRecord(null, recordID, feildName, newValue);
     }
 
     @Override
     public String getRecordCount() throws RemoteException {
-        return m_Server.getRecordCount("");
+        return m_Server.getRecordCount(null);
     }
 }

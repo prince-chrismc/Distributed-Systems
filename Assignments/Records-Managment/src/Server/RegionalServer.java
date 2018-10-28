@@ -37,7 +37,6 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.util.logging.Level;
 
 /**
  *
@@ -94,10 +93,10 @@ public class RegionalServer implements RequestListener.Processor {
                 m_Records.addRecord(new ManagerRecord(newID.getUUID(), firstName, lastName, employeeID, mailID, projects, region));
             }
 
-            m_Logger.Log("Created Manager Record: " + m_Records.toString());
+            m_Logger.Log( idLogInfor(managerID) + "Created Manager Record: " + m_Records.toString());
             return newID.toString();
         } catch (Exception e) {
-            m_Logger.Log("Failed to Create Manager Record! Cause: " + e.getMessage());
+            m_Logger.Log(idLogInfor(managerID) + "Failed to Create Manager Record! Cause: " + e.getMessage());
             return "ERROR " + e.getMessage();
         }
     }
@@ -112,10 +111,10 @@ public class RegionalServer implements RequestListener.Processor {
                 m_Records.addRecord(new EmployeeRecord(newID.getUUID(), firstName, lastName, employeeID, mailID, projID));
             }
 
-            m_Logger.Log("Created Employee Record: " + m_Records.toString());
+            m_Logger.Log(idLogInfor(managerID) + "Created Employee Record: " + m_Records.toString());
             return newID.toString();
         } catch (Exception e) {
-            m_Logger.Log("Failed to Create Employee Record! Cause: " + e.getMessage());
+            m_Logger.Log(idLogInfor(managerID) + "Failed to Create Employee Record! Cause: " + e.getMessage());
             return "ERROR " + e.getMessage();
         }
     }
@@ -144,7 +143,7 @@ public class RegionalServer implements RequestListener.Processor {
                 }
 
                 m_Records.addRecord(record);
-                m_Logger.Log("Successfully modified '" + feildName + "' for record [ " + recordID + " ]    " + m_Records.toString());
+                m_Logger.Log(idLogInfor(managerID) + "Successfully modified '" + feildName + "' for record [ " + recordID + " ]    " + m_Records.toString());
                 return recordID;
 
             } catch (Exception e) {
@@ -153,7 +152,7 @@ public class RegionalServer implements RequestListener.Processor {
                     m_Records.addRecord(record);
                 }
 
-                m_Logger.Log("Failed to Edit " + feildName + "! Cause: " + e.getMessage());
+                m_Logger.Log(idLogInfor(managerID) + "Failed to Edit " + feildName + "! Cause: " + e.getMessage());
                 return "ERROR " + e.getMessage();
             }
         }
@@ -233,7 +232,7 @@ public class RegionalServer implements RequestListener.Processor {
     }
 
     public String getRecordCount(String managerID) {
-        m_Logger.Log("Reporting the number of records for all regions...");
+        m_Logger.Log(idLogInfor(managerID) + "Reporting the number of records for all regions...");
 
         String retval = m_Region.getPrefix() + " ";
         synchronized (m_Records) {
@@ -248,7 +247,7 @@ public class RegionalServer implements RequestListener.Processor {
             retval += " " + getRegionalCount(region, 0);
         }
 
-        m_Logger.Log("Reporting { " + retval + " } for total records.");
+        m_Logger.Log(idLogInfor(managerID) + "Reporting { " + retval + " } for total records.");
         return retval;
     }
 
@@ -291,7 +290,7 @@ public class RegionalServer implements RequestListener.Processor {
     }
 
     public String transferRecord(String managerID, String recordID, String remoteSeverName) {
-        m_Logger.Log("Beginning process to transfer '" + recordID + "'...");
+        m_Logger.Log(idLogInfor(managerID) + "Beginning process to transfer '" + recordID + "'...");
 
         Models.Region dstRegion;
         Record record;
@@ -302,13 +301,13 @@ public class RegionalServer implements RequestListener.Processor {
             return "ERROR " + ex.getMessage();
         }
 
-        m_Logger.Log("Will be attempting transfer of '" + recordID + "' to remote server [" + dstRegion + "]...");
+        m_Logger.Log(idLogInfor(managerID) + "Will be attempting transfer of '" + recordID + "' to remote server [" + dstRegion + "]...");
 
         synchronized (m_Records) {
             record = m_Records.removeRecord(recordID);
 
             if (record == null) {
-                m_Logger.Log("Failed to get record '" + recordID + "' from internal storage.");
+                m_Logger.Log("idLogInfor(managerID) + Failed to get record '" + recordID + "' from internal storage.");
                 return "ERROR 404 record not found";
             }
         }
@@ -320,11 +319,11 @@ public class RegionalServer implements RequestListener.Processor {
             return "ERROR " + ex.getMessage();
         }
 
-        m_Logger.Log("Transfer of '" + recordID + "' to [" + dstRegion + "] in progress...");
+        m_Logger.Log(idLogInfor(managerID) + "Transfer of '" + recordID + "' to [" + dstRegion + "] in progress...");
         if (transferAgent.InitateTransfer()) {
             return record.getRecordId().toString();
         } else {
-            m_Logger.Log("Failed to transfer record '" + recordID + "' returing copy to internal storage.");
+            m_Logger.Log(idLogInfor(managerID) + "Failed to transfer record '" + recordID + "' returing copy to internal storage.");
             synchronized (m_Records) {
                 m_Records.addRecord(record);
             }
@@ -371,5 +370,9 @@ public class RegionalServer implements RequestListener.Processor {
         }
 
         return "ERROR";
+    }
+
+    private String idLogInfor(String managerID) {
+        return (managerID == null ) ? "" : "[ " + managerID + " ] ";
     }
 }
