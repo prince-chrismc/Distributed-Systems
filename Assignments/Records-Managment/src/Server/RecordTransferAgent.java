@@ -58,22 +58,29 @@ public class RecordTransferAgent {
 
             if (checkRemoteForRecord(0)) {
                 m_Logger.Log("Remote [" + m_DstRegion + "] report duplicate of '" + m_Record.getRecordId() + "'. Corrective behavoir?");
-                return false; // ERROR if its not found
+                return InitateTransfer(++retryCounter);
             }
 
-            // Do the transfer
-            
-            if (!checkRemoteForRecord(0)) {
+            m_Logger.Log("Attempting record transfer with [" + m_DstRegion + "] regarding '" + m_Record.getRecordId() + "'.");
+            if (!sendRecordToRemote(0)) {
                 m_Logger.Log("Remote [" + m_DstRegion + "] failed to accept transfer of '" + m_Record.getRecordId() + "'. Retrying...");
+                return InitateTransfer(++retryCounter);
+            }
+
+            m_Logger.Log("Validate with [" + m_DstRegion + "] transfer was successful '" + m_Record.getRecordId() + "'.");
+            if (!checkRemoteForRecord(0)) {
+                m_Logger.Log("Remote [" + m_DstRegion + "] failed to validate transfer of '" + m_Record.getRecordId() + "'. Retrying...");
                 return InitateTransfer(++retryCounter);
             }
 
         } catch (Exception ex) {
             m_Logger.Log("Unable to transfer '" + m_Record.getRecordId() + "' to remote server [" + m_DstRegion + "] due to communication break down!");
+            System.out.println(ex);
             return false;
         }
 
-        return false;
+        m_Logger.Log("Successfully completed transfer of '" + m_Record.getRecordId() + "' with [" + m_DstRegion + "].");
+        return true;
     }
 
     private boolean checkRemoteForRecord(int retryCounter) throws Exception {
@@ -107,9 +114,50 @@ public class RecordTransferAgent {
 
         } catch (Exception ex) {
             if (retryCounter < 10) {
-                m_Logger.Log("Failed to get record count from [" + m_DstRegion + "]. trying...");
+                m_Logger.Log("Failed to check record existance with [" + m_DstRegion + "]. Retrying...");
                 System.out.println(ex);
                 return checkRemoteForRecord(++retryCounter);
+            }
+        }
+
+        throw new Exception("Unable to communicate with " + m_DstRegion);
+    }
+
+    private boolean sendRecordToRemote(int retryCounter) throws Exception {
+
+        try {
+
+            DatagramSocket socket = new DatagramSocket();
+            InetAddress address = InetAddress.getByName("localhost");
+            Message request = new Message(OperationCode.TRANSFER_RECORD, m_Record.toString(), address, m_DstRegion.toInt());
+
+            socket.send(request.getPacket());
+            
+            byte[] buf = new byte[256];
+            DatagramPacket packet = new DatagramPacket(buf, buf.length);
+
+            socket.setSoTimeout(1000); // Set timeout in case packet is lost
+            socket.receive(packet);
+
+            Message response = new Message(packet);
+
+            if (response.getOpCode() != OperationCode.ACK_TRANSFER_RECORD) {
+                throw new Exception("Response mismatch to op code");
+            }
+
+            if ("ERROR".equals(response.getData())) {
+                throw new Exception("Remote [" + m_DstRegion + "] failed to accept record transfer!");
+            } else if (response.getData().equals(m_Record.getRecordId().toString())) {
+                return true;
+            } else {
+                throw new Exception("Unexpected response when check record's existance on " + m_DstRegion);
+            }
+
+        } catch (Exception ex) {
+            if (retryCounter < 10) {
+                m_Logger.Log("Failed to transfer record to [" + m_DstRegion + "]. Retrying...");
+                System.out.println(ex);
+                return sendRecordToRemote(++retryCounter);
             }
         }
 

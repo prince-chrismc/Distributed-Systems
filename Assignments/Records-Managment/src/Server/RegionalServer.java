@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.logging.Level;
 
 /**
  *
@@ -293,7 +294,46 @@ public class RegionalServer implements RequestListener.Processor {
     }
 
     public String transferRecord(String managerID, String recordID, String remoteSeverName) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        m_Logger.Log("Beginning process to transfer '" + recordID + "'...");
+
+        Models.Region dstRegion;
+        Record record;
+
+        try {
+            dstRegion = Models.Region.fromString(remoteSeverName);
+        } catch (Exception ex) {
+            return "ERROR";
+        }
+
+        m_Logger.Log("Will be attempting transfer of '" + recordID + "' to remote server [" + dstRegion + "]...");
+
+        synchronized (m_Records) {
+            record = m_Records.removeRecord(recordID);
+
+            if (record == null) {
+                m_Logger.Log("Failed to get record '" + recordID + "' from internal storage.");
+                return "ERROR";
+            }
+        }
+
+        RecordTransferAgent transferAgent;
+        try {
+            transferAgent = new RecordTransferAgent(record, m_Region, dstRegion);
+        } catch (IOException ex) {
+            return "ERROR";
+        }
+
+        m_Logger.Log("Transfer of '" + recordID + "' to [" + dstRegion + "] in progress...");
+        if (transferAgent.InitateTransfer()) {
+            return record.getRecordId().toString();
+        } else {
+            m_Logger.Log("Failed to transfer record '" + recordID + "' returing copy to internal storage.");
+            synchronized (m_Records) {
+                m_Records.addRecord(record);
+            }
+        }
+
+        return "ERROR";
     }
 
     @Override
@@ -332,7 +372,7 @@ public class RegionalServer implements RequestListener.Processor {
                 }
             }
         }
-        
+
         return "ERROR";
     }
 }
