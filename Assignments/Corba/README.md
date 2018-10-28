@@ -7,6 +7,7 @@ This assignment consists of three projects:
 The deisgn follows a pseudo MVC style layout since the main data storage elements will be re-used for the future assignments; this concept was extended to the `RegionalServer` implmentation which has now been moved into the base project since all ofthe manipulation of the `RecordsMap` and Server-Server UDP communication is common but may require more functionality. This means the controllers are simple wrapper that only contain the CORBA implementation and test code.
 
 ### Models
+> All of the models defined are still used in the RMI implementation with zero code duplication
 
 Class | Description
 :---: | :---
