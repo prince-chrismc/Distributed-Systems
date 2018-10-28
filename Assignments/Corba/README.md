@@ -7,20 +7,21 @@ This assignment consists of three projects:
 The deisgn follows a pseudo MVC style layout since the main data storage elements will be re-used for the future assignments; this concept was extended to the `RegionalServer` implmentation which has now been moved into the base project since all ofthe manipulation of the `RecordsMap` and Server-Server UDP communication is common but may require more functionality. This means the controllers are simple wrapper that only contain the CORBA implementation and test code.
 
 ### Models
-> None of these have change and are all used by the RMI implementation
 
 Class | Description
 :---: | :---
 Feild             | Indicats the possible feild names which can be edited
 Region            | Enum to handle the prefixing, name and port for any region
-ProjectIdentifier | _Wraps CORBA Object_ Contains all the formatting of a project ID
-Project           | _Wraps CORBA Object_ Contains a ProjectIdentifier and other information to define a project
+ProjectIdentifier<sup>*</sup> | Contains all the formatting of a project ID
+Project<sup>*</sup>           | Contains a ProjectIdentifier and other information to define a project
 RecordType        | Enum to help with ID formatting and identification
 RecordIdentifier  | Contains all the formatting and management for an ID
 Record            | Contains the RecordIdentifier and all the required feilds to record a human
 ManagerRecord     | Specialization for a managers record with all information
 EmployeeRecord    | Specialization for an employee record with all information
 RecordsMap        | Hashmap of linked list of records with access control
+
+><sup>*</sup> - _Wraps CORBA Object_ // No longer directly contains the data structures but is still resposible for all the formatting
 
 ### Interface
 The interface definitions are present in this category, written in IDL and compiled into java; The Corba defined implementation for the various stubs, helpers, POAs can also be found in this section as they are shared by both the client and server implementations.
