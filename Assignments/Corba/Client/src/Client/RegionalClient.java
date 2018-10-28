@@ -79,6 +79,10 @@ public class RegionalClient {
         toPass.insert_long(newValue);
         return m_Remote.editRecord(m_HRID, recordID, feildName, toPass);
     }
+    
+    public String transferRecord(String recordID, Region region) throws RemoteException{
+        return m_Remote.transferRecord(m_HRID, recordID, region.toString());
+    }
 
     public String getRecordCount() throws RemoteException {
         return m_Remote.getRecordCount(m_HRID);
