@@ -36,7 +36,7 @@ public class Record {
         m_EmployeeNumber = employeeNumber;
         m_MailId = mailId;
     }
-
+    
     public RecordIdentifier getRecordId() {
         return m_RecordId;
     }
@@ -96,19 +96,19 @@ public class Record {
         }
     }
 
-    private void setFirstName(String firstName) {
+    public void setFirstName(String firstName) {
         m_FirstName = firstName;
     }
 
-    private void setLastName(String lastName) {
+    public void setLastName(String lastName) {
         m_LastName = lastName;
     }
 
-    private void setEmployeeNumber(int employeeNumber) {
+    public void setEmployeeNumber(int employeeNumber) {
         m_EmployeeNumber = employeeNumber;
     }
 
-    private void setMailId(String mailId) {
+    public void setMailId(String mailId) {
         m_MailId = mailId;
     }
 

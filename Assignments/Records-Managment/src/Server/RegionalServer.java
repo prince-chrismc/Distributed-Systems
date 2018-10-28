@@ -314,33 +314,21 @@ public class RegionalServer implements RequestListener.Processor {
 
     @Override
     public String transferRecord(String data) {
-        System.out.println("Server.RegionalServer.transferRecord()  " + data);
-        
-        try {
-            ByteArrayInputStream in = new ByteArrayInputStream(data.getBytes());
-            ObjectInputStream is = new ObjectInputStream(in);
-            if (is.readObject().getClass() == ManagerRecord.class) {
-                ManagerRecord newRecord = (ManagerRecord) is.readObject();
+        ManagerRecord newRecord = ManagerRecord.fromString(data);
 
-                synchronized (m_Records) {
-                    m_Records.addRecord(newRecord);
-                    return newRecord.getRecordId().toString();
-                }
-            } else if (is.readObject().getClass() == EmployeeRecord.class) {
-                EmployeeRecord newRecord = (EmployeeRecord) is.readObject();
-
-                synchronized (m_Records) {
-                    m_Records.addRecord(newRecord);
-                    return newRecord.getRecordId().toString();
-                }
+        if (newRecord != null) {
+            synchronized (m_Records) {
+                m_Records.addRecord(newRecord);
+                m_Logger.Log("Accepted transfered of '" + newRecord.getRecordId() + "'     " + m_Records.toString());
+                return newRecord.getRecordId().toString();
             }
-            is.close();
-
-        } catch (Exception ex) {
-            System.out.println(ex);
-            ex.printStackTrace();
-            return "ERROR";
         }
+        /*EmployeeRecord newRecord = (EmployeeRecord) is.readObject();
+
+                synchronized (m_Records) {
+                    m_Records.addRecord(newRecord);
+                    return newRecord.getRecordId().toString();
+                }*/
 
         return "ERROR";
     }

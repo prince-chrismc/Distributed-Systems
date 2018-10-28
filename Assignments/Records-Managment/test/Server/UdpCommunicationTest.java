@@ -323,12 +323,8 @@ public class UdpCommunicationTest {
 
         ManagerRecord recordToSend = new ManagerRecord(12, "canTransferRecord", "JUnit Test Case", 1654, "test.code@pronerd.com",
                 new Project(new ProjectIdentifier(0), "Huge Project", "Rich Client"), Region.CA);
-
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        ObjectOutputStream os = new ObjectOutputStream(outputStream);
-        os.writeObject(recordToSend);
-
-        Message request = new Message(OperationCode.TRANSFER_RECORD, outputStream.toString(), address, currentRegion.toInt());
+        
+        Message request = new Message(OperationCode.TRANSFER_RECORD, recordToSend.toString(), address, currentRegion.toInt());
 
         socket.send(request.getPacket());
 
@@ -340,14 +336,8 @@ public class UdpCommunicationTest {
 
         Message response = new Message(packet);
 
-        byte[] data = response.getData().getBytes();
-        ByteArrayInputStream in = new ByteArrayInputStream(data);
-        ObjectInputStream is = new ObjectInputStream(in);
-        
-        ManagerRecord result = (ManagerRecord) is.readObject();
-
         assertEquals("transfer Record must be answered with an ACK", OperationCode.ACK_TRANSFER_RECORD, response.getOpCode());
-        assertEquals("Record sent must match received data", recordToSend, result);
+        assertEquals("Record sent must match received data", recordToSend.getRecordId().toString(), response.getData());
     }
 
 }

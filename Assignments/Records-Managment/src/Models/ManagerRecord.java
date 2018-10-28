@@ -69,4 +69,89 @@ public class ManagerRecord extends Record implements Serializable {
     public void setProjectClient(String projectClient) {
         m_Project.setClient(projectClient);
     }
+
+    static public ManagerRecord fromString(String data) {
+
+        ManagerRecord prasedResult = null;
+
+        if (data.substring(0, "ManagerRecord{".length()).equals("ManagerRecord{")) {
+            data = data.substring("ManagerRecord{".length());
+        }
+        if (data.substring(0, "Record{m_RecordId=MR".length()).equals("Record{m_RecordId=MR")) {
+            data = data.substring("Record{m_RecordId=MR".length());
+        }
+        if (data.charAt(5) == ',') {
+            try {
+                prasedResult = new ManagerRecord(Integer.parseInt(data.substring(0, 5)), "", "", 0, "", new Project( new ProjectIdentifier(0), "", "" ), Region.CA);
+            } catch (Exception ex) {
+                
+            }
+            data = data.substring(7);
+        }
+        if (data.substring(0, "m_FirstName=".length()).equals("m_FirstName=")) {
+            data = data.substring("m_FirstName=".length());
+            if (prasedResult != null) {
+                prasedResult.setFirstName(data.substring(0, data.indexOf(',')));
+            }
+            data = data.substring(data.indexOf(',') + 2);
+        }
+        if (data.substring(0, "m_LastName=".length()).equals("m_LastName=")) {
+            data = data.substring("m_LastName=".length());
+            if (prasedResult != null) {
+                prasedResult.setLastName(data.substring(0, data.indexOf(',')));
+            }
+            data = data.substring(data.indexOf(',') + 2);
+        }
+        if (data.substring(0, "m_EmployeeNumber=".length()).equals("m_EmployeeNumber=")) {
+            data = data.substring("m_EmployeeNumber=".length());
+            if (prasedResult != null) {
+                prasedResult.setEmployeeNumber(Integer.parseInt(data.substring(0, data.indexOf(','))));
+            }
+            data = data.substring(data.indexOf(',') + 2);
+        }
+        if (data.substring(0, "m_MailId=".length()).equals("m_MailId=")) {
+            data = data.substring("m_MailId=".length());
+            if (prasedResult != null) {
+                prasedResult.setMailId(data.substring(0, data.indexOf('}')));
+            }
+            data = data.substring(data.indexOf('}') + 3);
+        }
+        if (data.substring(0, "m_Region=".length()).equals("m_Region=")) {
+            data = data.substring("m_Region=".length());
+            if (prasedResult != null) {
+                try {
+                    prasedResult.setRegion(Region.fromString(data.substring(0, data.indexOf(','))));
+                } catch (Exception ex) {
+                    
+                }
+            }
+            data = data.substring(data.indexOf(',') + 2);
+        }
+        if (data.substring(0, "m_Project=Project{m_Id=".length()).equals("m_Project=Project{m_Id=")) {
+            data = data.substring("m_Project=Project{m_Id=".length());
+            if (prasedResult != null) {
+                try {
+                    prasedResult.setProjectId(data.substring(0, data.indexOf(',')));
+                } catch (Exception ex) {
+                    
+                }
+            }
+            data = data.substring(data.indexOf(',') + 2);
+        }
+        if (data.substring(0, "m_Name=".length()).equals("m_Name=")) {
+            data = data.substring("m_Name=".length());
+            if (prasedResult != null) {
+                prasedResult.setProjectName(data.substring(0, data.indexOf(',')));
+            }
+            data = data.substring(data.indexOf(',') + 2);
+        }
+        if (data.substring(0, "m_Client=".length()).equals("m_Client=")) {
+            data = data.substring("m_Client=".length());
+            if (prasedResult != null) {
+                prasedResult.setProjectClient(data.substring(0, data.indexOf('}')));
+            }
+        }
+
+        return prasedResult;
+    }
 }
