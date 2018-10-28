@@ -46,9 +46,9 @@ public class RegionalClientTest {
 
     static private ORB orb;
 
-    private RegionalClient Canada;
-    private RegionalClient UnitedStates;
-    private RegionalClient UnitedKingdom;
+    private RegionalClient Primary;
+    private RegionalClient EmptyServer;
+    private RegionalClient Secondary;
 
     public RegionalClientTest() {
     }
@@ -65,9 +65,9 @@ public class RegionalClientTest {
 
     @Before
     public void setUp() throws Exception {
-        Canada = new RegionalClient(orb, "CA1234");
-        UnitedStates = new RegionalClient(orb, "US1234");
-        UnitedKingdom = new RegionalClient(orb, "UK1234");
+        Primary = new RegionalClient(orb, "CA1234");
+        EmptyServer = new RegionalClient(orb, "US1234");
+        Secondary = new RegionalClient(orb, "UK1234");
     }
 
     /**
@@ -77,11 +77,11 @@ public class RegionalClientTest {
      */
     @Test
     public void testCreateManagerRecord() throws Exception {
-        int startNumberOfRecords = Canada.getRegionalRecordCount();
-        String managerOne = Canada.createManagerRecord("john", "smith", 1001, "johm.smith@example.com", new Project(new ProjectIdentifier(0).getRawId(), "Huge Project", "Rich Client"), Region.CA.toString());
-        assertEquals("Should only be one new record", startNumberOfRecords + 1, Canada.getRegionalRecordCount());
-        String managerTwo = Canada.createManagerRecord("jane", "doe", 36978, "jane.dow@example.com", new Project(new ProjectIdentifier(23).getRawId(), "Huge Project", "Rich Client"), Region.US.toString());
-        assertEquals("Should only be two new records", startNumberOfRecords + 2, Canada.getRegionalRecordCount());
+        int startNumberOfRecords = Primary.getRegionalRecordCount();
+        String managerOne = Primary.createManagerRecord("john", "smith", 1001, "johm.smith@example.com", new Project(new ProjectIdentifier(0).getRawId(), "Huge Project", "Rich Client"), Region.CA.toString());
+        assertEquals("Should only be one new record", startNumberOfRecords + 1, Primary.getRegionalRecordCount());
+        String managerTwo = Primary.createManagerRecord("jane", "doe", 36978, "jane.dow@example.com", new Project(new ProjectIdentifier(23).getRawId(), "Huge Project", "Rich Client"), Region.US.toString());
+        assertEquals("Should only be two new records", startNumberOfRecords + 2, Primary.getRegionalRecordCount());
         assertNotEquals("Manager IDs should be unique", managerOne, managerTwo);
     }
 
@@ -92,9 +92,9 @@ public class RegionalClientTest {
      */
     @Test
     public void testCreateEmployeeRecord() throws Exception {
-        int startNumberOfRecords = Canada.getRegionalRecordCount();
-        Canada.createEmployeeRecord("james", "bond", 1001, "johm.smith@example.com", "P23001");
-        assertEquals("Should only be one new record", startNumberOfRecords + 1, Canada.getRegionalRecordCount());
+        int startNumberOfRecords = Primary.getRegionalRecordCount();
+        Primary.createEmployeeRecord("james", "bond", 1001, "johm.smith@example.com", "P23001");
+        assertEquals("Should only be one new record", startNumberOfRecords + 1, Primary.getRegionalRecordCount());
     }
 
     /**
@@ -104,69 +104,69 @@ public class RegionalClientTest {
      */
     @Test
     public void canEditMangerRecords() throws Exception {
-        int startNumberOfRecords = Canada.getRegionalRecordCount();
-        String recordId = Canada.createManagerRecord("john", "smith", 1001, "johm.smith@example.com", new Project(new ProjectIdentifier(0).getRawId(), "Huge Project", "Rich Client"), Region.CA.toString());
-        assertEquals("Should only be one new record", ++startNumberOfRecords, Canada.getRegionalRecordCount());
+        int startNumberOfRecords = Primary.getRegionalRecordCount();
+        String recordId = Primary.createManagerRecord("john", "smith", 1001, "johm.smith@example.com", new Project(new ProjectIdentifier(0).getRawId(), "Huge Project", "Rich Client"), Region.CA.toString());
+        assertEquals("Should only be one new record", ++startNumberOfRecords, Primary.getRegionalRecordCount());
 
-        assertEquals("Record ID should not change", recordId, Canada.editRecord(recordId, Feild.LOCATION.toString(), Region.UK.toString()));
-        assertEquals("Record ID should not change", recordId, Canada.editRecord(recordId, Feild.EMPLOYEE_ID.toString(), 98765));
+        assertEquals("Record ID should not change", recordId, Primary.editRecord(recordId, Feild.LOCATION.toString(), Region.UK.toString()));
+        assertEquals("Record ID should not change", recordId, Primary.editRecord(recordId, Feild.EMPLOYEE_ID.toString(), 98765));
 
-        assertEquals("Should only be same number of records", startNumberOfRecords, Canada.getRegionalRecordCount());
+        assertEquals("Should only be same number of records", startNumberOfRecords, Primary.getRegionalRecordCount());
     }
 
     @Test
     public void canEditEmployeeRecords() throws Exception {
-        int startNumberOfRecords = Canada.getRegionalRecordCount();
-        String recordId = Canada.createEmployeeRecord("james", "bond", 1001, "johm.smith@example.com", "P23001");
-        assertEquals("Should only be one new record", ++startNumberOfRecords, Canada.getRegionalRecordCount());
+        int startNumberOfRecords = Primary.getRegionalRecordCount();
+        String recordId = Primary.createEmployeeRecord("james", "bond", 1001, "johm.smith@example.com", "P23001");
+        assertEquals("Should only be one new record", ++startNumberOfRecords, Primary.getRegionalRecordCount());
 
-        assertEquals("Record ID should not change", recordId, Canada.editRecord(recordId, Feild.FIRST_NAME.toString(), "James"));
-        assertEquals("Record ID should not change", recordId, Canada.editRecord(recordId, Feild.LAST_NAME.toString(), "BOND"));
-        assertEquals("Record ID should not change", recordId, Canada.editRecord(recordId, Feild.EMPLOYEE_ID.toString(), 9007));
+        assertEquals("Record ID should not change", recordId, Primary.editRecord(recordId, Feild.FIRST_NAME.toString(), "James"));
+        assertEquals("Record ID should not change", recordId, Primary.editRecord(recordId, Feild.LAST_NAME.toString(), "BOND"));
+        assertEquals("Record ID should not change", recordId, Primary.editRecord(recordId, Feild.EMPLOYEE_ID.toString(), 9007));
 
-        assertEquals("Should only be same number of records", startNumberOfRecords, Canada.getRegionalRecordCount());
+        assertEquals("Should only be same number of records", startNumberOfRecords, Primary.getRegionalRecordCount());
     }
 
     @Test
     public void canTransferRecord() throws Exception {
-        int CanadianRecordCounter = Canada.getRegionalRecordCount();
-        int BritishRecordCounter = UnitedKingdom.getRegionalRecordCount();
+        int CanadianRecordCounter = Primary.getRegionalRecordCount();
+        int BritishRecordCounter = Secondary.getRegionalRecordCount();
 
-        String recordId = Canada.createEmployeeRecord("james", "bond", 1001, "johm.smith@example.com", "P23001");
-        assertEquals("Should only be one new record", ++CanadianRecordCounter, Canada.getRegionalRecordCount());
-        assertEquals("Should not be a new record", BritishRecordCounter, UnitedKingdom.getRegionalRecordCount());
+        String recordId = Primary.createEmployeeRecord("james", "bond", 1001, "johm.smith@example.com", "P23001");
+        assertEquals("Should only be one new record", ++CanadianRecordCounter, Primary.getRegionalRecordCount());
+        assertEquals("Should not be a new record", BritishRecordCounter, Secondary.getRegionalRecordCount());
 
-        assertEquals("Record ID should not change", recordId, Canada.transferRecord(recordId, Region.UK));
-        assertEquals("Should only be one less record", --CanadianRecordCounter, Canada.getRegionalRecordCount());
-        assertEquals("Should only be one new record", ++BritishRecordCounter, UnitedKingdom.getRegionalRecordCount());
+        assertEquals("Record ID should not change", recordId, Primary.transferRecord(recordId, Region.UK));
+        assertEquals("Should only be one less record", --CanadianRecordCounter, Primary.getRegionalRecordCount());
+        assertEquals("Should only be one new record", ++BritishRecordCounter, Secondary.getRegionalRecordCount());
     }
 
     @Test
     public void testCreateManagerRecordWithBadValues() throws Exception {
-        int startNumberOfRecords = UnitedStates.getRegionalRecordCount();
+        int startNumberOfRecords = EmptyServer.getRegionalRecordCount();
 
         // Bad Region
         assertTrue("Should return ERROR message",
-                UnitedStates.createManagerRecord("john", "smith", 116546841, "johm.smith@example.com",
+                EmptyServer.createManagerRecord("john", "smith", 116546841, "johm.smith@example.com",
                         new Project(new ProjectIdentifier(0).getRawId(), "Huge Project", "Rich Client"), "Republic of McArthur").startsWith("ERROR"));
-        assertEquals("Should not be a new record", startNumberOfRecords, UnitedStates.getRegionalRecordCount());
+        assertEquals("Should not be a new record", startNumberOfRecords, EmptyServer.getRegionalRecordCount());
     }
 
     @Test
     public void testCreateEmployeeRecordWithBadValues() throws Exception {
-        int startNumberOfRecords = UnitedStates.getRegionalRecordCount();
+        int startNumberOfRecords = EmptyServer.getRegionalRecordCount();
 
         // Bad format project ID
         assertTrue("Should return ERROR message",
-                UnitedStates.createEmployeeRecord("john", "smith", 5479, "johm.smith@example.com", "P35+6").startsWith("ERROR"));
-        assertEquals("Should not be a new record", startNumberOfRecords, UnitedStates.getRegionalRecordCount());
+                EmptyServer.createEmployeeRecord("john", "smith", 5479, "johm.smith@example.com", "P35+6").startsWith("ERROR"));
+        assertEquals("Should not be a new record", startNumberOfRecords, EmptyServer.getRegionalRecordCount());
         assertTrue("Should return ERROR message",
-                UnitedStates.createEmployeeRecord("john", "smith", 5479, "johm.smith@example.com", "54687").startsWith("ERROR"));
-        assertEquals("Should not be a new record", startNumberOfRecords, UnitedStates.getRegionalRecordCount());
+                EmptyServer.createEmployeeRecord("john", "smith", 5479, "johm.smith@example.com", "54687").startsWith("ERROR"));
+        assertEquals("Should not be a new record", startNumberOfRecords, EmptyServer.getRegionalRecordCount());
 
         // Project ID too long
         assertTrue("Should return ERROR message",
-                UnitedStates.createEmployeeRecord("john", "smith", 5479, "johm.smith@example.com", "P458754687").startsWith("ERROR"));
-        assertEquals("Should not be a new record", startNumberOfRecords, UnitedStates.getRegionalRecordCount());
+                EmptyServer.createEmployeeRecord("john", "smith", 5479, "johm.smith@example.com", "P458754687").startsWith("ERROR"));
+        assertEquals("Should not be a new record", startNumberOfRecords, EmptyServer.getRegionalRecordCount());
     }
 }
