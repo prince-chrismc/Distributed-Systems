@@ -78,7 +78,7 @@ public class CorbaRegionalServer extends RegionalRecordManipulatorPOA {
 
     @Override
     public String editRecord(String managerID, String recordID, String feildName, Any newValue) throws RemoteException {
-        return m_Server.editRecord(managerID, recordID, feildName, newValue);
+        return m_Server.editRecord(managerID, recordID, feildName, newValue.extract_Object());
     }
 
     @Override
