@@ -45,7 +45,7 @@ public class ProjectIdentifier implements Serializable {
     }
 
     public void setId(String projectId) throws NumberFormatException, Exception {
-        if (projectId.startsWith(m_Prefix)) {
+        if (projectId.startsWith(m_Prefix) && projectId.length() == 6) {
             m_Id.m_UUID = Integer.parseInt(projectId.substring(m_Prefix.length()));
         } else {
             throw new Exception("Invalid ID!");

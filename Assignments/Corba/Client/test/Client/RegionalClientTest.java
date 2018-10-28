@@ -33,7 +33,6 @@ import static org.junit.Assert.assertNotEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.omg.CORBA.Any;
 import org.omg.CORBA.ORB;
 import org.omg.CORBA.ORBPackage.InvalidName;
 import org.omg.PortableServer.POAManagerPackage.AdapterInactive;
@@ -72,6 +71,7 @@ public class RegionalClientTest {
 
     /**
      * Test of createManagerRecord method, of class RegionalClient.
+     * @throws java.lang.Exception
      */
     @Test
     public void testCreateManagerRecord() throws Exception {
@@ -85,6 +85,7 @@ public class RegionalClientTest {
 
     /**
      * Test of createEmployeeRecord method, of class RegionalClient.
+     * @throws java.lang.Exception
      */
     @Test
     public void testCreateEmployeeRecord() throws Exception {
@@ -95,6 +96,7 @@ public class RegionalClientTest {
 
     /**
      * Test of editRecord method, of class RegionalClient.
+     * @throws java.lang.Exception
      */
     @Test
     public void canEditMangerRecords() throws Exception {
@@ -133,5 +135,34 @@ public class RegionalClientTest {
         assertEquals("Record ID should not change", recordId, Canada.transferRecord(recordId, Region.UK));
         assertEquals("Should only be one less record", --CanadianRecordCounter, Canada.getRegionalRecordCount());
         assertEquals("Should only be one new record", ++BritishRecordCounter, UnitedKingdom.getRegionalRecordCount());
+    }
+    
+    @Test
+    public void testCreateManagerRecordWithBadValues() throws Exception {
+        int startNumberOfRecords = UnitedStates.getRegionalRecordCount();
+        
+        // Bad Region
+        assertEquals("Record ID should not change", "ERROR",
+                UnitedStates.createManagerRecord("john", "smith", 116546841, "johm.smith@example.com",
+                        new Project(new ProjectIdentifier(0).getRawId(), "Huge Project", "Rich Client"), "Republic of McArthur"));
+        assertEquals("Should not be a new record", startNumberOfRecords, UnitedStates.getRegionalRecordCount());
+    }
+    
+    @Test
+    public void testCreateEmployeeRecordWithBadValues() throws Exception {
+        int startNumberOfRecords = UnitedStates.getRegionalRecordCount();
+        
+        // Bad format project ID
+        assertEquals("Record ID should not change", "ERROR",
+                UnitedStates.createEmployeeRecord("john", "smith", 5479, "johm.smith@example.com", "P35+6"));
+        assertEquals("Should not be a new record", startNumberOfRecords, UnitedStates.getRegionalRecordCount());
+        assertEquals("Record ID should not change", "ERROR",
+                UnitedStates.createEmployeeRecord("john", "smith", 5479, "johm.smith@example.com", "54687"));
+        assertEquals("Should not be a new record", startNumberOfRecords, UnitedStates.getRegionalRecordCount());
+        
+        // Project ID too long
+        assertEquals("Record ID should not change", "ERROR",
+                UnitedStates.createEmployeeRecord("john", "smith", 5479, "johm.smith@example.com", "P458754687"));
+        assertEquals("Should not be a new record", startNumberOfRecords, UnitedStates.getRegionalRecordCount());
     }
 }
