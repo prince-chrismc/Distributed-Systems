@@ -41,12 +41,14 @@ import org.omg.CosNaming.NamingContextExtHelper;
  */
 public class RegionalClient {
 
+    final private ORB orb;
     final private String m_HRID;
     final private Region m_Region;
     final private RegionalRecordManipulator m_Remote;
     final private Logger m_Logger;
 
     public RegionalClient(ORB orb, String id) throws IOException, Exception {
+        this.orb = orb;
         m_HRID = id;
         m_Region = Region.fromString(id.substring(0, 2));
 
@@ -66,8 +68,16 @@ public class RegionalClient {
         return m_Remote.createERecord(m_HRID, firstName, lastName, employeeID, mailID, projectId);
     }
 
-    public String editRecord(String recordID, String feildName, Any newValue) throws RemoteException {
-        return m_Remote.editRecord(m_HRID, recordID, feildName, newValue);
+    public String editRecord(String recordID, String feildName, String newValue) throws RemoteException {
+        Any toPass = orb.create_any();
+        toPass.insert_string(newValue);
+        return m_Remote.editRecord(m_HRID, recordID, feildName, toPass);
+    }
+
+    public String editRecord(String recordID, String feildName, int newValue) throws RemoteException {
+        Any toPass = orb.create_any();
+        toPass.insert_long(newValue);
+        return m_Remote.editRecord(m_HRID, recordID, feildName, toPass);
     }
 
     public String getRecordCount() throws RemoteException {

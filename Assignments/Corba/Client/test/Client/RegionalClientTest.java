@@ -102,13 +102,8 @@ public class RegionalClientTest {
         String recordId = Canada.createManagerRecord("john", "smith", 1001, "johm.smith@example.com", new Project(new ProjectIdentifier(0).getRawId(), "Huge Project", "Rich Client"), Region.CA.toString());
         assertEquals("Should only be one new record", ++startNumberOfRecords, Canada.getRegionalRecordCount());
 
-        Any region = orb.create_any();
-        region.insert_string(Region.UK.toString());
-        assertEquals("Record ID should not change", recordId, Canada.editRecord(recordId, Feild.LOCATION.toString(), region));
-
-        Any employeeId = orb.create_any();
-        employeeId.insert_long(98765);
-        assertEquals("Record ID should not change", recordId, Canada.editRecord(recordId, Feild.EMPLOYEE_ID.toString(), employeeId));
+        assertEquals("Record ID should not change", recordId, Canada.editRecord(recordId, Feild.LOCATION.toString(), Region.UK.toString()));
+        assertEquals("Record ID should not change", recordId, Canada.editRecord(recordId, Feild.EMPLOYEE_ID.toString(), 98765));
 
         assertEquals("Should only be same number of records", startNumberOfRecords, Canada.getRegionalRecordCount());
     }
@@ -120,17 +115,9 @@ public class RegionalClientTest {
         String recordId = Canada.createEmployeeRecord("james", "bond", 1001, "johm.smith@example.com", "P23001");
         assertEquals("Should only be one new record", ++startNumberOfRecords, Canada.getRegionalRecordCount());
 
-        Any firstName = orb.create_any();
-        firstName.insert_string("James");
-        assertEquals("Record ID should not change", recordId, Canada.editRecord(recordId, Feild.FIRST_NAME.toString(), firstName));
-
-        Any lastName = orb.create_any();
-        lastName.insert_string("BOND");
-        assertEquals("Record ID should not change", recordId, Canada.editRecord(recordId, Feild.LAST_NAME.toString(), lastName));
-
-        Any employeeId = orb.create_any();
-        employeeId.insert_long(9007);
-        assertEquals("Record ID should not change", recordId, Canada.editRecord(recordId, Feild.EMPLOYEE_ID.toString(), employeeId));
+        assertEquals("Record ID should not change", recordId, Canada.editRecord(recordId, Feild.FIRST_NAME.toString(), "James"));
+        assertEquals("Record ID should not change", recordId, Canada.editRecord(recordId, Feild.LAST_NAME.toString(), "BOND"));
+        assertEquals("Record ID should not change", recordId, Canada.editRecord(recordId, Feild.EMPLOYEE_ID.toString(), 9007));
 
         assertEquals("Should only be same number of records", startNumberOfRecords, Canada.getRegionalRecordCount());
     }

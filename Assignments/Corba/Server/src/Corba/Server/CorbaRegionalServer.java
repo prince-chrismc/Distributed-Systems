@@ -78,7 +78,13 @@ public class CorbaRegionalServer extends RegionalRecordManipulatorPOA {
 
     @Override
     public String editRecord(String managerID, String recordID, String feildName, Any newValue) throws RemoteException {
-        return m_Server.editRecord(managerID, recordID, feildName, newValue.extract_Object());
+        if (orb.create_string_tc(0).kind() == newValue.type().kind()) {
+            return m_Server.editRecord(managerID, recordID, feildName, newValue.extract_string());
+        } else if( TCKind.tk_long ==  newValue.type().kind()){
+            return m_Server.editRecord(managerID, recordID, feildName, newValue.extract_long());
+        } 
+        
+        return "UNKNOWN TYPE: " + newValue.type().kind().toString();
     }
 
     @Override
