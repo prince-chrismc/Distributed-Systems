@@ -314,22 +314,27 @@ public class RegionalServer implements RequestListener.Processor {
 
     @Override
     public String transferRecord(String data) {
-        ManagerRecord newRecord = ManagerRecord.fromString(data);
 
-        if (newRecord != null) {
-            synchronized (m_Records) {
-                m_Records.addRecord(newRecord);
-                m_Logger.Log("Accepted transfered of '" + newRecord.getRecordId() + "'     " + m_Records.toString());
-                return newRecord.getRecordId().toString();
-            }
-        }
-        /*EmployeeRecord newRecord = (EmployeeRecord) is.readObject();
-
+        if (data.charAt(0) == 'M') {
+            ManagerRecord newRecord = ManagerRecord.fromString(data);
+            if (newRecord != null) {
                 synchronized (m_Records) {
                     m_Records.addRecord(newRecord);
+                    m_Logger.Log("Accepted transfered of '" + newRecord.getRecordId() + "'     " + m_Records.toString());
                     return newRecord.getRecordId().toString();
-                }*/
-
+                }
+            }
+        } else if (data.charAt(0) == 'E') {
+            EmployeeRecord newRecord = EmployeeRecord.fromString(data);
+            if (newRecord != null) {
+                synchronized (m_Records) {
+                    m_Records.addRecord(newRecord);
+                    m_Logger.Log("Accepted transfered of '" + newRecord.getRecordId() + "'     " + m_Records.toString());
+                    return newRecord.getRecordId().toString();
+                }
+            }
+        }
+        
         return "ERROR";
     }
 }

@@ -23,6 +23,7 @@
  */
 package Server;
 
+import Models.EmployeeRecord;
 import Models.ManagerRecord;
 import Models.Project;
 import Models.ProjectIdentifier;
@@ -312,7 +313,7 @@ public class UdpCommunicationTest {
     }
 
     @Test
-    public void canTransferRecord() throws Exception {
+    public void canTransferManagerRecord() throws Exception {
         TestRegion currentRegion = TestRegion.TEN;
 
         RegionalServer Server = new RegionalServer(currentRegion);
@@ -323,6 +324,36 @@ public class UdpCommunicationTest {
 
         ManagerRecord recordToSend = new ManagerRecord(12, "canTransferRecord", "JUnit Test Case", 1654, "test.code@pronerd.com",
                 new Project(new ProjectIdentifier(0), "Huge Project", "Rich Client"), Region.CA);
+        
+        Message request = new Message(OperationCode.TRANSFER_RECORD, recordToSend.toString(), address, currentRegion.toInt());
+
+        socket.send(request.getPacket());
+
+        byte[] buf = new byte[512];
+        DatagramPacket packet = new DatagramPacket(buf, buf.length);
+
+        socket.setSoTimeout(1000); // Set timeout in case packet is lost
+        socket.receive(packet);
+
+        Message response = new Message(packet);
+
+        assertEquals("transfer Record must be answered with an ACK", OperationCode.ACK_TRANSFER_RECORD, response.getOpCode());
+        assertEquals("Record sent must match received data", recordToSend.getRecordId().toString(), response.getData());
+    }
+    
+
+    @Test
+    public void canTransferEmployeeRecord() throws Exception {
+        TestRegion currentRegion = TestRegion.ELEVEN;
+
+        RegionalServer Server = new RegionalServer(currentRegion);
+        Server.Start();
+
+        DatagramSocket socket = new DatagramSocket();
+        InetAddress address = InetAddress.getByName("localhost");
+
+        EmployeeRecord recordToSend = new EmployeeRecord(12, "canTransferEmployeeRecord", "JUnit Test Case", 9521, "random.email@address.here",
+                new ProjectIdentifier(46));
         
         Message request = new Message(OperationCode.TRANSFER_RECORD, recordToSend.toString(), address, currentRegion.toInt());
 

@@ -38,7 +38,8 @@ public enum TestRegion implements Interface.Region {
     SEVEN(7007),
     EIGTH(7008),
     NINE(7009),
-    TEN(7010);
+    TEN(7010),
+    ELEVEN(7011);
     
     TestRegion(int ID ) {
         m_UUID = ID;
