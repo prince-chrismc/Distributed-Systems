@@ -50,7 +50,7 @@ RecordTransferAgent<sup>2</sup> | Manages all the stages required for transferin
 Together these are used to define the implement the simple "Send and Wait" protocol providing an at least once execution of requests.
 
 ##### `RequestListener`
-Main UDP server which waits for incomming messages from the other servers. Defines a callback interface to obtain the data for the responses.
+Main UDP server which waits for incomming messages from the other servers. Defines a callback interface to obtain the data for the responses from an owner of a `RecordsMap`. This only handles UDP communication. The interface is implemented by `RegionalServer`.
 
 ##### `RecordUuidTracker`
 This component tracks the "next ID to use" for _Employees_ or _Managers_; when creating a new record it initiates communication with the other servers to agree upon the next ID to use.
@@ -61,7 +61,7 @@ Thid object is responsible for transfering a record to a remote server. It ensur
 ##### `RegionalServer`
 this is the main Server object which was two main roles:
 - Control a `RecordsMap` to garauntees data consistency with many concurrent clients/requests
-- Perform communication with the other servers. 
+- Perform communication with the other servers. Mostly done using the objects above; only `getRecordCount()` is implemented in this class.
 
 ## Server
 The main executable simply starts three `RegionalServer` one for each region { Canada, United-States, and the United-Kingdom } and binds them within CORBA to make them available.
