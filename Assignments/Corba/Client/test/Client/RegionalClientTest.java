@@ -28,6 +28,7 @@ import Models.Feild;
 import Models.Region;
 import Models.ProjectIdentifier;
 import org.junit.AfterClass;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import org.junit.Before;
@@ -71,6 +72,7 @@ public class RegionalClientTest {
 
     /**
      * Test of createManagerRecord method, of class RegionalClient.
+     *
      * @throws java.lang.Exception
      */
     @Test
@@ -85,6 +87,7 @@ public class RegionalClientTest {
 
     /**
      * Test of createEmployeeRecord method, of class RegionalClient.
+     *
      * @throws java.lang.Exception
      */
     @Test
@@ -96,6 +99,7 @@ public class RegionalClientTest {
 
     /**
      * Test of editRecord method, of class RegionalClient.
+     *
      * @throws java.lang.Exception
      */
     @Test
@@ -122,47 +126,48 @@ public class RegionalClientTest {
 
         assertEquals("Should only be same number of records", startNumberOfRecords, Canada.getRegionalRecordCount());
     }
-    
+
     @Test
     public void canTransferRecord() throws Exception {
         int CanadianRecordCounter = Canada.getRegionalRecordCount();
         int BritishRecordCounter = UnitedKingdom.getRegionalRecordCount();
-        
+
         String recordId = Canada.createEmployeeRecord("james", "bond", 1001, "johm.smith@example.com", "P23001");
         assertEquals("Should only be one new record", ++CanadianRecordCounter, Canada.getRegionalRecordCount());
         assertEquals("Should not be a new record", BritishRecordCounter, UnitedKingdom.getRegionalRecordCount());
-        
+
         assertEquals("Record ID should not change", recordId, Canada.transferRecord(recordId, Region.UK));
         assertEquals("Should only be one less record", --CanadianRecordCounter, Canada.getRegionalRecordCount());
         assertEquals("Should only be one new record", ++BritishRecordCounter, UnitedKingdom.getRegionalRecordCount());
     }
-    
+
     @Test
     public void testCreateManagerRecordWithBadValues() throws Exception {
         int startNumberOfRecords = UnitedStates.getRegionalRecordCount();
-        
+
         // Bad Region
-        assertEquals("Record ID should not change", "ERROR",
+        assertTrue("Should return ERROR message",
                 UnitedStates.createManagerRecord("john", "smith", 116546841, "johm.smith@example.com",
-                        new Project(new ProjectIdentifier(0).getRawId(), "Huge Project", "Rich Client"), "Republic of McArthur"));
+                        new Project(new ProjectIdentifier(0).getRawId(), "Huge Project", "Rich Client"), "Republic of McArthur").startsWith("ERROR"));
         assertEquals("Should not be a new record", startNumberOfRecords, UnitedStates.getRegionalRecordCount());
     }
-    
+
     @Test
     public void testCreateEmployeeRecordWithBadValues() throws Exception {
         int startNumberOfRecords = UnitedStates.getRegionalRecordCount();
-        
+
         // Bad format project ID
-        assertEquals("Record ID should not change", "ERROR",
-                UnitedStates.createEmployeeRecord("john", "smith", 5479, "johm.smith@example.com", "P35+6"));
+        assertTrue("Should return ERROR message",
+                UnitedStates.createEmployeeRecord("john", "smith", 5479, "johm.smith@example.com", "P35+6").startsWith("ERROR"));
         assertEquals("Should not be a new record", startNumberOfRecords, UnitedStates.getRegionalRecordCount());
-        assertEquals("Record ID should not change", "ERROR",
-                UnitedStates.createEmployeeRecord("john", "smith", 5479, "johm.smith@example.com", "54687"));
+        assertTrue("Should return ERROR message",
+                UnitedStates.createEmployeeRecord("john", "smith", 5479, "johm.smith@example.com", "54687").startsWith("ERROR"));
         assertEquals("Should not be a new record", startNumberOfRecords, UnitedStates.getRegionalRecordCount());
-        
+
         // Project ID too long
-        assertEquals("Record ID should not change", "ERROR",
-                UnitedStates.createEmployeeRecord("john", "smith", 5479, "johm.smith@example.com", "P458754687"));
+        assertTrue("Should return ERROR message",
+                UnitedStates.createEmployeeRecord("john", "smith", 5479, "johm.smith@example.com", "P458754687").startsWith("ERROR"));
         assertEquals("Should not be a new record", startNumberOfRecords, UnitedStates.getRegionalRecordCount());
+
     }
 }

@@ -97,9 +97,8 @@ public class RegionalServer implements RequestListener.Processor {
             m_Logger.Log("Created Manager Record: " + m_Records.toString());
             return newID.toString();
         } catch (Exception e) {
-            m_Logger.Log("Failed to Create Manager Record!");
-            System.err.println(e);
-            return "ERROR";
+            m_Logger.Log("Failed to Create Manager Record! Cause: " + e.getMessage());
+            return "ERROR " + e.getMessage();
         }
     }
 
@@ -116,9 +115,8 @@ public class RegionalServer implements RequestListener.Processor {
             m_Logger.Log("Created Employee Record: " + m_Records.toString());
             return newID.toString();
         } catch (Exception e) {
-            m_Logger.Log("Failed to Create Employee Record!");
-            System.err.println(e);
-            return "ERROR";
+            m_Logger.Log("Failed to Create Employee Record! Cause: " + e.getMessage());
+            return "ERROR " + e.getMessage();
         }
     }
 
@@ -155,9 +153,8 @@ public class RegionalServer implements RequestListener.Processor {
                     m_Records.addRecord(record);
                 }
 
-                m_Logger.Log("Failed to Edit " + feildName + "!");
-                System.err.println(e);
-                return "ERROR";
+                m_Logger.Log("Failed to Edit " + feildName + "! Cause: " + e.getMessage());
+                return "ERROR " + e.getMessage();
             }
         }
     }
@@ -302,7 +299,7 @@ public class RegionalServer implements RequestListener.Processor {
         try {
             dstRegion = Models.Region.fromString(remoteSeverName);
         } catch (Exception ex) {
-            return "ERROR";
+            return "ERROR " + ex.getMessage();
         }
 
         m_Logger.Log("Will be attempting transfer of '" + recordID + "' to remote server [" + dstRegion + "]...");
@@ -312,7 +309,7 @@ public class RegionalServer implements RequestListener.Processor {
 
             if (record == null) {
                 m_Logger.Log("Failed to get record '" + recordID + "' from internal storage.");
-                return "ERROR";
+                return "ERROR 404 record not found";
             }
         }
 
@@ -320,7 +317,7 @@ public class RegionalServer implements RequestListener.Processor {
         try {
             transferAgent = new RecordTransferAgent(record, m_Region, dstRegion);
         } catch (IOException ex) {
-            return "ERROR";
+            return "ERROR " + ex.getMessage();
         }
 
         m_Logger.Log("Transfer of '" + recordID + "' to [" + dstRegion + "] in progress...");
@@ -333,7 +330,7 @@ public class RegionalServer implements RequestListener.Processor {
             }
         }
 
-        return "ERROR";
+        return "ERROR transfer incomplete";
     }
 
     @Override
