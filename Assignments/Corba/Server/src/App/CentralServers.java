@@ -27,6 +27,7 @@ import Interface.Corba.DEMS.RegionalRecordManipulator;
 import Interface.Corba.DEMS.RegionalRecordManipulatorHelper;
 import Models.Region;
 import Corba.Server.CorbaRegionalServer;
+import java.util.stream.Stream;
 import org.omg.CosNaming.*;
 import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
@@ -43,6 +44,10 @@ public class CentralServers {
      */
     public static void main(String[] args) {
 
+        if(args.length < 4 ) {
+            args = Stream.of("-ORBInitialPort", "1050", "-ORBInitialHost", "localhost").toArray(String[]::new);
+        }
+                
         try {
             // create and initialize the ORB //// get reference to rootpoa & activate the POAManager
             ORB orb = ORB.init(args, null);
