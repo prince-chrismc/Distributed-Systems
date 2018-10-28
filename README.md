@@ -10,6 +10,6 @@ This is a Java IPC repository to contain my work for Distributed Systems (SOEN42
 - [CORBA](https://github.com/prince-chrismc/Distributed-Systems/tree/master/Assignments/Corba)
 
 ## Building
-This is a very simple repository, it is very easy to build and configure. They are all ANT projects build with NetBeans8.2 and require a  **JDK version of 8_** for CORBA.
+This is a very simple repository, it is very easy to build and configure. They are all ANT projects build with NetBeans8.2 and require a  **JDK version of 8** for CORBA.
 
 There is no installation of any kind.
