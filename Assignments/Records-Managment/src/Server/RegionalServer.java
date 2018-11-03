@@ -300,6 +300,11 @@ public class RegionalServer implements RequestListener.Processor {
         } catch (Exception ex) {
             return "ERROR " + ex.getMessage();
         }
+        
+        if( m_Region == dstRegion ){
+            m_Logger.Log(idLogInfor(managerID) + "Request rejected to transfer '" + recordID + "' to this server...");
+            return "REJECTED!";
+        }
 
         m_Logger.Log(idLogInfor(managerID) + "Will be attempting transfer of '" + recordID + "' to remote server [" + dstRegion + "]...");
 
@@ -307,7 +312,7 @@ public class RegionalServer implements RequestListener.Processor {
             record = m_Records.removeRecord(recordID);
 
             if (record == null) {
-                m_Logger.Log("idLogInfor(managerID) + Failed to get record '" + recordID + "' from internal storage.");
+                m_Logger.Log(idLogInfor(managerID) + "Failed to get record '" + recordID + "' from internal storage.");
                 return "ERROR 404 record not found";
             }
         }
