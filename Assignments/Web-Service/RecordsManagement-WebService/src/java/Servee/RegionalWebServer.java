@@ -18,9 +18,22 @@ public class RegionalWebServer {
 
     /**
      * This is a sample web service operation
+     * @param txt
+     * @return 
      */
     @WebMethod(operationName = "hello")
     public String hello(@WebParam(name = "name") String txt) {
         return "Hello " + txt + " !";
+    }
+
+    /**
+     * Web service operation
+     * @param parameter
+     * @return 
+     */
+    @WebMethod(operationName = "createtest")
+    public String createtest(@WebParam(name = "parameter") String parameter) {
+         
+        return "created " + parameter;
     }
 }
