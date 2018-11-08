@@ -45,7 +45,7 @@
     </target>
     <target name="wsimport-client-RegionalWebServer" depends="wsimport-init">
         <mkdir dir="${build.generated.dir}/jax-wsCache/RegionalWebServer"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/RegionalWebServer" destdir="${build.generated.dir}/jax-wsCache/RegionalWebServer" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/RegionalWebServer/wsdl/localhost_8080/RecordsManagement-WebService/RegionalWebServer.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/RecordsManagement-WebService/RegionalWebServer?wsdl" xnocompile="true" xendorsed="true" package="Servee_client">
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/RegionalWebServer" destdir="${build.generated.dir}/jax-wsCache/RegionalWebServer" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/RegionalWebServer/wsdl/localhost_8080/RecordsManagement-WebService/RegionalWebServer.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/RecordsManagement-WebService/RegionalWebServer?wsdl" xnocompile="true" xendorsed="true" package="Client">
             <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/RegionalWebServer/wsdl/localhost_8080/RecordsManagement-WebService/RegionalWebServer.wsdl"/>
             <produces dir="${build.generated.dir}/jax-wsCache/RegionalWebServer"/>
         </wsimport>
@@ -56,7 +56,7 @@
         </copy>
     </target>
     <target name="wsimport-client-clean-RegionalWebServer" depends="-init-project">
-        <delete dir="${build.generated.sources.dir}/jax-ws/Servee_client"/>
+        <delete dir="${build.generated.sources.dir}/jax-ws/Client"/>
         <delete dir="${build.generated.dir}/jax-wsCache/RegionalWebServer"/>
     </target>
     <target name="wsimport-client-generate" depends="wsimport-client-RegionalWebServer"/>

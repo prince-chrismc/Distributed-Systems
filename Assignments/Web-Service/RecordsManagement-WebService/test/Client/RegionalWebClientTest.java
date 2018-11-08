@@ -21,37 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package Server;
+package Client;
 
-import Models.Project;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
  * @author cmcarthur
  */
-public class RegionalWebServerTest {
+public class RegionalWebClientTest {
 
-    public RegionalWebServerTest() {
-    }
-
-    /**
-     * Test of createManagerRecord method, of class RegionalWebServer.
-     */
     @Test
-    public void testCreateManagerRecord() {
+    public void testClient() {
+        RegionalWebServer_Service service = new RegionalWebServer_Service();
+
+        Client.RegionalWebServer remote = service.getRegionalWebServerPort();
+
         String managerID = "CA1234";
         String firstName = "john";
         String lastName = "smith";
         int employID = 6548;
         String mailID = "john.smith@example.com";
-        Project project = null;
+        Client.Project project = null;
         String location = "CA";
-        RegionalWebServer instance = new RegionalWebServer();
         String expResult = "MR11111";
-        String result = instance.createManagerRecord(managerID, firstName, lastName, employID, mailID, project, location);
+        String result = remote.createManagerRecord(managerID, firstName, lastName, employID, mailID, project, location);
         assertEquals(expResult, result);
     }
-
 }

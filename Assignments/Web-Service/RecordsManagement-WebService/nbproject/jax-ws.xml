@@ -9,7 +9,7 @@
     <client name="RegionalWebServer">
       <wsdl-url>http://localhost:8080/RecordsManagement-WebService/RegionalWebServer?wsdl</wsdl-url>
       <local-wsdl-file>localhost_8080/RecordsManagement-WebService/RegionalWebServer.wsdl</local-wsdl-file>
-      <package-name forceReplace="true">Servee_client</package-name>
+      <package-name forceReplace="true">Client</package-name>
       <catalog-file>catalog.xml</catalog-file>
       <wsimport-options>
         <wsimport-option>
@@ -38,7 +38,7 @@
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>package</wsimport-option-name>
-          <wsimport-option-value>Servee_client</wsimport-option-value>
+          <wsimport-option-value>Client</wsimport-option-value>
         </wsimport-option>
       </wsimport-options>
     </client>
