@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.2-b608 (trunk-7979; 2015-01-21T12:50:19+0000) JAXWS-RI/2.2.11-b150120.1832 JAXWS-API/2.2.12 JAXB-RI/2.2.12-b141219.1637 JAXB-API/2.2.13-b141020.1521 svn-revision#unknown. --><xs:schema xmlns:tns="http://Server/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://Server/">
+
+<xs:element name="createERecord" type="tns:createERecord"/>
+
+<xs:element name="createERecordResponse" type="tns:createERecordResponse"/>
+
+<xs:element name="createMRecord" type="tns:createMRecord"/>
+
+<xs:element name="createMRecordResponse" type="tns:createMRecordResponse"/>
+
+<xs:element name="editRecord" type="tns:editRecord"/>
+
+<xs:element name="editRecordResponse" type="tns:editRecordResponse"/>
+
+<xs:element name="getRecordCount" type="tns:getRecordCount"/>
+
+<xs:element name="getRecordCountResponse" type="tns:getRecordCountResponse"/>
+
+<xs:element name="transferRecord" type="tns:transferRecord"/>
+
+<xs:element name="transferRecordResponse" type="tns:transferRecordResponse"/>
+
+<xs:complexType name="createERecord">
+<xs:sequence>
+<xs:element name="managerID" type="xs:string" minOccurs="0"/>
+<xs:element name="firstName" type="xs:string" minOccurs="0"/>
+<xs:element name="lastName" type="xs:string" minOccurs="0"/>
+<xs:element name="employID" type="xs:int"/>
+<xs:element name="mailID" type="xs:string" minOccurs="0"/>
+<xs:element name="projectId" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createERecordResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getRecordCount">
+<xs:sequence>
+<xs:element name="managerID" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getRecordCountResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="transferRecord">
+<xs:sequence>
+<xs:element name="managerID" type="xs:string" minOccurs="0"/>
+<xs:element name="recordID" type="xs:string" minOccurs="0"/>
+<xs:element name="region" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="transferRecordResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createMRecord">
+<xs:sequence>
+<xs:element name="managerID" type="xs:string" minOccurs="0"/>
+<xs:element name="firstName" type="xs:string" minOccurs="0"/>
+<xs:element name="lastName" type="xs:string" minOccurs="0"/>
+<xs:element name="employID" type="xs:int"/>
+<xs:element name="mailID" type="xs:string" minOccurs="0"/>
+<xs:element name="project" type="tns:project" minOccurs="0"/>
+<xs:element name="location" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="project">
+<xs:sequence>
+<xs:element name="client" type="xs:string" minOccurs="0"/>
+<xs:element name="id" type="tns:projectIdentifier" minOccurs="0"/>
+<xs:element name="name" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="projectIdentifier">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="createMRecordResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="editRecord">
+<xs:sequence>
+<xs:element name="managerID" type="xs:string" minOccurs="0"/>
+<xs:element name="recordID" type="xs:string" minOccurs="0"/>
+<xs:element name="feildName" type="xs:string" minOccurs="0"/>
+<xs:element name="newValue" type="xs:anyType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="editRecordResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

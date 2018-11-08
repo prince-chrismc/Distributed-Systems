@@ -19,11 +19,11 @@
             <classpath path="${java.home}/../lib/tools.jar:${build.classes.dir}:${j2ee.platform.wsgen.classpath}:${javac.classpath}"/>
         </taskdef>
     </target>
-    <target name="wsgen-RegionalWebServer" depends="wsgen-init">
+    <target name="wsgen-CentralServer" depends="wsgen-init">
         <copy todir="${build.classes.dir}/META-INF">
-            <fileset dir="${webinf.dir}" includes="wsit-Server.RegionalWebServer.xml"/>
+            <fileset dir="${webinf.dir}" includes="wsit-Server.CentralServer.xml"/>
         </copy>
-        <wsgen sourcedestdir="${build.generated.sources.dir}/jax-ws" resourcedestdir="${build.generated.sources.dir}/jax-ws/resources/" destdir="${build.generated.sources.dir}/jax-ws" verbose="true" keep="true" genwsdl="true" sei="Server.RegionalWebServer" xendorsed="true">
+        <wsgen sourcedestdir="${build.generated.sources.dir}/jax-ws" resourcedestdir="${build.generated.sources.dir}/jax-ws/resources/" destdir="${build.generated.sources.dir}/jax-ws" verbose="true" keep="true" genwsdl="true" sei="Server.CentralServer" xendorsed="true">
             <classpath path="${java.home}/../lib/tools.jar:${build.classes.dir}:${j2ee.platform.wsgen.classpath}:${javac.classpath}"/>
         </wsgen>
     </target>
@@ -43,21 +43,21 @@
             <isset property="conf.dir"/>
         </condition>
     </target>
-    <target name="wsimport-client-RegionalWebServer" depends="wsimport-init">
-        <mkdir dir="${build.generated.dir}/jax-wsCache/RegionalWebServer"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/RegionalWebServer" destdir="${build.generated.dir}/jax-wsCache/RegionalWebServer" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/RegionalWebServer/wsdl/localhost_8080/RecordsManagement-WebService/RegionalWebServer.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/RecordsManagement-WebService/RegionalWebServer?wsdl" xnocompile="true" xendorsed="true" package="Client">
-            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/RegionalWebServer/wsdl/localhost_8080/RecordsManagement-WebService/RegionalWebServer.wsdl"/>
-            <produces dir="${build.generated.dir}/jax-wsCache/RegionalWebServer"/>
+    <target name="wsimport-client-CentralServer" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/CentralServer"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/CentralServer" destdir="${build.generated.dir}/jax-wsCache/CentralServer" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/CentralServer/wsdl/localhost_8080/RecordsManagement-WebService/CentralServer.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/RecordsManagement-WebService/CentralServer?wsdl" xnocompile="true" xendorsed="true" package="Client">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/CentralServer/wsdl/localhost_8080/RecordsManagement-WebService/CentralServer.wsdl"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/CentralServer"/>
         </wsimport>
         <copy todir="${build.generated.sources.dir}/jax-ws">
-            <fileset dir="${build.generated.dir}/jax-wsCache/RegionalWebServer">
+            <fileset dir="${build.generated.dir}/jax-wsCache/CentralServer">
                 <include name="**/*.java"/>
             </fileset>
         </copy>
     </target>
-    <target name="wsimport-client-clean-RegionalWebServer" depends="-init-project">
+    <target name="wsimport-client-clean-CentralServer" depends="-init-project">
         <delete dir="${build.generated.sources.dir}/jax-ws/Client"/>
-        <delete dir="${build.generated.dir}/jax-wsCache/RegionalWebServer"/>
+        <delete dir="${build.generated.dir}/jax-wsCache/CentralServer"/>
     </target>
-    <target name="wsimport-client-generate" depends="wsimport-client-RegionalWebServer"/>
+    <target name="wsimport-client-generate" depends="wsimport-client-CentralServer"/>
 </project>

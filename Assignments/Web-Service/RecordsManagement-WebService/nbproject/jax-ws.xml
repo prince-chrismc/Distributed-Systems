@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jax-ws xmlns="http://www.netbeans.org/ns/jax-ws/1">
   <services>
-    <service name="RegionalWebServer">
-      <implementation-class>Server.RegionalWebServer</implementation-class>
+    <service name="CentralServer">
+      <implementation-class>Server.CentralServer</implementation-class>
     </service>
   </services>
   <clients>
-    <client name="RegionalWebServer">
-      <wsdl-url>http://localhost:8080/RecordsManagement-WebService/RegionalWebServer?wsdl</wsdl-url>
-      <local-wsdl-file>localhost_8080/RecordsManagement-WebService/RegionalWebServer.wsdl</local-wsdl-file>
+    <client name="CentralServer">
+      <wsdl-url>http://localhost:8080/RecordsManagement-WebService/CentralServer?wsdl</wsdl-url>
+      <local-wsdl-file>localhost_8080/RecordsManagement-WebService/CentralServer.wsdl</local-wsdl-file>
       <package-name forceReplace="true">Client</package-name>
       <catalog-file>catalog.xml</catalog-file>
+      <use-dispatch>true</use-dispatch>
       <wsimport-options>
         <wsimport-option>
           <wsimport-option-name>extension</wsimport-option-name>
@@ -26,7 +27,7 @@
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>wsdlLocation</wsimport-option-name>
-          <wsimport-option-value>http://localhost:8080/RecordsManagement-WebService/RegionalWebServer?wsdl</wsimport-option-value>
+          <wsimport-option-value>http://localhost:8080/RecordsManagement-WebService/CentralServer?wsdl</wsimport-option-value>
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>xnocompile</wsimport-option-name>

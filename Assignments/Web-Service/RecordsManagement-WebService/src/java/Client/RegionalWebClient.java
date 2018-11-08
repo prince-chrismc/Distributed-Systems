@@ -34,15 +34,15 @@ import java.io.IOException;
 public class RegionalWebClient {
     final private String m_HRID;
     final private Region m_Region;
-    final private RegionalWebServer m_Remote;
+    final private CentralServer m_Remote;
     final private Logger m_Logger;
 
     public RegionalWebClient(String id) throws IOException, Exception {
         m_HRID = id;
         m_Region = Region.fromString(id.substring(0, 2));
 
-        RegionalWebServer_Service service = new RegionalWebServer_Service();
-        m_Remote = service.getRegionalWebServerPort();
+        CentralServer_Service service = new CentralServer_Service();
+        m_Remote = service.getCentralServerPort();
 
         m_Logger = new Logger(m_HRID);
         m_Logger.Log(m_HRID + " has connected!");

@@ -2,4 +2,6 @@
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
     <system systemId="http://localhost:8080/RecordsManagement-WebService/RegionalWebServer?wsdl" uri="src/conf/xml-resources/web-service-references/RegionalWebServer/wsdl/localhost_8080/RecordsManagement-WebService/RegionalWebServer.wsdl"/>
     <system systemId="http://localhost:8080/RecordsManagement-WebService/RegionalWebServer?xsd=1" uri="src/conf/xml-resources/web-service-references/RegionalWebServer/wsdl/localhost_8080/RecordsManagement-WebService/RegionalWebServer.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/RecordsManagement-WebService/CentralServer?wsdl" uri="src/conf/xml-resources/web-service-references/CentralServer/wsdl/localhost_8080/RecordsManagement-WebService/CentralServer.wsdl"/>
+    <system systemId="http://localhost:8080/RecordsManagement-WebService/CentralServer?xsd=1" uri="src/conf/xml-resources/web-service-references/CentralServer/wsdl/localhost_8080/RecordsManagement-WebService/CentralServer.xsd_1.xsd"/>
 </catalog>
