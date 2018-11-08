@@ -4,21 +4,97 @@
 <xsd:import namespace="http://Server/" schemaLocation="http://localhost:8080/RecordsManagement-WebService/RegionalWebServer?xsd=1"/>
 </xsd:schema>
 </types>
-<message name="createManagerRecord">
-<part name="parameters" element="tns:createManagerRecord"/>
+<message name="transferRecord">
+<part name="parameters" element="tns:transferRecord"/>
 </message>
-<message name="createManagerRecordResponse">
-<part name="parameters" element="tns:createManagerRecordResponse"/>
+<message name="transferRecordResponse">
+<part name="parameters" element="tns:transferRecordResponse"/>
+</message>
+<message name="createMRecord">
+<part name="parameters" element="tns:createMRecord"/>
+</message>
+<message name="createMRecordResponse">
+<part name="parameters" element="tns:createMRecordResponse"/>
+</message>
+<message name="getRecordCount">
+<part name="parameters" element="tns:getRecordCount"/>
+</message>
+<message name="getRecordCountResponse">
+<part name="parameters" element="tns:getRecordCountResponse"/>
+</message>
+<message name="editRecord">
+<part name="parameters" element="tns:editRecord"/>
+</message>
+<message name="editRecordResponse">
+<part name="parameters" element="tns:editRecordResponse"/>
+</message>
+<message name="createERecord">
+<part name="parameters" element="tns:createERecord"/>
+</message>
+<message name="createERecordResponse">
+<part name="parameters" element="tns:createERecordResponse"/>
 </message>
 <portType name="RegionalWebServer">
-<operation name="createManagerRecord">
-<input wsam:Action="http://Server/RegionalWebServer/createManagerRecordRequest" message="tns:createManagerRecord"/>
-<output wsam:Action="http://Server/RegionalWebServer/createManagerRecordResponse" message="tns:createManagerRecordResponse"/>
+<operation name="transferRecord">
+<input wsam:Action="http://Server/RegionalWebServer/transferRecordRequest" message="tns:transferRecord"/>
+<output wsam:Action="http://Server/RegionalWebServer/transferRecordResponse" message="tns:transferRecordResponse"/>
+</operation>
+<operation name="createMRecord">
+<input wsam:Action="http://Server/RegionalWebServer/createMRecordRequest" message="tns:createMRecord"/>
+<output wsam:Action="http://Server/RegionalWebServer/createMRecordResponse" message="tns:createMRecordResponse"/>
+</operation>
+<operation name="getRecordCount">
+<input wsam:Action="http://Server/RegionalWebServer/getRecordCountRequest" message="tns:getRecordCount"/>
+<output wsam:Action="http://Server/RegionalWebServer/getRecordCountResponse" message="tns:getRecordCountResponse"/>
+</operation>
+<operation name="editRecord">
+<input wsam:Action="http://Server/RegionalWebServer/editRecordRequest" message="tns:editRecord"/>
+<output wsam:Action="http://Server/RegionalWebServer/editRecordResponse" message="tns:editRecordResponse"/>
+</operation>
+<operation name="createERecord">
+<input wsam:Action="http://Server/RegionalWebServer/createERecordRequest" message="tns:createERecord"/>
+<output wsam:Action="http://Server/RegionalWebServer/createERecordResponse" message="tns:createERecordResponse"/>
 </operation>
 </portType>
 <binding name="RegionalWebServerPortBinding" type="tns:RegionalWebServer">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-<operation name="createManagerRecord">
+<operation name="transferRecord">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="createMRecord">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="getRecordCount">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="editRecord">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="createERecord">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

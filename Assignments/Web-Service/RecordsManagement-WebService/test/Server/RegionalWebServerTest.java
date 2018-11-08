@@ -41,7 +41,7 @@ public class RegionalWebServerTest {
      */
     @Test
     public void testCreateManagerRecord() {
-        String managerID = "CA1234";
+        String managerID = null;
         String firstName = "john";
         String lastName = "smith";
         int employID = 6548;
@@ -50,7 +50,7 @@ public class RegionalWebServerTest {
         String location = "CA";
         RegionalWebServer instance = new RegionalWebServer();
         String expResult = "MR11111";
-        String result = instance.createManagerRecord(managerID, firstName, lastName, employID, mailID, project, location);
+        String result = instance.createMRecord(managerID, firstName, lastName, employID, mailID, project, location);
         assertEquals(expResult, result);
     }
 

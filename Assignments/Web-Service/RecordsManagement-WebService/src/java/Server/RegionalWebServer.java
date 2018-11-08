@@ -48,9 +48,46 @@ public class RegionalWebServer {
      * @param location location of the new manager
      * @return the record ID when successful or an ERROR message
      */
-    @WebMethod(operationName = "createManagerRecord")
-    public String createManagerRecord(@WebParam(name = "managerID") String managerID, @WebParam(name = "firstName") String firstName, @WebParam(name = "lastName") String lastName, @WebParam(name = "employID") int employID, @WebParam(name = "mailID") String mailID, @WebParam(name = "project") Project project, @WebParam(name = "location") String location) {
+    @WebMethod(operationName = "createMRecord")
+    public String createMRecord(@WebParam(name = "managerID") String managerID,
+            @WebParam(name = "firstName") String firstName,
+            @WebParam(name = "lastName") String lastName,
+            @WebParam(name = "employID") int employID,
+            @WebParam(name = "mailID") String mailID,
+            @WebParam(name = "project") Project project,
+            @WebParam(name = "location") String location) {
         //TODO write your implementation code here:
         return "MR11111";
+    }
+
+    @WebMethod(operationName = "createERecord")
+    public String createERecord(@WebParam(name = "managerID") String managerID,
+            @WebParam(name = "firstName") String firstName,
+            @WebParam(name = "lastName") String lastName,
+            @WebParam(name = "employID") int employID,
+            @WebParam(name = "mailID") String mailID,
+            @WebParam(name = "projectId") String projectId) {
+        //TODO write your implementation code here:
+        return "ER11111";
+    }
+
+    @WebMethod(operationName = "editRecord")
+    public String editRecord(@WebParam(name = "managerID") String managerID,
+            @WebParam(name = "recordID") String recordID,
+            @WebParam(name = "feildName") String feildName,
+            @WebParam(name = "newValue") Object newValue) {
+        return "ERROR";
+    }
+
+    @WebMethod(operationName = "transferRecord")
+    public String transferRecord(@WebParam(name = "managerID") String managerID,
+            @WebParam(name = "recordID") String recordID,
+            @WebParam(name = "region") String region){
+        return "ERROR";
+    }
+    
+    @WebMethod(operationName = "getRecordCount")
+    public String getRecordCount(@WebParam(name = "managerID") String managerID) {
+        return "ERROR";
     }
 }
