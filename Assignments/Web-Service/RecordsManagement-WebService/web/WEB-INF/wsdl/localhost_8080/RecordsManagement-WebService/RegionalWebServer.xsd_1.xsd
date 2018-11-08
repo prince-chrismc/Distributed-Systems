@@ -1,32 +1,34 @@
-<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.2-b608 (trunk-7979; 2015-01-21T12:50:19+0000) JAXWS-RI/2.2.11-b150120.1832 JAXWS-API/2.2.12 JAXB-RI/2.2.12-b141219.1637 JAXB-API/2.2.13-b141020.1521 svn-revision#unknown. --><xs:schema xmlns:tns="http://Servee/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://Servee/">
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.2-b608 (trunk-7979; 2015-01-21T12:50:19+0000) JAXWS-RI/2.2.11-b150120.1832 JAXWS-API/2.2.12 JAXB-RI/2.2.12-b141219.1637 JAXB-API/2.2.13-b141020.1521 svn-revision#unknown. --><xs:schema xmlns:tns="http://Server/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://Server/">
 
-<xs:element name="createtest" type="tns:createtest"/>
+<xs:element name="createManagerRecord" type="tns:createManagerRecord"/>
 
-<xs:element name="createtestResponse" type="tns:createtestResponse"/>
+<xs:element name="createManagerRecordResponse" type="tns:createManagerRecordResponse"/>
 
-<xs:element name="hello" type="tns:hello"/>
-
-<xs:element name="helloResponse" type="tns:helloResponse"/>
-
-<xs:complexType name="hello">
+<xs:complexType name="createManagerRecord">
 <xs:sequence>
+<xs:element name="managerID" type="xs:string" minOccurs="0"/>
+<xs:element name="firstName" type="xs:string" minOccurs="0"/>
+<xs:element name="lastName" type="xs:string" minOccurs="0"/>
+<xs:element name="employID" type="xs:int"/>
+<xs:element name="mailID" type="xs:string" minOccurs="0"/>
+<xs:element name="project" type="tns:project" minOccurs="0"/>
+<xs:element name="location" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="project">
+<xs:sequence>
+<xs:element name="client" type="xs:string" minOccurs="0"/>
+<xs:element name="id" type="tns:projectIdentifier" minOccurs="0"/>
 <xs:element name="name" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="helloResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:string" minOccurs="0"/>
-</xs:sequence>
+<xs:complexType name="projectIdentifier">
+<xs:sequence/>
 </xs:complexType>
 
-<xs:complexType name="createtest">
-<xs:sequence>
-<xs:element name="parameter" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="createtestResponse">
+<xs:complexType name="createManagerRecordResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:string" minOccurs="0"/>
 </xs:sequence>
