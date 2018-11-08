@@ -23,6 +23,7 @@
  */
 package Server;
 
+import Servee_client.RegionalWebServer;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -39,7 +40,7 @@ import javax.ws.rs.core.UriInfo;
 @Path("regionalwebserverport")
 public class RegionalWebServerPort {
 
-    private Servee_client.RegionalWebServer port;
+    private RegionalWebServer port;
 
     @Context
     private UriInfo context;
@@ -98,7 +99,7 @@ public class RegionalWebServerPort {
     /**
      *
      */
-    private Servee_client.RegionalWebServer getPort() {
+    private RegionalWebServer getPort() {
         try {
             // Call Web Service Operation
             Servee_client.RegionalWebServer_Service service = new Servee_client.RegionalWebServer_Service();
