@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servee;
+package Server;
 
 import javax.jws.WebService;
 import javax.jws.WebMethod;

@@ -21,17 +21,9 @@
     </target>
     <target name="wsgen-RegionalWebServer" depends="wsgen-init">
         <copy todir="${build.classes.dir}/META-INF">
-            <fileset dir="${webinf.dir}" includes="wsit-Servee.RegionalWebServer.xml"/>
+            <fileset dir="${webinf.dir}" includes="wsit-Server.RegionalWebServer.xml"/>
         </copy>
-        <wsgen sourcedestdir="${build.generated.sources.dir}/jax-ws" resourcedestdir="${build.generated.sources.dir}/jax-ws/resources/" destdir="${build.generated.sources.dir}/jax-ws" verbose="true" keep="true" genwsdl="true" sei="Servee.RegionalWebServer" xendorsed="true">
-            <classpath path="${java.home}/../lib/tools.jar:${build.classes.dir}:${j2ee.platform.wsgen.classpath}:${javac.classpath}"/>
-        </wsgen>
-    </target>
-    <target name="wsgen-test" depends="wsgen-init">
-        <copy todir="${build.classes.dir}/META-INF">
-            <fileset dir="${webinf.dir}" includes="wsit-Servee.test.xml"/>
-        </copy>
-        <wsgen sourcedestdir="${build.generated.sources.dir}/jax-ws" resourcedestdir="${build.generated.sources.dir}/jax-ws/resources/" destdir="${build.generated.sources.dir}/jax-ws" verbose="true" keep="true" genwsdl="true" sei="Servee.test" xendorsed="true">
+        <wsgen sourcedestdir="${build.generated.sources.dir}/jax-ws" resourcedestdir="${build.generated.sources.dir}/jax-ws/resources/" destdir="${build.generated.sources.dir}/jax-ws" verbose="true" keep="true" genwsdl="true" sei="Server.RegionalWebServer" xendorsed="true">
             <classpath path="${java.home}/../lib/tools.jar:${build.classes.dir}:${j2ee.platform.wsgen.classpath}:${javac.classpath}"/>
         </wsgen>
     </target>
@@ -40,4 +32,32 @@
                 JAX-WS WSIMPORT SECTION
                 ===================
             -->
+    <target name="wsimport-init" depends="init">
+        <fail if="${wsimport.bad.version}" message="WsImport ant task defined in the classpath ${j2ee.platform.wsimport.classpath} has a serious bug. See http://wiki.netbeans.org/MetroIssue for details."/>
+        <mkdir dir="${build.generated.sources.dir}/jax-ws"/>
+        <property name="j2ee.platform.wsimport.classpath" value="${libs.jaxws21.classpath}"/>
+        <taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport">
+            <classpath path="${java.home}/../lib/tools.jar:${j2ee.platform.wsimport.classpath}:${javac.classpath}"/>
+        </taskdef>
+        <condition property="conf-dir" value="${conf.dir}/" else="">
+            <isset property="conf.dir"/>
+        </condition>
+    </target>
+    <target name="wsimport-client-RegionalWebServer" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/RegionalWebServer"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/RegionalWebServer" destdir="${build.generated.dir}/jax-wsCache/RegionalWebServer" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/RegionalWebServer/wsdl/localhost_8080/RecordsManagement-WebService/RegionalWebServer.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/RecordsManagement-WebService/RegionalWebServer?wsdl" xnocompile="true" xendorsed="true" package="Servee_client">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/RegionalWebServer/wsdl/localhost_8080/RecordsManagement-WebService/RegionalWebServer.wsdl"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/RegionalWebServer"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/RegionalWebServer">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-RegionalWebServer" depends="-init-project">
+        <delete dir="${build.generated.sources.dir}/jax-ws/Servee_client"/>
+        <delete dir="${build.generated.dir}/jax-wsCache/RegionalWebServer"/>
+    </target>
+    <target name="wsimport-client-generate" depends="wsimport-client-RegionalWebServer"/>
 </project>
