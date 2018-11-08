@@ -18,8 +18,8 @@
 
         -->
 <project xmlns:webproject1="http://www.netbeans.org/ns/web-project/1" xmlns:webproject2="http://www.netbeans.org/ns/web-project/2" xmlns:webproject3="http://www.netbeans.org/ns/web-project/3" basedir=".." default="default" name="RecordsManagement-WebService-impl">
-    <import file="rest-build.xml"/>
     <import file="jaxws-build.xml"/>
+    <import file="rest-build.xml"/>
     <import file="ant-deploy.xml"/>
     <fail message="Please build using Ant 1.7.1 or higher.">
         <condition>
@@ -854,8 +854,16 @@ exists or setup the property manually. For example like this:
     <!--
                 COMPILATION SECTION
             -->
-    <target depends="init" if="no.dist.ear.dir" name="deps-module-jar" unless="no.deps"/>
-    <target depends="init" if="dist.ear.dir" name="deps-ear-jar" unless="no.deps"/>
+    <target depends="init" if="no.dist.ear.dir" name="deps-module-jar" unless="no.deps">
+        <ant antfile="${project.RecordsManagment}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
+    </target>
+    <target depends="init" if="dist.ear.dir" name="deps-ear-jar" unless="no.deps">
+        <ant antfile="${project.RecordsManagment}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
+    </target>
     <target depends="init, deps-module-jar, deps-ear-jar" name="deps-jar" unless="no.deps"/>
     <target depends="init,deps-jar,wsimport-client-generate" name="-pre-pre-compile">
         <mkdir dir="${build.classes.dir}"/>
@@ -999,12 +1007,12 @@ exists or setup the property manually. For example like this:
     </target>
     <target depends="init,compile,compile-jsps,-pre-dist,-do-dist-with-manifest,-do-dist-without-manifest" name="do-dist"/>
     <target depends="init" if="dist.ear.dir" name="library-inclusion-in-manifest">
-        <copyfiles files="${file.reference.RecordsManagment.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${reference.RecordsManagment.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <mkdir dir="${build.web.dir}/META-INF"/>
         <manifest file="${build.web.dir}/META-INF/MANIFEST.MF" mode="update"/>
     </target>
     <target depends="init" name="library-inclusion-in-archive" unless="dist.ear.dir">
-        <copyfiles files="${file.reference.RecordsManagment.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${reference.RecordsManagment.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
     </target>
     <target depends="init" if="dist.ear.dir" name="-clean-webinf-lib">
         <delete dir="${build.web.dir}/WEB-INF/lib"/>
@@ -1417,7 +1425,9 @@ exists or setup the property manually. For example like this:
                 
                 CLEANUP SECTION
             -->
-    <target depends="init" name="deps-clean" unless="no.deps"/>
+    <target depends="init" name="deps-clean" unless="no.deps">
+        <ant antfile="${project.RecordsManagment}/build.xml" inheritall="false" target="clean"/>
+    </target>
     <target depends="init" name="do-clean">
         <condition property="build.dir.to.clean" value="${build.web.dir}">
             <isset property="dist.ear.dir"/>
