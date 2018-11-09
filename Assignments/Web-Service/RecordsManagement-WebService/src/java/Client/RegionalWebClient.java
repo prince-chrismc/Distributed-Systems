@@ -23,6 +23,7 @@
  */
 package Client;
 
+import Models.Project;
 import Models.Region;
 import Utility.Logger;
 import java.io.IOException;

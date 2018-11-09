@@ -10,17 +10,17 @@
 <message name="createERecordResponse">
 <part name="parameters" element="tns:createERecordResponse"/>
 </message>
+<message name="editRecord">
+<part name="parameters" element="tns:editRecord"/>
+</message>
+<message name="editRecordResponse">
+<part name="parameters" element="tns:editRecordResponse"/>
+</message>
 <message name="transferRecord">
 <part name="parameters" element="tns:transferRecord"/>
 </message>
 <message name="transferRecordResponse">
 <part name="parameters" element="tns:transferRecordResponse"/>
-</message>
-<message name="createMRecord">
-<part name="parameters" element="tns:createMRecord"/>
-</message>
-<message name="createMRecordResponse">
-<part name="parameters" element="tns:createMRecordResponse"/>
 </message>
 <message name="getRecordCount">
 <part name="parameters" element="tns:getRecordCount"/>
@@ -28,32 +28,32 @@
 <message name="getRecordCountResponse">
 <part name="parameters" element="tns:getRecordCountResponse"/>
 </message>
-<message name="editRecord">
-<part name="parameters" element="tns:editRecord"/>
+<message name="createMRecord">
+<part name="parameters" element="tns:createMRecord"/>
 </message>
-<message name="editRecordResponse">
-<part name="parameters" element="tns:editRecordResponse"/>
+<message name="createMRecordResponse">
+<part name="parameters" element="tns:createMRecordResponse"/>
 </message>
 <portType name="CentralServer">
 <operation name="createERecord">
 <input wsam:Action="http://Server/CentralServer/createERecordRequest" message="tns:createERecord"/>
 <output wsam:Action="http://Server/CentralServer/createERecordResponse" message="tns:createERecordResponse"/>
 </operation>
+<operation name="editRecord">
+<input wsam:Action="http://Server/CentralServer/editRecordRequest" message="tns:editRecord"/>
+<output wsam:Action="http://Server/CentralServer/editRecordResponse" message="tns:editRecordResponse"/>
+</operation>
 <operation name="transferRecord">
 <input wsam:Action="http://Server/CentralServer/transferRecordRequest" message="tns:transferRecord"/>
 <output wsam:Action="http://Server/CentralServer/transferRecordResponse" message="tns:transferRecordResponse"/>
-</operation>
-<operation name="createMRecord">
-<input wsam:Action="http://Server/CentralServer/createMRecordRequest" message="tns:createMRecord"/>
-<output wsam:Action="http://Server/CentralServer/createMRecordResponse" message="tns:createMRecordResponse"/>
 </operation>
 <operation name="getRecordCount">
 <input wsam:Action="http://Server/CentralServer/getRecordCountRequest" message="tns:getRecordCount"/>
 <output wsam:Action="http://Server/CentralServer/getRecordCountResponse" message="tns:getRecordCountResponse"/>
 </operation>
-<operation name="editRecord">
-<input wsam:Action="http://Server/CentralServer/editRecordRequest" message="tns:editRecord"/>
-<output wsam:Action="http://Server/CentralServer/editRecordResponse" message="tns:editRecordResponse"/>
+<operation name="createMRecord">
+<input wsam:Action="http://Server/CentralServer/createMRecordRequest" message="tns:createMRecord"/>
+<output wsam:Action="http://Server/CentralServer/createMRecordResponse" message="tns:createMRecordResponse"/>
 </operation>
 </portType>
 <binding name="CentralServerPortBinding" type="tns:CentralServer">
@@ -67,7 +67,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="transferRecord">
+<operation name="editRecord">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -76,7 +76,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="createMRecord">
+<operation name="transferRecord">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -94,7 +94,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="editRecord">
+<operation name="createMRecord">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

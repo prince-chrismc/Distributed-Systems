@@ -70,21 +70,9 @@
 <xs:element name="lastName" type="xs:string" minOccurs="0"/>
 <xs:element name="employID" type="xs:int"/>
 <xs:element name="mailID" type="xs:string" minOccurs="0"/>
-<xs:element name="project" type="tns:project" minOccurs="0"/>
+<xs:element name="project" type="xs:anyType" minOccurs="0"/>
 <xs:element name="location" type="xs:string" minOccurs="0"/>
 </xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="project">
-<xs:sequence>
-<xs:element name="client" type="xs:string" minOccurs="0"/>
-<xs:element name="id" type="tns:projectIdentifier" minOccurs="0"/>
-<xs:element name="name" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="projectIdentifier">
-<xs:sequence/>
 </xs:complexType>
 
 <xs:complexType name="createMRecordResponse">

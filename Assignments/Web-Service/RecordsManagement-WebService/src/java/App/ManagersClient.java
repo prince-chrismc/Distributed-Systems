@@ -23,10 +23,9 @@
  */
 package App;
 
-import Client.RegionalClient;
-import Interface.Corba.DEMS.Project;
+import Client.RegionalWebClient;
+import Models.Project;
 import Models.ProjectIdentifier;
-import Interface.Corba.DEMS.RemoteException;
 import Models.Feild;
 import Models.Region;
 import java.util.Scanner;
@@ -71,9 +70,9 @@ public class ManagersClient {
 
         } while (!loginIsValid);
 
-        RegionalClient client = null;
+        RegionalWebClient client = null;
         try {
-            client = new RegionalClient(orb, userLogin);
+            client = new RegionalWebClient(userLogin);
         } catch (Exception ex) {
             System.out.println("Unable to establish connection! Please try again later...");
             System.exit(-1);
@@ -126,7 +125,7 @@ public class ManagersClient {
         }
     }
 
-    private static void createManagerRecord(RegionalClient client) throws Exception {
+    private static void createManagerRecord(RegionalWebClient client) throws Exception {
         Scanner reader = new Scanner(System.in);
 
         System.out.println("To create a new manager record certain information is required...");
@@ -158,13 +157,13 @@ public class ManagersClient {
         String location = reader.nextLine();
 
         String newRecordId = client.createManagerRecord(firstName, lastName, employeeId, mailId, new Project(
-                new ProjectIdentifier(projectId).getRawId(), projectName, projectClient), location);
+                new ProjectIdentifier(projectId), projectName, projectClient), location);
 
         System.out.println("Successfully created record: " + newRecordId);
 
     }
 
-    private static void createEmployeeRecord(RegionalClient client) throws RemoteException {
+    private static void createEmployeeRecord(RegionalWebClient client) {
         Scanner reader = new Scanner(System.in);
 
         System.out.println("To create a new employee record certain information is required...");
@@ -193,7 +192,7 @@ public class ManagersClient {
 
     }
 
-    private static void editExistingRecord(RegionalClient client) throws RemoteException {
+    private static void editExistingRecord(RegionalWebClient client) {
         Scanner reader = new Scanner(System.in);
 
         System.out.println("To create a new employee record certain information is required...");
@@ -221,7 +220,7 @@ public class ManagersClient {
         System.out.println("Successfully edited record: " + newRecordId);
     }
 
-    private static void transferExistingRecord(RegionalClient client) throws RemoteException {
+    private static void transferExistingRecord(RegionalWebClient client) {
         Scanner reader = new Scanner(System.in);
 
         System.out.println("Which Record would you like to transfer...");
