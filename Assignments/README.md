@@ -7,7 +7,7 @@ This directory contains all the assignments for the class along with a project [
 :---: | :--- | ---
 1 | [Java RMI](https://github.com/prince-chrismc/Distributed-Systems/tree/master/Assignments/Java-Rmi) | Completed
 2 | [CORBA](https://github.com/prince-chrismc/Distributed-Systems/tree/master/Assignments/Corba) | Completed
-3 | Web Service | TO DO
+3 | [Web Service](Web-Service) | Completed
 
 ### Notes
 ##### Creating Java Files from a .idl
