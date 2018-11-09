@@ -5,8 +5,8 @@ This directory contains all the assignments for the class along with a project [
 
 **Number** | **Name** | **Status**
 :---: | :--- | ---
-1 | [Java RMI](https://github.com/prince-chrismc/Distributed-Systems/tree/master/Assignments/Java-Rmi) | Completed
-2 | [CORBA](https://github.com/prince-chrismc/Distributed-Systems/tree/master/Assignments/Corba) | Completed
+1 | [Java RMI](Java-Rmi) | Completed
+2 | [CORBA](Corba) | Completed
 3 | [Web Service](Web-Service) | Completed
 
 ### Notes
