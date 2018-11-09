@@ -26,3 +26,6 @@ script:
   - ant -f Server run > /dev/null 2>&1 &
   - ant -f Client test
   - kill %1
+  - cd ../Web-Service
+  - ant compile > /dev/null 2>&1
+  
