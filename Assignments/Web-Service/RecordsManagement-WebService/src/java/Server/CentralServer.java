@@ -71,7 +71,7 @@ public class CentralServer {
             @WebParam(name = "lastName") String lastName,
             @WebParam(name = "employID") int employID,
             @WebParam(name = "mailID") String mailID,
-            @WebParam(name = "project") Object project,
+            @WebParam(name = "project") Project project,
             @WebParam(name = "location") String location) {
         Region region;
         try {
@@ -82,9 +82,9 @@ public class CentralServer {
         
         switch(region)
         {
-            case CA: return Canada.createManagerRecord(managerID, firstName, lastName, employID, mailID, (Project) project, location);
-            case US: return UnitedStates.createManagerRecord(managerID, firstName, lastName, employID, mailID, (Project) project, location);
-            case UK: return UnitedKingdom.createManagerRecord(managerID, firstName, lastName, employID, mailID, (Project) project, location);
+            case CA: return Canada.createManagerRecord(managerID, firstName, lastName, employID, mailID, project, location);
+            case US: return UnitedStates.createManagerRecord(managerID, firstName, lastName, employID, mailID, project, location);
+            case UK: return UnitedKingdom.createManagerRecord(managerID, firstName, lastName, employID, mailID, project, location);
             default:
                 break;
         }

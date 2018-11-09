@@ -23,7 +23,6 @@
  */
 package Client;
 
-import Models.Project;
 import Models.Region;
 import Utility.Logger;
 import java.io.IOException;
@@ -49,8 +48,14 @@ public class RegionalWebClient {
         m_Logger.Log(m_HRID + " has connected!");
     }
     
-    public String createManagerRecord(String firstName, String lastName, int employeeID, String mailID, Project projects, String location) {
-        return m_Remote.createMRecord(m_HRID, firstName, lastName, employeeID, mailID, projects, location);
+    public String createManagerRecord(String firstName, String lastName, int employeeID, String mailID, Models.Project projects, String location) {
+        Project projConverted = new Project();
+        
+        projConverted.id = null;
+        projConverted.name = projects.getName();
+        projConverted.client = projects.getClient();
+        
+        return m_Remote.createMRecord(m_HRID, firstName, lastName, employeeID, mailID, null, location);
     }
 
     public String createEmployeeRecord(String firstName, String lastName, int employeeID, String mailID, String projectId) {
